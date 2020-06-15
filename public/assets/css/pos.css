@@ -1,0 +1,21 @@
+@media(min-width:768px) {
+    #page-wrapper {
+        margin: 0; /* remove the left sidebar */
+    }
+}
+
+.navbar-top-links.top-menu {
+    margin-left: 0;
+}
+
+.page-header {
+    margin-top: 0px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e4edf6;
+}
+
+.page-header .btn-group, .page-header a {
+    margin-top: 30px;
+    margin-bottom: 0;
+}
