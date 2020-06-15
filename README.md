@@ -11,7 +11,7 @@
 <!-- [Development branch Documentation](https://github.com/logicent/posdesk/dev-docs) -->
 <!-- [Development branch API browser](https://github.com/logicent/posdesk/dev-api) -->
 
-[![POSDesk Dashboard](/public/images/fd-dashboard.png)](https://posdesk.demo.logicent.co)
+[![POSDesk Dashboard](/public/images/posdesk_cashier.png)](https://posdesk.demo.logicent.co)
 
 ## Description
 
