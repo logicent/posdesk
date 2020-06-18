@@ -4,7 +4,7 @@
 * [Website](https://logicent.co)
 * [Demo](https://posdesk.demo.logicent.co)
     Username: `admin`
-    Password: `posdesk`
+    Password: `safdesk1`
 * [Support Forum](https://github.com/logicent/posdesk/issues) for comments, discussion and community support
 <!-- [Release Documentation](https://github.com/logicent/posdesk/docs) -->
 <!-- [Release API browser](https://github.com/logicent/posdesk/) -->
@@ -55,11 +55,11 @@ TODO: create task to load default reports
 
 Go to sidebar navigation menu to:
 
-- add business detail
+- add business info
 
-- add facility property, unit types, units, rate types and rates
+- add product groups, items and branches
 
-- add facility services
+- add suppliers and customers
 
 - add users
 
