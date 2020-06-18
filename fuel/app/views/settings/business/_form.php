@@ -37,34 +37,6 @@
                                 array('class' => 'col-md-4 form-control')); ?>
             </div>
 		</div>
-        <?php if ($ugroup->id == 6) : ?>
-        <div class="form-group">
-            <div class="col-md-12">
-                <!-- <h5>Services</h5> -->
-                <?= Form::label('Property services', '', array('class'=>'control-label')); ?>
-            </div>
-            <div class="col-md-12">
-                <?= Form::hidden('service_accommodation', Input::post('service_accommodation', isset($business) ? $business->service_accommodation : '0')); ?>
-                <?= Form::checkbox('cb_service_accommodation', null, array('class' => 'cb-checked', 'data-input' => 'service_accommodation')); ?>
-                <?= Form::label('Accommodation facilities', 'cb_service_accommodation', array('class'=>'control-label')); ?>
-            </div>
-            <div class="col-md-12">
-                <?= Form::hidden('service_rental', Input::post('service_rental', isset($business) ? $business->service_rental : '0')); ?>
-                <?= Form::checkbox('cb_service_rental', null, array('class' => 'cb-checked', 'data-input' => 'service_rental')); ?>
-                <?= Form::label('Rental property', 'cb_service_rental', array('class'=>'control-label')); ?>
-            </div>
-            <div class="col-md-12">
-                <?= Form::hidden('service_hire', Input::post('service_hire', isset($business) ? $business->service_hire : '0')); ?>
-                <?= Form::checkbox('cb_service_hire', null, array('class' => 'cb-checked', 'data-input' => 'service_hire')); ?>
-                <?= Form::label('Hire facilities', 'cb_service_hire', array('class'=>'control-label')); ?>
-            </div>
-            <div class="col-md-12">
-                <?= Form::hidden('service_sale', Input::post('service_sale', isset($business) ? $business->service_sale : '0')); ?>
-                <?= Form::checkbox('cb_service_sale', null, array('class' => 'cb-checked', 'data-input' => 'service_sale')); ?>
-                <?= Form::label('Sale of property', 'cb_service_sale', array('class'=>'control-label')); ?>
-            </div>
-        </div>
-        <?php endif ?>
     </div>
 
     <div class="col-md-6">

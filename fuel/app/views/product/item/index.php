@@ -45,5 +45,5 @@
 </table>
 
 <?php else: ?>
-<p>No Products found.</p>
+<p>No Products.</p>
 <?php endif; ?>

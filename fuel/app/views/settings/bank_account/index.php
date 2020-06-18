@@ -39,5 +39,5 @@
 </table>
 
 <?php else: ?>
-<p>No Bank account found.</p>
+<p>No Bank account.</p>
 <?php endif; ?>

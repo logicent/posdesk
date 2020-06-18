@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Product_Group extends Controller_Authenticate
+class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 {
 	public function action_index()
 	{

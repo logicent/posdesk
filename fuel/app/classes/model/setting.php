@@ -63,15 +63,24 @@ class Model_Setting extends \Orm\Model
                     'visible' => true, // always TRUE
                 ),
                 array(
+                    'id'     => 'branches',
+                    'label'  => 'Branches',
+                    'route'  => null, // 'admin/settings/branch',
+                    'icon' => 'road',
+                    'description' => 'Create some branches or locations of your stores',
+                    'column' => self::SETTINGS_COLUMN_RIGHT,
+                    'visible' => true, // always TRUE
+                ),                
+                array(
                     'id'     => 'bank_account',
                     'label'  => 'Bank account',
                     'route'  => 'admin/settings/bank/account',
                     'icon' => 'bank',
                     'description' => 'Add bank accounts used to make deposits and transfers',
-                    'column' => self::SETTINGS_COLUMN_RIGHT,
+                    'column' => self::SETTINGS_COLUMN_LEFT,
                     'visible' => true, // always TRUE
                 ),
-                array( // Booking, Invoice, Payment
+                array( // Invoice, Payment
                     'id'     => 'document_serial',
                     'label'  => 'Document serial',
                     'route'  => null, // 'admin/settings/document/serial',
@@ -101,6 +110,17 @@ class Model_Setting extends \Orm\Model
                     'visible' => true, // always TRUE
                 ),
             ),
+            'product' => array(
+                array(
+                    'id'     => 'product_group',
+                    'label'  => 'Product group',
+                    'route'  => 'admin/settings/product/group',
+                    'icon' => 'cubes',
+                    'description' => 'Create and manage product categories with defaults',
+                    'column' => self::SETTINGS_COLUMN_RIGHT,
+                    'visible' => true, // always TRUE
+                ),
+            ),
             'email' => array(
                 array(
                     'id'     => 'email_settings',
@@ -122,9 +142,6 @@ class Model_Setting extends \Orm\Model
             // permissions
             // roles
             // language text
-            // letter templates
-            // standard policy
-            // checklists
         );
     }
 }

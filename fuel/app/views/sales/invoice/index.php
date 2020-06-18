@@ -53,5 +53,5 @@
 </table>
 
 <?php else: ?>
-	<p>No Sales found.</p>
+	<p>No Sales.</p>
 <?php endif; ?>

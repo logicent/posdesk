@@ -32,6 +32,6 @@
 </table>
 
 <?php else: ?>
-<p>No Templates found.</p>
+<p>No Email Templates.</p>
 
 <?php endif; ?>

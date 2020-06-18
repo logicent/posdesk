@@ -22,7 +22,7 @@ class Model_Product_Group extends Model
     protected static $_belongs_to = array(
 		'parent' => array(
 			'key_from' => 'parent_id',
-			'model_to' => 'Model_Pos_Group',
+			'model_to' => 'Model_Product_Group',
 			'key_to' => 'id',
 			'cascade_save' => false,
 			'cascade_delete' => false,
@@ -39,6 +39,8 @@ class Model_Product_Group extends Model
 			'mysql_timestamp' => false,
 		),
 	);
+
+	protected static $_table_name = 'product_group';
 
 	public static function validate($factory)
 	{

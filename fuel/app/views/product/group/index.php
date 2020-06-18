@@ -1,16 +1,16 @@
 <div class="row">
 	<div class="col-md-6">
-		<h2>Listing <span class='text-muted'>Service type</span></h2>
+		<h2>Listing <span class='text-muted'>Group</span></h2>
 	</div>
 
 	<div class="col-md-6">
 		<br>
-		<?= Html::anchor('service/type/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+		<?= Html::anchor('product/group/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>
 
-<?php if ($service_types): ?>
+<?php if ($product_groups): ?>
 <table class="table table-hover datatable">
 	<thead>
 		<tr>
@@ -22,10 +22,10 @@
 		</tr>
 	</thead>
 	<tbody>
-<?php foreach ($service_types as $item): ?>
+<?php foreach ($product_groups as $item): ?>
 		<tr>
 			<td>
-                <?= Html::anchor('service/type/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
+                <?= Html::anchor('product/group/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
             </td>
             <td><?= (bool) $item->enabled ? 
                 '<i class="fa fa-circle-o fa-fw text-success"></i>Enabled' :
@@ -34,7 +34,7 @@
 			<td class="text-muted"><?= $item->parent ? $item->parent->name : ''; ?></td>
 			<td class="text-muted"><?= $item->code; ?></td>
 			<td class="text-center">
-				<?= Html::anchor('service/type/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
+				<?= Html::anchor('product/group/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
                                 array('class' => 'text-muted del-btn', 'onclick' => "return confirm('Are you sure?')")); ?>
 			</td>
 		</tr>
@@ -43,5 +43,5 @@
 </table>
 
 <?php else: ?>
-<p>No Service type found.</p>
+<p>No Groups.</p>
 <?php endif; ?>

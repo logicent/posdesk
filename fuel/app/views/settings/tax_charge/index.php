@@ -42,6 +42,6 @@
 </table>
 
 <?php else: ?>
-<p>No Taxes &amp; charges found.</p>
+<p>No Taxes &amp; charges.</p>
 
 <?php endif; ?><p>

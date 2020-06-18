@@ -43,5 +43,5 @@
 </table>
 
 <?php else: ?>
-<p>No Email Settings found.</p>
+<p>No Email Settings.</p>
 <?php endif; ?>

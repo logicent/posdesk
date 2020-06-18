@@ -10,13 +10,16 @@ foreach ($setting_modules as $setting_module) : ?>
             continue;
         endif;
         // if ($setting_item['column'] == Model_Setting::SETTINGS_COLUMN_LEFT) : ?>
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="panel panel-default">
-            <!--<div class="panel-heading">
-                <div class="panel-title"><?= $setting_item['label'] ?></div>
-            </div>-->
-            <div class="panel-body">
-                <i class="text-muted fa fa-fw fa-lg fa-<?= !empty($setting_item['icon']) ? $setting_item['icon'] : '' ?>"></i>
+            <!-- <div class="panel-heading">
+                <div class="panel-title">
+                    <?= $setting_item['label'] ?>
+                </div>
+            </div> -->
+            <div class="panel-body text-center">
+                <i class="text-muted fa fa-fw fa-2x fa-<?= !empty($setting_item['icon']) ? $setting_item['icon'] : '' ?>"></i>
+                <br>
                 <a class="btn btn-lg btn-link" href="<?= Uri::create($setting_item['route']); ?>">
                     <span><?= $setting_item['label'] ?></span>
                 </a>

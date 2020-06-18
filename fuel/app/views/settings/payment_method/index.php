@@ -37,6 +37,6 @@
 </table>
 
 <?php else: ?>
-<p>No Payment method found.</p>
+<p>No Payment method.</p>
 
 <?php endif; ?><p>
