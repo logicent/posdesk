@@ -14,7 +14,7 @@
 	</thead>
 	<tbody id="item_detail">
 <?php 
-	if ($sales_invoice_items) : 
+	if (!empty($sales_invoice_items)) : 
         foreach ($sales_invoice_items as $row_id => $item) :
 			echo render('sales/invoice/item/_form', array('invoice_item' => $item, 'row_id' => $row_id));
         endforeach;
@@ -55,8 +55,8 @@
 <!-- TODO: hide buttons if view mode -->
 <div class="form-group">
     <div class="col-md-6">
-        <button id="del_item" data-url="/accounts/sales-invoice/del-item" class="btn btn-sm btn-danger" style="display: none;">Delete</button>
-        <button id="add_item" data-url="/accounts/sales-invoice/add-item" class="btn btn-sm btn-default">Add item</button>
+        <button id="del_item" data-url="/sales/invoice/item/delete" class="btn btn-sm btn-danger" style="display: none;">Delete</button>
+        <button id="add_item" data-url="/sales/invoice/item/create" class="btn btn-sm btn-default">Add item</button>
     </div>
 	<!--
     <div class="col-md-6 text-right">
@@ -181,7 +181,7 @@ $(window).on('load', function()
 
 			$.ajax({
 				type: 'post',
-				url: '/accounts/sales-invoice/get-item',
+				url: '/sales/invoice/item/read',
 				data: {
 					'item_id': $(this).val(),
 				},

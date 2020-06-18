@@ -7,7 +7,7 @@
 		<br>
 		<?php
 			if($ugroup->id == 6 || $ugroup->id ==  5)
-				echo Html::anchor('users/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+				echo Html::anchor('admin/users/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>
@@ -27,8 +27,8 @@
 <?php foreach ($users as $user) : ?>
 		<tr>
             <td><?php 
-				if ($uid == $user->id || $ugroup->id == 6) :
-                    echo Html::anchor('users/edit/'. $user->id, $user->username, ['class' => 'clickable']);
+				if ($uid == $user->id || $ugroup->id != 3) :
+                    echo Html::anchor('admin/users/edit/'. $user->id, $user->username, ['class' => 'clickable']);
                 else:
                     echo $user->username;
                 endif ?>
@@ -39,7 +39,7 @@
 			<td class="text-center">
             <?php
                 if (($ugroup->id == 6 || $ugroup->id == 5) && ($uid != $user->id) && ($user->group_id != 6)) : ?>
-					<?= Html::anchor('users/delete/'.$user->id, '<i class="fa fa-trash-o fa-fw"></i>',
+					<?= Html::anchor('admin/users/delete/'.$user->id, '<i class="fa fa-trash-o fa-fw"></i>',
 									['method' => 'post', 'class' => 'text-muted del-btn confirm', 'onclick' => "return confirm('Are you sure?')"]); ?> 
             <?php 
                 endif; ?>

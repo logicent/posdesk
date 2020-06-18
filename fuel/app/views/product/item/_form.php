@@ -9,14 +9,14 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-4">
-            <?= Form::label('Service type', 'service_type', array('class'=>'control-label')); ?>
-            <?= Form::select('service_type', Input::post('service_type', isset($product_item) ? $product_item->service_type : ''),
-                            Model_Service_Type::listOptionsServiceType(),
+        <div class="col-md-3">
+            <?= Form::label('Group', 'group_id', array('class'=>'control-label')); ?>
+            <?= Form::select('group_id', Input::post('group_id', isset($product_item) ? $product_item->group_id : ''),
+                            array(), // Model_Product_Group::listOptions(),
                             array('class' => 'form-control')); ?>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <?= Form::label('Code', 'code', array('class'=>'control-label')); ?>
             <?= Form::input('code', Input::post('code', isset($product_item) ? $product_item->code : ''), 
                             array('class' => 'col-md-4 form-control')); ?>
@@ -25,9 +25,9 @@
 
     <div class="form-group">
         <div class="col-md-3">
-            <?= Form::label('Units', 'qty', array('class'=>'control-label')); ?>
+            <?= Form::label('Quantity', 'qty', array('class'=>'control-label')); ?>
             <?= Form::input('qty', Input::post('qty', isset($product_item) ? $product_item->qty : 
-                            Model_Service_Item::getColumnDefault('qty')), 
+                            Model_Product_Item::getColumnDefault('qty')), 
                             array('class' => 'col-md-4 form-control')); ?>
         </div>
 

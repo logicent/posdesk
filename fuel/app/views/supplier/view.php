@@ -2,4 +2,4 @@
 
 
 <?php echo Html::anchor('supplier/edit/'.$supplier->id, 'Edit'); ?> |
-<?php echo Html::anchor('supplier', 'Back'); ?>
+<?php echo Html::anchor('admin/supplier', 'Back'); ?>

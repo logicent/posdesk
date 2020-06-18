@@ -29,8 +29,6 @@ class Model_Sales_Order extends Model_Soft
 
 	protected static $_properties = array(
 		'id',
-		'order_num',
-		'po_number',
 		'amounts_tax_inc',
 		'issue_date',
 		'due_date',
@@ -38,7 +36,6 @@ class Model_Sales_Order extends Model_Soft
 		// 'source',
 		// 'source_id',
 		'customer_name',
-		'unit_name',
 		'amount_due',
 		'disc_total',
 		'tax_total',
@@ -47,7 +44,6 @@ class Model_Sales_Order extends Model_Soft
 		'advance_paid',
 		'paid_status',
 		'shipping_address',
-		'summary',
 		'notes',
 		'fdesk_user',
 		'created_at',
@@ -74,8 +70,6 @@ class Model_Sales_Order extends Model_Soft
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
-		$val->add_field('order_num', 'Order No.', 'required|valid_string[numeric]');
-		$val->add_field('po_number', 'PO Number', 'max_length[10]');
 		$val->add_field('amounts_tax_inc', 'Amounts Tax Incl.', 'valid_string[numeric]');
 		$val->add_field('issue_date', 'Issue Date', 'required|valid_date');
 		$val->add_field('due_date', 'Due Date', 'valid_date');
@@ -90,7 +84,6 @@ class Model_Sales_Order extends Model_Soft
 		$val->add_field('disc_total', 'Discount', 'required|valid_string[]');
 		$val->add_field('tax_total', 'Tax', 'valid_string[]');
 		$val->add_field('shipping_address', 'Billing Address', 'max_length[255]');
-		$val->add_field('summary', 'Summary', 'max_length[150]');
 		$val->add_field('notes', 'Notes', 'max_length[255]');
 		$val->add_field('fdesk_user', 'Frontdesk User', 'required|valid_string[numeric]');
 

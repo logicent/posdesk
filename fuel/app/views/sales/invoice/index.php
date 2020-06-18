@@ -2,14 +2,14 @@
 	<div class="col-md-6">
         <h2>Listing <span class='text-muted'>Sales</span>&ensp;
         <span class="btn-group list-filters">
-            <?= Html::anchor('pos/invoice', 
+            <?= Html::anchor('sales/invoice', 
                             'All', array('class' => "btn btn-sm btn-default", 'data-status' => '')); ?>
-            <?= Html::anchor('pos/invoice/?status=' . Model_Pos_Invoice::INVOICE_STATUS_OPEN, 'Open', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Pos_Invoice::INVOICE_STATUS_OPEN)); ?>
-            <?= Html::anchor('pos/invoice/?status=' . Model_Pos_Invoice::INVOICE_STATUS_CLOSED, 'Closed', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Pos_Invoice::INVOICE_STATUS_CLOSED)); ?>
-            <?= Html::anchor('pos/invoice/?status=' . Model_Pos_Invoice::INVOICE_STATUS_CANCELED, 'Canceled', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Pos_Invoice::INVOICE_STATUS_CANCELED)); ?>
+            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_OPEN, 'Open', 
+                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_OPEN)); ?>
+            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CLOSED, 'Closed', 
+                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CLOSED)); ?>
+            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CANCELED, 'Canceled', 
+                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CANCELED)); ?>
 		</span>
     </h2>
 	</div>
@@ -53,5 +53,5 @@
 </table>
 
 <?php else: ?>
-	<p>No Sales Invoice found.</p>
+	<p>No Sales found.</p>
 <?php endif; ?>

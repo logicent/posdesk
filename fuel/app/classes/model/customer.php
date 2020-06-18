@@ -22,15 +22,17 @@ class Model_Customer extends Model
 		self::SEX_MALE => 'Male',
 		self::SEX_FEMALE => 'Female'
 	);
-	
-    const CUSTOMER_TYPE_GUEST = 'Guest'; // Resident
-    const CUSTOMER_TYPE_VISITOR = 'Visitor'; // Non-Resident
-    const CUSTOMER_TYPE_TENANT = 'Tenant';
-    const CUSTOMER_TYPE_OWNER = 'Owner';
-    const CUSTOMER_TYPE_MEMBER = 'Member';
-    const CUSTOMER_TYPE_NONMEMBER = 'Non-member';
-	const CUSTOMER_TYPE_BUYER = 'Buyer'; // Shopper
-	
+    
+    const IDENTITY_TYPE_NATIONAL_ID = 'NI';
+	const IDENTITY_TYPE_PASSPORT = 'PP';
+	const IDENTITY_TYPE_DRIVING_LICENSE = 'DL';
+
+    public static $ID_type = array(
+		self::IDENTITY_TYPE_NATIONAL_ID => 'National ID',
+		self::IDENTITY_TYPE_PASSPORT => 'Passport',
+		self::IDENTITY_TYPE_DRIVING_LICENSE => 'Driving License',
+	);
+
 	protected static $_properties = array(
         'id',
         'customer_name',
@@ -77,27 +79,6 @@ class Model_Customer extends Model
 	);
 
     protected static $_belongs_to = array(
-		'activeLeases' => array(
-			'key_from' => 'id',
-			'model_to' => 'Model_Lease',
-			'key_to' => 'customer_id',
-			'cascade_save' => false,
-			'cascade_delete' => false,
-        ),
-		// 'unitsLeased' => array(
-			// 'key_from' => 'customer_id',
-			// 'model_to' => 'Model_Unit',
-			// 'key_to' => 'id',
-			// 'cascade_save' => false,
-			// 'cascade_delete' => false,
-		// ),
-		// 'openBills' => array(
-			// 'key_from' => 'id',
-			// 'model_to' => 'Model_Sales_Invoice',
-			// 'key_to' => 'source_id',
-			// 'cascade_save' => true,
-			// 'cascade_delete' => true,
-		// ),
     );
 
 	public static function validate($factory)
@@ -119,20 +100,14 @@ class Model_Customer extends Model
     public static function listOptionsCustomerType()
 	{
 		return array(
-            self::CUSTOMER_TYPE_GUEST => self::CUSTOMER_TYPE_GUEST,
-            self::CUSTOMER_TYPE_VISITOR => self::CUSTOMER_TYPE_VISITOR,
-            self::CUSTOMER_TYPE_TENANT => self::CUSTOMER_TYPE_TENANT,
-            self::CUSTOMER_TYPE_OWNER => self::CUSTOMER_TYPE_OWNER,
-            self::CUSTOMER_TYPE_MEMBER => self::CUSTOMER_TYPE_MEMBER,
-            self::CUSTOMER_TYPE_NONMEMBER => self::CUSTOMER_TYPE_NONMEMBER,
+            'Individual' => 'Individual',
+            'Company' => 'Company',            
         );
     }
     
     public static function listOptionsCustomerGroup()
 	{
 		return array(
-            'Individual' => 'Individual',
-            'Company' => 'Company',
         );
     }
     

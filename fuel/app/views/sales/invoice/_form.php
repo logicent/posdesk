@@ -2,14 +2,15 @@
 
 	<div class="form-group">
         <div class="col-md-6">
-            <?= Form::label('Source', 'source', array('class'=>'control-label')); ?>
-            <?= Form::select('source', Input::post('source', isset($sales_invoice) ? $sales_invoice->source : ''),
-                            Model_Sales_Invoice::getSourceName($business), 
-                            array('class' => 'col-md-4 form-control')); ?>
+            <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
+			<?= Form::hidden('customer_name', Input::post('customer_name', isset($sales_invoice) ? $sales_invoice->customer_name : '')); ?>
+            <?= Form::select('customer_id', Input::post('customer_id', isset($sales_invoice) ? $sales_invoice->customer_id : ''),
+                            Model_Customer::listOptions(), 
+                            array('class' => 'col-md-4 form-control select-from-list')); ?>
         </div>
         <div class="col-md-3">
-			<?= Form::label('Invoice no.', 'invoice_num', array('class'=>'control-label')); ?>
-            <?= Form::input('invoice_num', Input::post('invoice_num', isset($sales_invoice) ? $sales_invoice->invoice_num : 
+			<?= Form::label('Invoice no.', 'id', array('class'=>'control-label')); ?>
+            <?= Form::input('id', Input::post('id', isset($sales_invoice) ? $sales_invoice->id : 
                             Model_Sales_Invoice::getNextSerialNumber()), 
                             array('class' => 'col-md-4 form-control', 'readonly' => true)); ?>
 		</div>
@@ -23,57 +24,57 @@
 	</div>
 	<div class="form-group">
         <div class="col-md-6">
-            <?= Form::label('Source ref.', 'source_id', array('class'=>'control-label')); ?>
-            <?= Form::select('source_id', Input::post('source_id', isset($sales_invoice) ? $sales_invoice->source_id : ''), 
-                            Model_Sales_Invoice::getSourceListOptions(isset($sales_invoice) ? $sales_invoice->source : ''),
-                            array('class' => 'col-md-4 form-control select-from-list')); ?>
+            <?= Form::label('Shipping address', 'shipping_address', array('class'=>'control-label')); ?>
+            <?= Form::textarea('shipping_address', Input::post('shipping_address', isset($sales_invoice) ? $sales_invoice->shipping_address : ''), 
+                                array('class' => 'col-md-4 form-control', 'rows' => 5)); ?>        
         </div>
-		<div class="col-md-3">
-			<?= Form::label('Issue date', 'issue_date', array('class'=>'control-label')); ?>
-            <?= Form::input('issue_date', Input::post('issue_date', isset($sales_invoice) ? $sales_invoice->issue_date : date('Y-m-d')), 
-                            array('class' => 'col-md-4 form-control datepicker', 'readonly' => isset($sales_invoice) ? true : false)); ?>
-		</div>
-		<div class="col-md-3">
-			<?= Form::label('Due date', 'due_date', array('class'=>'control-label')); ?>
-            <?= Form::input('due_date', Input::post('due_date', isset($sales_invoice) ? $sales_invoice->due_date :  date('Y-m-d')), 
-                            array('class' => 'col-md-4 form-control datepicker', 'readonly' => isset($sales_invoice) ? true : false)); ?>
-		</div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <?= Form::label('Issue date', 'issue_date', array('class'=>'control-label')); ?>
+                    <?= Form::input('issue_date', Input::post('issue_date', isset($sales_invoice) ? $sales_invoice->issue_date : date('Y-m-d')), 
+                                    array('class' => 'col-md-4 form-control datepicker', 'readonly' => isset($sales_invoice) ? true : false)); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= Form::label('Due date', 'due_date', array('class'=>'control-label')); ?>
+                    <?= Form::input('due_date', Input::post('due_date', isset($sales_invoice) ? $sales_invoice->due_date :  date('Y-m-d')), 
+                                    array('class' => 'col-md-4 form-control datepicker', 'readonly' => isset($sales_invoice) ? true : false)); ?>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-6">
+                    <?= Form::label('Branch', 'branch_id', array('class'=>'control-label')); ?>
+                    <?= Form::hidden('branch_name', Input::post('branch_name', isset($sales_invoice) ? $sales_invoice->branch_name : '')); ?>
+                    <?= Form::select('branch_id', Input::post('branch_id', isset($sales_invoice) ? $sales_invoice->branch_id : ''),
+                                    array(), // Model_Branch::getBranchName($sales_invoice->branch_id), 
+                                    array('class' => 'col-md-4 form-control')); ?>        
+                </div>        
+                <div class="col-md-6">
+                    <?= Form::label('Paid Status', 'paid_status', array('class'=>'control-label')); ?>
+                    <?= Form::hidden('paid_status', Input::post('paid_status', isset($sales_invoice) ? $sales_invoice->paid_status : '')); ?>
+                    <?= Form::select('paid_status_list', Input::post('paid_status_list', 
+                                isset($sales_invoice) ? $sales_invoice->paid_status : ''), 
+                                Model_Sales_Invoice::$invoice_paid_status, 
+                                array('class' => 'col-md-4 form-control', 'disabled' => true)); ?>        
+                </div>
+            </div>
+        </div>
 	</div>
-	<div class="form-group">
-    <div class="col-md-6">
-			<?= Form::label('Tenant', 'customer_name', array('class'=>'control-label')); ?>
-            <?= Form::input('customer_name', Input::post('customer_name', isset($sales_invoice) ? $sales_invoice->customer_name : ''), 
-                            array('class' => 'col-md-4 form-control', 'readonly' => true)); ?>
-            <?php /* Form::select('customer_name', Input::post('customer_name', isset($sales_invoice) ? $sales_invoice->customer_name : ''), 
-                            Model_Customer::listOptions(Model_Customer::CUSTOMER_TYPE_TENANT), 
-                            array('class' => 'col-md-4 form-control')); */ ?>
-            <?php /* Form::select('customer_list', Input::post('customer_list', isset($sales_invoice) ? $sales_invoice->customer_name : ''), 
-                            Model_Customer::listOptions(Model_Customer::CUSTOMER_TYPE_TENANT), 
-                            array('class' => 'col-md-4 form-control', 'disabled' => isset($sales_invoice) ? true : false)); */ ?>
-        </div>
-        <div class="col-md-6">
-			<?= Form::label('Billing address', 'billing_address', array('class'=>'control-label')); ?>
-            <?= Form::input('billing_address', Input::post('billing_address', isset($sales_invoice) ? $sales_invoice->billing_address : ''), 
-                            array('class' => 'col-md-4 form-control')); ?>
-        </div>
-        <div class="col-md-6">
-        </div>
-    </div>
     <br>
 	<ul id="doc_detail" class="nav nav-tabs">
 		<li>
-			<a id="bills-tab" data-toggle="tab" href="#bills">Services</a>
+			<a id="items-tab" data-toggle="tab" href="#items">Items</a>
 		</li>
 		<li>
-			<a id="receipts-tab" data-toggle="tab" href="#receipts">Receipts</a>
+			<a id="payments-tab" data-toggle="tab" href="#payments">Payments</a>
 		</li>
 	</ul>
     <!-- <br> -->
 	<div id="doc_tabs" class="tab-content">
-		<div id="bills" class="tab-pane fade">
+		<div id="items" class="tab-pane fade">
 			<?= render('sales/invoice/item/index', array('sales_invoice_items' => isset($sales_invoice) ? $sales_invoice->items : array())); ?>
 		</div>
-		<div id="receipts" class="tab-pane fade">
+		<div id="payments" class="tab-pane fade">
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -114,19 +115,13 @@
                                         array('class' => 'col-md-4 form-control', 'rows' => 5)); ?>
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <?= Form::label('Summary', 'summary', array('class'=>'control-label')); ?>
-                    <?= Form::input('summary', Input::post('summary', isset($sales_invoice) ? $sales_invoice->summary : ''), array('class' => 'col-md-4 form-control')); ?>
-                </div>
-            </div>
         </div>
 		<div class="col-md-6">
             <div class="form-group">
                 <div class="col-md-6">
-                    <?= Form::label('Advance Paid', 'advance_paid', array('class'=>'control-label')); ?>
-                    <?= Form::input('advance_paid', Input::post('advance_paid', isset($sales_invoice) ? 
-                                    number_format($sales_invoice->advance_paid, 0, '.', '') : 0),
+                    <?= Form::label('Subtotal', 'subtotal', array('class'=>'control-label')); ?>
+                    <?= Form::input('subtotal', Input::post('subtotal', isset($sales_invoice) ? 
+                                    number_format($sales_invoice->subtotal, 0, '.', '') : 0),
                                     array('class' => 'col-md-4 form-control text-number', 'readonly' => true)); ?>
                     <?php Form::label('Discount Amount', 'disc_total', array('class'=>'control-label')); ?>
                     <?= Form::hidden('disc_total', Input::post('disc_total', isset($sales_invoice) ? 
@@ -154,16 +149,6 @@
                     <?= Form::input('balance_due', Input::post('balance_due', isset($sales_invoice) ? 
                                     number_format($sales_invoice->balance_due, 0, '.', '') : 0),
                                     array('class' => 'col-md-4 form-control text-number', 'readonly' => true)); ?>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <?= Form::label('Paid Status', 'paid_status', array('class'=>'control-label')); ?>
-                    <?= Form::hidden('paid_status', Input::post('paid_status', isset($sales_invoice) ? $sales_invoice->paid_status : '')); ?>
-                    <?= Form::select('paid_status_list', Input::post('paid_status_list', 
-                            isset($sales_invoice) ? $sales_invoice->paid_status : ''), 
-                            Model_Sales_Invoice::$invoice_paid_status, 
-                            array('class' => 'col-md-4 form-control', 'disabled' => true)); ?>
                 </div>
             </div>
         </div>

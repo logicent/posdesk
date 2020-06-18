@@ -5,7 +5,7 @@
 
 	<div class="col-md-6">
 		<br>
-		<?= Html::anchor('service/item/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+		<?= Html::anchor('product/item/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>
@@ -26,7 +26,7 @@
 <?php foreach ($product_items as $item): ?>
 		<tr>
 			<td>
-                <?= Html::anchor('service/item/edit/'.$item->id, $item->description, ['class' => 'clickable']); ?>
+                <?= Html::anchor('product/item/edit/'.$item->id, $item->description, ['class' => 'clickable']); ?>
             </td>
             <td><?= (bool) $item->enabled ? 
                 '<i class="fa fa-circle-o fa-fw text-success"></i>Enabled' :
@@ -36,7 +36,7 @@
 			<td><?= $item->unit_price; ?></td>
 			<td><?= $item->code; ?></td>
 			<td class="text-center">
-				<?= Html::anchor('service/item/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
+				<?= Html::anchor('product/item/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
                                 array('class' => 'text-muted del-btn', 'onclick' => "return confirm('Are you sure?')")); ?>
 			</td>
 		</tr>

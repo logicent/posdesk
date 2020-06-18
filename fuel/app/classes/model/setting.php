@@ -54,9 +54,9 @@ class Model_Setting extends \Orm\Model
         return array(
             'business' => array(
                 array(
-                    'id'     => 'business_detail',
-                    'label'  => 'Business detail',
-                    'route'  => 'settings/business-detail',
+                    'id'     => 'business',
+                    'label'  => 'Business',
+                    'route'  => 'admin/settings/business',
                     'icon' => 'info',
                     'description' => 'Set official contact info, trading name, logo and business type',
                     'column' => self::SETTINGS_COLUMN_LEFT,
@@ -65,7 +65,7 @@ class Model_Setting extends \Orm\Model
                 array(
                     'id'     => 'bank_account',
                     'label'  => 'Bank account',
-                    'route'  => 'accounts/bank-account',
+                    'route'  => 'admin/settings/bank/account',
                     'icon' => 'bank',
                     'description' => 'Add bank accounts used to make deposits and transfers',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
@@ -74,9 +74,9 @@ class Model_Setting extends \Orm\Model
                 array( // Booking, Invoice, Payment
                     'id'     => 'document_serial',
                     'label'  => 'Document serial',
-                    'route'  => null, // '#accounts/doc-serial',
+                    'route'  => null, // 'admin/settings/document/serial',
                     'icon' => 'file-o',
-                    'description' => 'Set starting/next serial for documents',
+                    'description' => 'Set starting/next serial numbering for transaction documents',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),
@@ -85,7 +85,7 @@ class Model_Setting extends \Orm\Model
                 array(
                     'id'     => 'taxes',
                     'label'  => 'Taxes & charges',
-                    'route'  => 'accounts/taxes',
+                    'route'  => 'admin/settings/tax',
                     'icon' => 'percent',
                     'description' => 'Add taxes used to apply extra fees to invoices and bills',
                     'column' => self::SETTINGS_COLUMN_LEFT,
@@ -94,7 +94,7 @@ class Model_Setting extends \Orm\Model
                 array(
                     'id'     => 'payment_method',
                     'label'  => 'Payment method',
-                    'route'  => 'accounts/payment-method',
+                    'route'  => 'admin/settings/payment/method',
                     'icon' => 'money',
                     'description' => 'Add payment options used to receive and make settlements',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
@@ -105,9 +105,9 @@ class Model_Setting extends \Orm\Model
                 array(
                     'id'     => 'email_settings',
                     'label'  => 'Email settings',
-                    'route'  => 'settings/email-settings',
+                    'route'  => 'admin/settings/email/settings',
                     'icon' => 'envelope-o',
-                    'description' => 'Set the email SMTP config for sending mails',
+                    'description' => 'Set the email SMTP configuration for sending mails',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),
@@ -118,35 +118,6 @@ class Model_Setting extends \Orm\Model
                     // 'description' => '&nbsp;',
                         // 'column' => self::SETTINGS_COLUMN_LEFT,
                 // ),
-            ),
-            'employee' => array(
-                array(
-                    'id'     => 'employee_type',
-                    'label'  => 'Employment type',
-                    'route'  => 'settings/employee-type',
-                    'icon' => '',
-                    'description' => 'List pre-defined and user-defined employment types',
-                    'column' => self::SETTINGS_COLUMN_LEFT,
-                    'visible' => false, //  $business->hr_payroll
-                ),
-                array(
-                    'id'     => 'department',
-                    'label'  => 'Department',
-                    'route'  => 'settings/department',
-                    'icon' => '',
-                    'description' => 'List pre-defined and user-defined departments',
-                    'column' => self::SETTINGS_COLUMN_RIGHT,
-                    'visible' => false, //  $business->hr_payroll
-                ),
-                array(
-                    'id'     => 'designation',
-                    'label'  => 'Designation',
-                    'route'  => 'settings/designation',
-                    'icon' => '',
-                    'description' => 'List common job titles and/or roles in the industry',
-                    'column' => self::SETTINGS_COLUMN_LEFT,
-                    'visible' => false, //  $business->hr_payroll
-                ),
             ),
             // permissions
             // roles

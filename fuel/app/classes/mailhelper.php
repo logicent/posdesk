@@ -7,6 +7,8 @@ class Mailhelper
     public static function send($recipient_name, $recipient_address, $subject, $message)
     {
         $email_settings = Model_Email_Setting::find('first');
+        if (!$email_settings)
+            return;
         
         $config =  [
              'driver'   => 'smtp',

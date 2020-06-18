@@ -25,13 +25,13 @@
             <div class="col-md-3">
                 <?= Form::label('Title of Courtesy', 'title_of_courtesy', array('class'=>'control-label')); ?>
                 <?= Form::select('title_of_courtesy', Input::post('title_of_courtesy', isset($customer) ? $customer->title_of_courtesy : ''), 
-                                Model_Supplier::$toc, 
+                                Model_Customer::$toc, 
                                 array('class' => 'col-md-4 form-control')); ?>
             </div>
 
             <div class="col-md-3">
                 <?= Form::label('Sex', 'sex', array('class'=>'control-label')); ?>
-                <?= Form::select('sex', Input::post('sex', isset($customer) ? $customer->sex : ''), Model_Supplier::$sex, 
+                <?= Form::select('sex', Input::post('sex', isset($customer) ? $customer->sex : ''), Model_Customer::$sex, 
                                 array('class' => 'col-md-4 form-control')); ?>
             </div>            
 		</div>
@@ -81,7 +81,7 @@
             <div class="col-md-6">
                 <?= Form::label('ID type', 'ID_type', array('class'=>'control-label')); ?>
                 <?= Form::select('ID_type', Input::post('ID_type', isset($customer) ? $customer->ID_type : ''), 
-                                Model_Facility_Booking::$ID_type, array('class' => 'col-md-4 form-control')); ?>
+                                Model_Customer::$ID_type, array('class' => 'col-md-4 form-control')); ?>
             </div>
 
             <div class="col-md-6">

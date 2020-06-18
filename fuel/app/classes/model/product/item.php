@@ -12,7 +12,7 @@ class Model_Product_Item extends Model
         'discount_percent',
 		'gl_account_id',
         'fdesk_user',
-        'service_type',
+        'group_id',
         'enabled',
         'billable',
 		'created_at',

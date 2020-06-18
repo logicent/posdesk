@@ -7,7 +7,7 @@ class Controller_Login extends Controller_Template
 	public function action_login()
 	{
 		// Already logged in
-		Auth::check() and Response::redirect('dashboard');
+		Auth::check() and Response::redirect('cashier');
 
 		$val = Validation::forge();
 
@@ -36,7 +36,7 @@ class Controller_Login extends Controller_Template
 						$current_user = Model_User::find_by_username(Auth::get_screen_name());
 					}
 					Session::set_flash('success', e('Welcome, '.$current_user->username));
-					Response::redirect_back('dashboard');
+					Response::redirect_back('cashier');
 				}
 				else
 				{
@@ -89,7 +89,7 @@ class Controller_Login extends Controller_Template
 	 */
 	public function action_index()
 	{
-		Response::redirect('dashboard');
+		Response::redirect('cashier');
 	}
 
     // public function action_reset_password()

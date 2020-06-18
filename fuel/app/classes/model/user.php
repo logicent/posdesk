@@ -20,7 +20,7 @@ class Model_User extends Model_Soft
 
 	protected static $_soft_delete = array(
 		'deleted_field' => 'deleted_at',
-		'mysql_timestamp' => true,
+		'mysql_timestamp' => false,
 	);
 
 	protected static $_observers = array(

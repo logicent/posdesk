@@ -55,45 +55,46 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="nav navbar-top-links top-menu">
-                        <li><a class="<?= Uri::segment(1) == 'cashier' ? 'active' : '' ?>" href="<?= Uri::create('cashier'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'cashier'  || Uri::segment(1) == '' ? 'active' : '' ?>" href="<?= Uri::create('cashier'); ?>">
                                 <i class="fa fa-lg fa-shopping-cart fa-fw text-success"></i>&ensp;Cashier</a></li>
                     <?php if (Uri::segment(1) != 'admin') : ?>
                         <li><a class="<?= Uri::segment(1) == 'sales' ? 'active' : '' ?>" href="<?= Uri::create('sales'); ?>">
                                 <i class="fa fa-lg fa-line-chart fa-fw text-primary"></i>&ensp;Sales</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'customers' ? 'active' : '' ?>" href="<?= Uri::create('customers'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'customers' || Uri::segment(1) == 'customer' ? 'active' : '' ?>" href="<?= Uri::create('customers'); ?>">
                                 <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Customers</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'products' ? 'active' : '' ?>" href="<?= Uri::create('products'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'products' || Uri::segment(1) == 'product' ? 'active' : '' ?>" href="<?= Uri::create('products'); ?>">
                                 <i class="fa fa-lg fa-cubes fa-fw text-warning"></i>&ensp;Products</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'suppliers' || Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('suppliers'); ?>">
+                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Suppliers</a></li>                             
+                        <li><a class="<?= Uri::segment(1) == 'purchases' || Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
+                                <i class="fa fa-lg fa-line-chart fa-fw text-primary"></i>&ensp;Purchases</a></li>
                         <li><a class="<?= Uri::segment(1) == 'reports' ? 'active' : '' ?>" href="<?= Uri::create('reports'); ?>">
                                 <i class="fa fa-lg fa-bar-chart fa-fw text-danger"></i>&ensp;Reports</a></li>
+                        <?php if ($ugroup->id !=3) : ?>
                         <li><a class="<?= Uri::segment(1) == 'admin' ? 'active' : '' ?>" href="<?= Uri::create('admin'); ?>">
                                 <i class="fa fa-lg fa-cog fa-fw text-muted"></i>&ensp;Admin</a></li>
                         <?php endif ?>
-                        <?php if (Uri::segment(1) == 'admin') : ?>
+                    <?php endif ?>
+                    <?php if (Uri::segment(1) == 'admin') : ?>
                         <li><a class="<?= Uri::segment(1) == 'dashboard' ? 'active' : '' ?>" href="<?= Uri::create('admin/dashboard'); ?>">
                                 <i class="fa fa-lg fa-trello fa-fw text-warning"></i>&ensp;Dashboard</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'purchases' ? 'active' : '' ?>" href="<?= Uri::create('admin/purchases'); ?>">
-                                <i class="fa fa-lg fa-line-chart fa-fw text-primary"></i>&ensp;Purchases</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'suppliers' ? 'active' : '' ?>" href="<?= Uri::create('admin/suppliers'); ?>">
-                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Suppliers</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'users'  || Uri::segment(2) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
                                 <i class="fa fa-lg fa-users fa-fw text-default"></i>&ensp;Users</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'settings' || Uri::segment(2) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
                                 <i class="fa fa-lg fa-cog fa-fw text-muted"></i>&ensp;Settings</a></li>
-                        <?php endif ?>
+                    <?php endif ?>
                     </ul><!-- /.navbar-top-links -->
                 </div>
                 <div class="col-md-3">
                     <ul class="nav navbar-top-links navbar-right">
-                        <li><a class="<?= Uri::segment(1) == 'forex' ? 'active' : '' ?>" href="<?= Uri::create('forex'); ?>"><i class="fa fa-lg fa-dollar fa-fw text-muted"></i></a></li>
                         <li><a class="<?= Uri::segment(1) == 'help' ? 'active' : '' ?>" href="<?= Uri::create('help'); ?>"><i class="fa fa-lg fa-question-circle fa-fw text-muted"></i></a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?= $uname; ?>
                                 <i class="fa fa-lg fa-user fa-fw text-muted"></i>  <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <!--<li><a href="<?php Uri::create('users/change-pwd/'.$uid) ?>"> Change Password</a></li>-->
-                                <li><a href="<?= Uri::create('users/view/'.$uid) ?>"> My Account</a></li>
+                                <!--<li><a href="<?php Uri::create('admin/users/change-password/'.$uid) ?>"> Change Password</a></li>-->
+                                <li><a href="<?= Uri::create('admin/users/view/'.$uid) ?>"> My Account</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<?= Uri::create('logout') ?>"> Log out</a></li>
                             </ul>   <!-- /.dropdown-user -->
@@ -153,25 +154,12 @@
         endif; ?>
                 <div id="content" class="row">
                     <div class="col-md-offset-1 col-md-10 content-pane">
-                <!-- Dashboard and Reports container -->
-            <?php if (
-                    Uri::segment(1) == '' ||
-                    Uri::segment(1) == 'dashboard' ||
-                    Uri::segment(1) == 'calendar' ||
-                    Uri::segment(1) == 'reports' ||
-                    Uri::segment(1) == 'settings'): ?>
-                        <!-- List Grids and Forms container -->
-                        <div class="panel">
-                            <?= $content; ?>
-                        </div>
-            <?php else: ?>
-                        <!--<h1 class="page-header"><?= $title; ?></h1>-->
+                        <!-- <h1 class="page-header"><?= $title; ?></h1> -->
                         <div class="panel"><!-- panel-default -->
                             <div class="panel-body">
                                 <?= $content; ?>
                             </div>
                         </div>  <!-- /.panel -->
-            <?php endif; ?>
                     </div>  <!-- /.col-lg-10  -->
                 </div>  <!-- /.row -->
             </div>  <!-- /#page-wrapper -->

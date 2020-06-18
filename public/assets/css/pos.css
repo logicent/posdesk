@@ -15,7 +15,7 @@
     border-bottom: 2px solid #e4edf6;
 }
 
-.page-header .btn-group, .page-header a {
+.page-header .btn-group, .page-header a.btn-block {
     margin-top: 30px;
     margin-bottom: 0;
 }

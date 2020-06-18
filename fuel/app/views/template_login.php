@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FrontDesk</title>
+        <title>POSDesk</title>
         <!-- Core CSS -->
         <?= Asset::css(
             array(
@@ -50,7 +50,7 @@
                     </div>                
                     <div class="login-panel panel panel-default">
                         <div class="panel-heading">
-                            <h3 class="panel-title text-center">FrontDesk</h3>
+                            <h3 class="panel-title text-center">POSDesk</h3>
                         </div>
                         <div class="panel-body">
                             <?= $content; ?>
@@ -59,7 +59,7 @@
 
                     <footer class="text-center small">
                         <br><br>
-                        <a href="https://logicent.co/solutions/hotel-front-office.html" target="_blank">FrontDesk</a> &copy; 2014-<?= date('Y'); ?> All Rights Reserved.
+                        <a href="https://logicent.co/solutions/hotel-front-office.html" target="_blank">POSDesk</a> &copy; 2014-<?= date('Y'); ?> All Rights Reserved.
                     </footer>
                 </div>
             </div>

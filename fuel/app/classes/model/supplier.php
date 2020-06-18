@@ -3,26 +3,6 @@ use Orm\Model;
 
 class Model_Supplier extends Model
 {
-	const TOC_MR = 'Mr.';
-    const TOC_MS = 'Ms.';
-    const TOC_DR = 'Dr.';
-    
-	public static $toc = array(
-        '' => '',
-		self::TOC_MR => self::TOC_MR,
-		self::TOC_MS => self::TOC_MS,
-		self::TOC_DR => self::TOC_DR
-    );
-    
-	const SEX_MALE = 'M';
-    const SEX_FEMALE = 'F';
-    
-	public static $sex = array(
-        '' => '',
-		self::SEX_MALE => 'Male',
-		self::SEX_FEMALE => 'Female'
-	);
-	
 	protected static $_properties = array(
         'id',
         'supplier_name',

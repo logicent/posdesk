@@ -13,12 +13,12 @@ class Controller_Customer extends Controller_Authenticate
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('registers/customer');
+		is_null($id) and Response::redirect('customers');
 
 		if ( ! $data['customer'] = Model_Customer::find($id))
 		{
 			Session::set_flash('error', 'Could not find customer #'.$id);
-			Response::redirect('registers/customer');
+			Response::redirect('customers');
 		}
 
 		$this->template->title = "Customer";
@@ -78,7 +78,7 @@ class Controller_Customer extends Controller_Authenticate
                     {
                         Session::set_flash('success', 'Added customer #'.$customer->customer_name.'.');
 
-                        Response::redirect('registers/customer');
+                        Response::redirect('customers');
                     }
                     else
                     {
@@ -104,12 +104,12 @@ class Controller_Customer extends Controller_Authenticate
 
 	public function action_edit($id = null)
 	{
-		is_null($id) and Response::redirect('registers/customer');
+		is_null($id) and Response::redirect('customers');
 
 		if ( ! $customer = Model_Customer::find($id))
 		{
 			Session::set_flash('error', 'Could not find customer #'.$id);
-			Response::redirect('registers/customer');
+			Response::redirect('customers');
 		}
 
 		$val = Model_Customer::validate('edit');
@@ -159,7 +159,7 @@ class Controller_Customer extends Controller_Authenticate
                 {
                     Session::set_flash('success', 'Updated customer #' . $customer->customer_name);
 
-                    Response::redirect('registers/customer');
+                    Response::redirect('customers');
                 }
                 else
                 {
@@ -228,7 +228,7 @@ class Controller_Customer extends Controller_Authenticate
 
 	public function action_delete($id = null)
 	{
-		is_null($id) and Response::redirect('registers/customer');
+		is_null($id) and Response::redirect('customers');
 
         if (Input::method() == 'POST')
 		{
@@ -248,7 +248,7 @@ class Controller_Customer extends Controller_Authenticate
 			Session::set_flash('error', 'Delete is not allowed');
         }
         
-		Response::redirect('registers/customer');
+		Response::redirect('customers');
 
 	}
 
@@ -257,7 +257,7 @@ class Controller_Customer extends Controller_Authenticate
 		$customer = Model_Customer::find($id);
 		if (!$customer) {
 			Session::set_flash('error', 'Customer not found.');
-			Response::redirect('registers/customer');
+			Response::redirect('customers');
 		}
         // unlink file
         try 

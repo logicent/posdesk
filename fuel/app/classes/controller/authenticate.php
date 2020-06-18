@@ -11,7 +11,7 @@ class Controller_Authenticate extends Controller_Template
     public function before()
     {
         parent::before();
-
+        
         if (Request::active()->controller !== 'Controller_Dashboard' or ! in_array(Request::active()->action, array('login', 'logout')))
         {
             if ( ! Auth::check())
@@ -46,7 +46,7 @@ class Controller_Authenticate extends Controller_Template
         $this->uname = Auth::get_screen_name();
         $this->template->set_global('uname', $this->uname, false);
 
-        $this->ugroup = Auth::get_groups();
+        $this->ugroup = Auth::get_groups(); 
         $this->template->set_global('ugroup', $this->ugroup[0][1], false);
 
         $this->business = Model_Business::find('first');

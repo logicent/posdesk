@@ -8,7 +8,7 @@ class Controller_Dashboard extends Controller_Authenticate{
 		$business = Model_Business::find('first');
 		if (!$business) {
 			Session::set_flash('warning', 'Add your business information to complete setup.');
-			Response::redirect('business/create');
+			Response::redirect('admin/settings/business/create');
 		}
 
 		// check if install is done and default values are set

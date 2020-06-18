@@ -1,7 +1,7 @@
 <?php
-use Orm\Model;
+use Orm\Model_Soft;
 
-class Model_User_Metadata extends Model
+class Model_User_Metadata extends Model_Soft
 {
     protected static $_properties = array(
         'id',				// primary key
@@ -9,6 +9,7 @@ class Model_User_Metadata extends Model
         'key',				// attribute column
         'value',			// value column
         'user_id',			// foreign key
+		'deleted_at',
     );
 
     protected static $_table_name = 'users_metadata';
