@@ -5,7 +5,7 @@ class Controller_Supplier extends Controller_Authenticate
 	public function action_index()
 	{
 		$data['suppliers'] = Model_Supplier::find('all');
-		$this->template->title = "Suppliers";
+		$this->template->title = "Supplier";
 		$this->template->content = View::forge('supplier/index', $data);
 
 	}
@@ -54,7 +54,7 @@ class Controller_Supplier extends Controller_Authenticate
 			}
 		}
 
-		$this->template->title = "Suppliers";
+		$this->template->title = "Supplier";
 		$this->template->content = View::forge('supplier/create');
 
 	}
@@ -98,7 +98,7 @@ class Controller_Supplier extends Controller_Authenticate
 			$this->template->set_global('supplier', $supplier, false);
 		}
 
-		$this->template->title = "Suppliers";
+		$this->template->title = "Supplier";
 		$this->template->content = View::forge('supplier/edit');
 
 	}

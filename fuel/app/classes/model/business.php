@@ -13,6 +13,7 @@ class Model_Business extends Model
 		'business_name',
 		'trading_name',
 		'address',
+		'enabled',
 		'tax_identifier',
 		'business_type',
 		'currency_symbol',

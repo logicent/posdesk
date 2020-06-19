@@ -63,11 +63,11 @@ class Model_Setting extends \Orm\Model
                     'visible' => true, // always TRUE
                 ),
                 array(
-                    'id'     => 'branches',
-                    'label'  => 'Branches',
-                    'route'  => null, // 'admin/settings/branch',
+                    'id'     => 'branch',
+                    'label'  => 'Branch',
+                    'route'  => 'admin/settings/branch',
                     'icon' => 'road',
-                    'description' => 'Create some branches or locations of your stores',
+                    'description' => 'Create a branch or location of your stores',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),                

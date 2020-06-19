@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-6">
-		<h2>Listing <span class='text-muted'>Products</span></h2>
+		<h2>Listing <span class='text-muted'>Product</span></h2>
 	</div>
 
 	<div class="col-md-6">
@@ -45,5 +45,5 @@
 </table>
 
 <?php else: ?>
-<p>No Products.</p>
+<p>No Product.</p>
 <?php endif; ?>

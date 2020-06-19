@@ -6,19 +6,19 @@ class Controller_Customer extends Controller_Authenticate
 	public function action_index()
 	{
 		$data['customers'] = Model_Customer::find('all');
-		$this->template->title = "Customers";
+		$this->template->title = "Customer";
 		$this->template->content = View::forge('customer/index', $data);
 
 	}
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('customers');
+		is_null($id) and Response::redirect('customer');
 
 		if ( ! $data['customer'] = Model_Customer::find($id))
 		{
 			Session::set_flash('error', 'Could not find customer #'.$id);
-			Response::redirect('customers');
+			Response::redirect('customer');
 		}
 
 		$this->template->title = "Customer";
@@ -78,7 +78,7 @@ class Controller_Customer extends Controller_Authenticate
                     {
                         Session::set_flash('success', 'Added customer #'.$customer->customer_name.'.');
 
-                        Response::redirect('customers');
+                        Response::redirect('customer');
                     }
                     else
                     {
@@ -97,19 +97,19 @@ class Controller_Customer extends Controller_Authenticate
 			}
 		}
 
-		$this->template->title = "Customers";
+		$this->template->title = "Customer";
 		$this->template->content = View::forge('customer/create');
 
 	}
 
 	public function action_edit($id = null)
 	{
-		is_null($id) and Response::redirect('customers');
+		is_null($id) and Response::redirect('customer');
 
 		if ( ! $customer = Model_Customer::find($id))
 		{
 			Session::set_flash('error', 'Could not find customer #'.$id);
-			Response::redirect('customers');
+			Response::redirect('customer');
 		}
 
 		$val = Model_Customer::validate('edit');
@@ -159,7 +159,7 @@ class Controller_Customer extends Controller_Authenticate
                 {
                     Session::set_flash('success', 'Updated customer #' . $customer->customer_name);
 
-                    Response::redirect('customers');
+                    Response::redirect('customer');
                 }
                 else
                 {
@@ -221,14 +221,14 @@ class Controller_Customer extends Controller_Authenticate
 			$this->template->set_global('customer', $customer, false);
 		}
 
-		$this->template->title = "Customers";
+		$this->template->title = "Customer";
 		$this->template->content = View::forge('customer/edit');
 
 	}
 
 	public function action_delete($id = null)
 	{
-		is_null($id) and Response::redirect('customers');
+		is_null($id) and Response::redirect('customer');
 
         if (Input::method() == 'POST')
 		{
@@ -248,7 +248,7 @@ class Controller_Customer extends Controller_Authenticate
 			Session::set_flash('error', 'Delete is not allowed');
         }
         
-		Response::redirect('customers');
+		Response::redirect('customer');
 
 	}
 
@@ -257,7 +257,7 @@ class Controller_Customer extends Controller_Authenticate
 		$customer = Model_Customer::find($id);
 		if (!$customer) {
 			Session::set_flash('error', 'Customer not found.');
-			Response::redirect('customers');
+			Response::redirect('customer');
 		}
         // unlink file
         try 

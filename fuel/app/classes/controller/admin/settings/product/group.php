@@ -11,12 +11,12 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('pos/product/group');
+		is_null($id) and Response::redirect('admin/settings/product/group');
 
 		if ( ! $data['product_group'] = Model_Product_Group::find($id))
 		{
 			Session::set_flash('error', 'Could not find product group #'.$id);
-			Response::redirect('pos/product/group');
+			Response::redirect('admin/settings/product/group');
 		}
 		$this->template->title = "Product Group";
 		$this->template->content = View::forge('product/group/view', $data);
@@ -36,14 +36,14 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 					'enabled' => Input::post('enabled'),
 					'is_default' => Input::post('is_default'),
 					'parent_id' => Input::post('parent_id'),
-                    'default_product_provider' => Input::post('default_product_provider'),
+                    'default_supplier' => Input::post('default_supplier'),
                     'fdesk_user' => Input::post('fdesk_user'),
 				));
 
 				if ($product_group and $product_group->save())
 				{
 					Session::set_flash('success', 'Added product group #'.$product_group->code.'.');
-					Response::redirect('pos/product/group');
+					Response::redirect('admin/settings/product/group');
 				}
 				else
 				{
@@ -55,18 +55,18 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 				Session::set_flash('error', $val->error());
 			}
 		}
-		$this->template->title = "Service_Types";
+		$this->template->title = "Product Group";
 		$this->template->content = View::forge('product/group/create');
 	}
 
 	public function action_edit($id = null)
 	{
-		is_null($id) and Response::redirect('pos/product/group');
+		is_null($id) and Response::redirect('admin/settings/product/group');
 
 		if ( ! $product_group = Model_Product_Group::find($id))
 		{
 			Session::set_flash('error', 'Could not find product group #'.$id);
-			Response::redirect('pos/product/group');
+			Response::redirect('admin/settings/product/group');
 		}
 
 		$val = Model_Product_Group::validate('edit');
@@ -77,13 +77,13 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 			$product_group->enabled = Input::post('enabled');
 			$product_group->is_default = Input::post('is_default');
             $product_group->parent_id = Input::post('parent_id');
-			$product_group->default_product_provider = Input::post('default_product_provider');
+			$product_group->default_supplier = Input::post('default_supplier');
             $product_group->fdesk_user = Input::post('fdesk_user');
 
 			if ($product_group->save())
 			{
 				Session::set_flash('success', 'Updated product group #' . $product_group->code);
-				Response::redirect('pos/product/group');
+				Response::redirect('admin/settings/product/group');
 			}
 			else
 			{
@@ -99,7 +99,7 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 				$product_group->enabled = $val->validated('enabled');
 				$product_group->is_default = $val->validated('is_default');
 				$product_group->parent_id = $val->validated('parent_id');
-				$product_group->default_product_provider = $val->validated('default_product_provider');
+				$product_group->default_supplier = $val->validated('default_supplier');
                 $product_group->fdesk_user = $val->validated('fdesk_user');
 
 				Session::set_flash('error', $val->error());
@@ -112,7 +112,7 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 
 	public function action_delete($id = null)
 	{
-		is_null($id) and Response::redirect('pos/product/group');
+		is_null($id) and Response::redirect('admin/settings/product/group');
 
         if (Input::method() == 'POST')
 		{		
@@ -130,6 +130,6 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 		{
 			Session::set_flash('error', 'Delete is not allowed');
 		}
-		Response::redirect('pos/product/group');
+		Response::redirect('admin/settings/product/group');
 	}
 }

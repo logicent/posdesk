@@ -5,19 +5,19 @@ class Controller_Product_Item extends Controller_Authenticate
 	public function action_index()
 	{
 		$data['product_items'] = Model_Product_Item::find('all');
-		$this->template->title = "Products";
+		$this->template->title = "Product";
 		$this->template->content = View::forge('product/item/index', $data);
 
 	}
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('products');
+		is_null($id) and Response::redirect('product');
 
 		if ( ! $data['product_item'] = Model_Product_Item::find($id))
 		{
 			Session::set_flash('error', 'Could not find product item #'.$id);
-			Response::redirect('products');
+			Response::redirect('product');
 		}
 
 		$this->template->title = "Product";
@@ -51,7 +51,7 @@ class Controller_Product_Item extends Controller_Authenticate
 					{
 						Session::set_flash('success', 'Added product item #'.$product_item->code.'.');
 
-						Response::redirect('products');
+						Response::redirect('product');
 					}
 					else
 					{
@@ -99,12 +99,12 @@ class Controller_Product_Item extends Controller_Authenticate
 
 	public function action_edit($id = null)
 	{
-		is_null($id) and Response::redirect('products');
+		is_null($id) and Response::redirect('product');
 
 		if ( ! $product_item = Model_Product_Item::find($id))
 		{
 			Session::set_flash('error', 'Could not find product item #'.$id);
-			Response::redirect('products');
+			Response::redirect('product');
 		}
 
 		$val = Model_Product_Item::validate('edit');
@@ -127,7 +127,7 @@ class Controller_Product_Item extends Controller_Authenticate
 				{
 					Session::set_flash('success', 'Updated product item #' . $product_item->code);
 
-					Response::redirect('products');
+					Response::redirect('product');
 				}
 
 				else
@@ -170,7 +170,7 @@ class Controller_Product_Item extends Controller_Authenticate
 
 	public function action_delete($id = null)
 	{
-		is_null($id) and Response::redirect('products');
+		is_null($id) and Response::redirect('product');
 
         if (Input::method() == 'POST')
 		{		
@@ -195,7 +195,7 @@ class Controller_Product_Item extends Controller_Authenticate
 			Session::set_flash('error', 'Delete is not allowed');
 		}
 		
-		Response::redirect('products');
+		Response::redirect('product');
 
 	}
 

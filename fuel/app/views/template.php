@@ -60,13 +60,13 @@
                     <?php if (Uri::segment(1) != 'admin') : ?>
                         <li><a class="<?= Uri::segment(1) == 'sales' ? 'active' : '' ?>" href="<?= Uri::create('sales'); ?>">
                                 <i class="fa fa-lg fa-line-chart fa-fw text-primary"></i>&ensp;Sales</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'customers' || Uri::segment(1) == 'customer' ? 'active' : '' ?>" href="<?= Uri::create('customers'); ?>">
-                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Customers</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'products' || Uri::segment(1) == 'product' ? 'active' : '' ?>" href="<?= Uri::create('products'); ?>">
-                                <i class="fa fa-lg fa-cubes fa-fw text-warning"></i>&ensp;Products</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'suppliers' || Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('suppliers'); ?>">
-                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Suppliers</a></li>                             
-                        <li><a class="<?= Uri::segment(1) == 'purchases' || Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
+                        <li><a class="<?= Uri::segment(1) == 'customer' ? 'active' : '' ?>" href="<?= Uri::create('customer'); ?>">
+                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Customer</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'product' ? 'active' : '' ?>" href="<?= Uri::create('product'); ?>">
+                                <i class="fa fa-lg fa-cubes fa-fw text-warning"></i>&ensp;Product</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
+                                <i class="fa fa-lg fa-users fa-fw text-info"></i>&ensp;Supplier</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
                                 <i class="fa fa-lg fa-line-chart fa-fw text-primary"></i>&ensp;Purchases</a></li>
                         <li><a class="<?= Uri::segment(1) == 'reports' ? 'active' : '' ?>" href="<?= Uri::create('reports'); ?>">
                                 <i class="fa fa-lg fa-bar-chart fa-fw text-danger"></i>&ensp;Reports</a></li>

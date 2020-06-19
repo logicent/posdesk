@@ -18,9 +18,7 @@ return array(
 	'login/forgot-password' => 'login/lostpassword',
 	'logout' 				=> 'login/logout',
 	
-	'customers'				=> 'customer',
-	'suppliers'				=> 'supplier',
-	'products'				=> 'product/item', // items
+	'product'				=> 'product/item', // items
 	
 	'sales'					=> 'sales/invoice',
 	'purchases'				=> 'purchase/invoice',

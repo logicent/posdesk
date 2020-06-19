@@ -130,6 +130,7 @@ class Controller_Admin_Settings_Business extends Controller_Authenticate
 				Session::set_flash('error', $val->error());
 			}
 		}
+		
 		$this->template->title = "Business";
 		$this->template->content = View::forge('settings/business/index');
 	}
