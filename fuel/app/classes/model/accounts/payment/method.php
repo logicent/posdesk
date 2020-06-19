@@ -14,7 +14,7 @@ class Model_Accounts_Payment_Method extends Model
 		'updated_at',
 	);
 
-	protected static $_table_name = 'payment_methods';
+	protected static $_table_name = 'payment_method';
 
 	protected static $_observers = array(
 		'Orm\Observer_CreatedAt' => array(

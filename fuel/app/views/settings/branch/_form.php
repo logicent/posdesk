@@ -24,19 +24,14 @@
                                 array('class' => 'col-md-4 form-control')); ?>
     		</div>
         </div>
-        <div class="form-group">
-            <div class="col-md-6">
-                <?= Form::label('Tax identifier', 'tax_identifier', array('class'=>'control-label')); ?>
-                <?= Form::input('tax_identifier', Input::post('tax_identifier', isset($branch) ? $branch->tax_identifier : ''),
-                                array('class' => 'col-md-4 form-control')); ?>
-            </div>
-            <div class="col-md-6">
-                <?= Form::label('Currency symbol', 'currency_symbol', array('class'=>'control-label')); ?>
-                <?= Form::select('currency_symbol', Input::post('currency_symbol', isset($branch) ? $branch->currency_symbol : ''), 
-                                Model_Business::listOptionsCurrency(), 
-                                array('class' => 'col-md-4 form-control')); ?>
-            </div>
-		</div>
+		<div class="form-group">
+			<div class="col-md-3">
+				<?= Form::hidden('is_default', Input::post('is_default', isset($branch) ? $branch->is_default : '0')); ?>
+				<?= Form::hidden('enabled', Input::post('enabled', isset($branch) ? $branch->enabled : '1')); ?>
+				<?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
+				<?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
+			</div>
+		</div>        
     </div>
 
     <div class="col-md-6">
@@ -69,36 +64,18 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-12">
-                <?= Form::label('Logo path', 'business_logo', array('class'=>'control-label')); ?>
-                <div class="input-group">
-                    <?= Form::input('business_logo', Input::post('business_logo', isset($branch) ? $branch->business_logo : ''),
-                                    array('id' => 'file_path', 'class' => 'col-md-4 form-control', 'readonly' => true)) ?>
-                <?php 
-                    if (isset($branch)) : ?>
-                    <span class="input-group-addon">
-                        <?= Html::anchor(Uri::create(false), '<i class="fa fa-plus-square-o text-info"></i>', array('id' => 'add_img')) ?>
-                    </span>
-                    <span class="input-group-addon">
-                        <?= Html::anchor(Uri::create('business/remove_img/' . $branch->id), '<i class="fa fa-trash-o text-red"></i>',
-                                        array('id' => 'del_img', 'data-ph' => 'http://placehold.it/240x120')) ?>
-                    </span>
-                <?php 
-                    endif ?>
-                </div>
+            <div class="col-md-6">
+                <?= Form::label('Tax identifier', 'tax_identifier', array('class'=>'control-label')); ?>
+                <?= Form::input('tax_identifier', Input::post('tax_identifier', isset($branch) ? $branch->tax_identifier : ''),
+                                array('class' => 'col-md-4 form-control')); ?>
             </div>
-        </div>
-        <div class="form-group">
-            <?= Form::file('uploaded_file', array('class' => 'col-md-12', 'style' => 'display: none;')); ?>
-            <div class="col-md-12">
-                <?php // Form::label('Upload image', 'upload_img', array('class'=>'control-label')); ?>
-                <br>
-                <div class="img-thumbnail">
-                    <?= Html::img(!empty($branch->business_logo) ? $branch->business_logo : 'http://placehold.it/240x120', 
-                                array('class'=>'upload-img', 'style' => 'max-width: 370px;')); ?>
-                </div>
+            <div class="col-md-6">
+                <?= Form::label('Currency symbol', 'currency_symbol', array('class'=>'control-label')); ?>
+                <?= Form::select('currency_symbol', Input::post('currency_symbol', isset($branch) ? $branch->currency_symbol : ''), 
+                                Model_Business::listOptionsCurrency(), 
+                                array('class' => 'col-md-4 form-control')); ?>
             </div>
-        </div>
+		</div>        
     </div>
 </div>
 <div class="clearfix"></div>

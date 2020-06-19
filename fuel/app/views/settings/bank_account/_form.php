@@ -22,7 +22,23 @@
 				<?= Form::input('financial_institution', Input::post('financial_institution', isset($bank_account) ? $bank_account->financial_institution : ''), array('class' => 'col-md-6 form-control')); ?>
 			</div>
 		</div>
+
+		<div class="form-group">
+			<div class="col-md-3">
+				<?= Form::hidden('is_default', Input::post('is_default', isset($bank_account) ? $bank_account->is_default : '0')); ?>
+				<?= Form::checkbox('cb_is_default', null, array('class' => 'cb-checked', 'data-input' => 'is_default')); ?>
+				<?= Form::label('Is default', 'cb_is_default', array('class'=>'control-label')); ?>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3">
+				<?= Form::hidden('enabled', Input::post('enabled', isset($bank_account) ? $bank_account->enabled : '1')); ?>
+				<?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
+				<?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
+			</div>
+		</div>
 	</div>
+
 	<div class="col-md-6">
 		<div class="form-group">
 			<div class="col-md-12">

@@ -67,4 +67,23 @@ class Model_Supplier extends Model
         );
     }
 
+    public static function listOptions($type = null)
+	{
+		$items = DB::select('id','supplier_name')
+						->from(self::$_table_name)
+						->where([
+                            'inactive' => false,
+                            'supplier_type' => $type
+                        ])
+						->execute()
+						->as_array();
+        
+		$list_options = array('' => '&nbsp;');
+
+		foreach($items as $item) {
+			$list_options[$item['id']] = $item['supplier_name'];
+        }
+        
+		return $list_options;
+	}
 }

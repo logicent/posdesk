@@ -466,7 +466,7 @@ input.cb-checked {
 }
 
 .navbar-top-links:not(.top-menu) {
-    margin-right: 100px;
+    margin-right: 10px;
 }
 
 .navbar-top-links li:last-child {

@@ -3,6 +3,8 @@
     <div class="col-md-6">
         <div class="form-group">
             <div class="col-md-12">
+                <?= Form::hidden('is_default', Input::post('is_default', isset($business) ? $business->is_default : '1')); ?>
+                <?= Form::hidden('enabled', Input::post('enabled', isset($business) ? $business->enabled : '1')); ?>
                 <?= Form::label('Business name', 'business_name', array('class'=>'control-label')); ?>
                 <?= Form::input('business_name', Input::post('business_name', isset($business) ? $business->business_name : ''),
                                 array('class' => 'col-md-4 form-control', 'autofocus' => true)); ?>
@@ -69,28 +71,8 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-12">
-                <?= Form::label('Logo path', 'business_logo', array('class'=>'control-label')); ?>
-                <div class="input-group">
-                    <?= Form::input('business_logo', Input::post('business_logo', isset($business) ? $business->business_logo : ''),
-                                    array('id' => 'file_path', 'class' => 'col-md-4 form-control', 'readonly' => true)) ?>
-                <?php 
-                    if ($business) : ?>
-                    <span class="input-group-addon">
-                        <?= Html::anchor(Uri::create(false), '<i class="fa fa-plus-square-o text-info"></i>', array('id' => 'add_img')) ?>
-                    </span>
-                    <span class="input-group-addon">
-                        <?= Html::anchor(Uri::create('business/remove_img/' . $business->id), '<i class="fa fa-trash-o text-red"></i>',
-                                        array('id' => 'del_img', 'data-ph' => 'http://placehold.it/240x120')) ?>
-                    </span>
-                <?php 
-                    endif ?>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
             <?= Form::file('uploaded_file', array('class' => 'col-md-12', 'style' => 'display: none;')); ?>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <?php // Form::label('Upload image', 'upload_img', array('class'=>'control-label')); ?>
                 <br>
                 <div class="img-thumbnail">
@@ -98,6 +80,24 @@
                                 array('class'=>'upload-img', 'style' => 'max-width: 370px;')); ?>
                 </div>
             </div>
+            <div class="col-md-6">
+                <?= Form::label('Logo path', 'business_logo', array('class'=>'control-label')); ?>
+                <div class="input-group">
+                    <?= Form::textarea('business_logo', Input::post('business_logo', isset($business) ? $business->business_logo : ''),
+                                        array('id' => 'file_path', 'style' => 'resize: none;', 'class' => 'col-md-4 form-control', 'readonly' => true)) ?>
+                <?php 
+                    if ($business) : ?>
+                    <span class="input-group-addon">
+                        <?= Html::anchor(Uri::create(false), '<i class="fa fa-fw fa-lg fa-plus-square-o text-info"></i>', array('id' => 'add_img')) ?>
+                    </span>
+                    <span class="input-group-addon">
+                        <?= Html::anchor(Uri::create('business/remove_img/' . $business->id), '<i class="fa fa-fw fa-lg fa-trash-o text-red"></i>',
+                                        array('id' => 'del_img', 'data-ph' => 'http://placehold.it/240x120')) ?>
+                    </span>
+                <?php 
+                    endif ?>
+                </div>
+            </div>            
         </div>
     </div>
 </div>

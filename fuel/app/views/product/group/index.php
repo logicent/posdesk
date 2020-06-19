@@ -1,11 +1,11 @@
 <div class="row">
 	<div class="col-md-6">
-		<h2>Listing <span class='text-muted'>Group</span></h2>
+		<h2>Listing <span class='text-muted'>Product Group</span></h2>
 	</div>
 
 	<div class="col-md-6">
 		<br>
-		<?= Html::anchor('product/group/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+		<?= Html::anchor('admin/settings/product/group/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>
@@ -43,5 +43,5 @@
 </table>
 
 <?php else: ?>
-<p>No Groups.</p>
+<p>No Group.</p>
 <?php endif; ?>

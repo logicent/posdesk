@@ -20,8 +20,8 @@ class Model_Accounts_Bank_Deposit extends Model_Soft
 	);
 
 	protected static $_soft_delete = array(
-	//'deleted_field' => 'deleted',
-	'mysql_timestamp' => true,
+		//'deleted_field' => 'deleted',
+		'mysql_timestamp' => true,
 	);
 
 	protected static $_observers = array(

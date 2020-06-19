@@ -67,25 +67,25 @@ class Model_Setting extends \Orm\Model
                     'label'  => 'Branch',
                     'route'  => 'admin/settings/branch',
                     'icon' => 'road',
-                    'description' => 'Create a branch or location of your stores',
+                    'description' => 'Create a branch or location of your business stores',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
-                ),                
+                ),
                 array(
                     'id'     => 'bank_account',
                     'label'  => 'Bank account',
                     'route'  => 'admin/settings/bank/account',
                     'icon' => 'bank',
-                    'description' => 'Add bank accounts used to make deposits and transfers',
+                    'description' => 'Add bank accounts used to enter payments and deposits',
                     'column' => self::SETTINGS_COLUMN_LEFT,
                     'visible' => true, // always TRUE
                 ),
                 array( // Invoice, Payment
                     'id'     => 'document_serial',
                     'label'  => 'Document serial',
-                    'route'  => null, // 'admin/settings/document/serial',
+                    'route'  => 'admin/settings/serial',
                     'icon' => 'file-o',
-                    'description' => 'Set starting/next serial numbering for transaction documents',
+                    'description' => 'Set starting/next serial numbers for transaction documents',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),
@@ -127,7 +127,7 @@ class Model_Setting extends \Orm\Model
                     'label'  => 'Email settings',
                     'route'  => 'admin/settings/email/settings',
                     'icon' => 'envelope-o',
-                    'description' => 'Set the email SMTP configuration for sending mails',
+                    'description' => 'Set email SMTP configuration for sending mails',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),

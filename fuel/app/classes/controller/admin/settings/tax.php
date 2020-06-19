@@ -1,13 +1,12 @@
 <?php
+
 class Controller_Admin_Settings_Tax extends Controller_Authenticate
 {
-
 	public function action_index()
 	{
 		$data['taxes'] = Model_Accounts_Tax::find('all');
 		$this->template->title = "Taxes and Charges";
 		$this->template->content = View::forge('settings/tax_charge/index', $data);
-
 	}
 
 	public function action_view($id = null)
@@ -22,7 +21,6 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 
 		$this->template->title = "Taxes and Charges";
 		$this->template->content = View::forge('settings/tax_charge/view', $data);
-
 	}
 
 	public function action_create()
@@ -45,10 +43,8 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 				if ($tax and $tax->save())
 				{
 					Session::set_flash('success', 'Added tax/charge #'.$tax->name.'.');
-
 					Response::redirect('admin/settings/tax');
 				}
-
 				else
 				{
 					Session::set_flash('error', 'Could not save tax/charge.');
@@ -62,7 +58,6 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 
 		$this->template->title = "Taxes and Charges";
 		$this->template->content = View::forge('settings/tax_charge/create');
-
 	}
 
 	public function action_edit($id = null)
@@ -92,13 +87,11 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 
 				Response::redirect('admin/settings/tax');
 			}
-
 			else
 			{
 				Session::set_flash('error', 'Could not update tax/charge #' . $id);
 			}
 		}
-
 		else
 		{
 			if (Input::method() == 'POST')
@@ -112,13 +105,11 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 
 				Session::set_flash('error', $val->error());
 			}
-
 			$this->template->set_global('tax_charge', $tax_charge, false);
 		}
 
 		$this->template->title = "Taxes and Charges";
 		$this->template->content = View::forge('settings/tax_charge/edit');
-
 	}
 
 	public function action_delete($id = null)
@@ -130,10 +121,8 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 			if ($tax = Model_Accounts_Tax::find($id))
 			{
 				$tax->delete();
-
 				Session::set_flash('success', 'Deleted tax/charge #'.$id);
 			}
-
 			else
 			{
 				Session::set_flash('error', 'Could not delete tax/charge #'.$id);
@@ -145,7 +134,6 @@ class Controller_Admin_Settings_Tax extends Controller_Authenticate
 		}
 
 		Response::redirect('admin/settings/tax');
-
 	}
 
 }
