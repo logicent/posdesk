@@ -23,22 +23,22 @@
             <?= Form::label('Username', 'username', array('class'=>'control-label')); ?>
             <?= Form::input('username', Input::post('username', isset($user) ? $user->username : ''), array('class' => 'col-md-4 form-control', 'readonly'=>isset($user) ? true : false)); ?>
         </div>
-
-        <?php if (isset($user)) : ?>
-            
-            <div class="col-md-4">
-                <br>
-                <?= Html::anchor('admin/users/change-password/' . $user->id, 'Change Password', array('method' => 'post', 'class' => 'btn btn-sm btn-default')); ?>
+        <div class="col-md-6">
+        <?php if (isset($user)) :
+            echo Form::label('New password', 'new_password', array('class'=>'control-label')); ?>
+            <div class="input-group">
+                <?= Form::input('new_password', Input::post('password', $user->new_password),
+                                array('class' => 'col-md-4 form-control')) ?>
+                <span class="input-group-addon">
+                    <?= Html::anchor('change-password', 'Change', 
+                                    array('class' => 'text-muted', 'data-user-id' => $user->id)); ?>
+                </span>
             </div>
-
-        <?php else: ?>
-
-            <div class="col-md-6">
-                <?= Form::label('New Password', 'password', array('class'=>'control-label')); ?>
-                <?= Form::password('password', Input::post('password', ''), array('class' => 'col-md-4 form-control')); ?>
-            </div>
-
-        <?php endif; ?>
+        <?php else :
+            echo Form::label('New Password', 'password', array('class'=>'control-label'));
+            echo Form::password('password', Input::post('password', ''), array('class' => 'col-md-4 form-control'));
+        endif ?>
+        </div>
     </div>
 
     <div class="form-group">

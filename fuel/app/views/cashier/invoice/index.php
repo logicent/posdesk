@@ -1,27 +1,21 @@
 <?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off")); ?>
 <div class="row page-header">
-    <div class="col-md-6">
+    <div class="col-md-7">
         <!-- <h2>New <span class='text-muted'>Sale</span></h2> -->
         <?= Form::label('Find or Scan', 'item_search', array('class'=>'control-label')); ?>
         <?= Form::select('item_search', Input::post('item_search', isset($pos_invoice) ? $pos_invoice->item_search : ''), 
-                        Model_Cashier_Invoice_Item::listOptions(''), // enabled for Sales
-                        array('class' => 'col-md-4 form-control select-from-list')); ?>      
-    </div>
-    <div class="col-md-2">
-        <!-- <?php Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
-        <?php Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
+                        Model_Cashier_Invoice_Item::listOptions(''), // enabled or is_sales
+                        array('class' => 'col-md-4 form-control select-from-list')); ?>
+        <?php // Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
+        <?php /* Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
                         Model_Cashier_Invoice_Item::listOptions(), 
-                        array('class' => 'col-md-4 form-control select-from-list')); ?> -->
-        <!-- <div class="btn-group">
-            <?php html_tag('button', array('class' => 'btn btn-default btn-sm'), 'List') ?>
-            <?php html_tag('button', array('class' => 'btn btn-default btn-sm'), 'Images') ?>
-        </div> -->
-        <?= Html::anchor('cashier/sales-register', 
-                        '<i class="fa fa-line-chart fa-fw"></i>&ensp;Sales Register', 
-                        array(
-                            'class' => 'btn btn-default btn-sm btn-block', 
-                            'style' => 'float:right; font-size: 110%'
-                        )); ?>
+                        array('class' => 'col-md-4 form-control select-from-list')); */ ?>
+    </div>
+    <div class="col-md-1">
+        <div id="item_cart_view" class="btn-group btn-group-justified">
+            <?= Html::anchor('#show-list', '<i class="fa fa-list"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'List')) ?>
+            <?= Html::anchor('#show-grid', '<i class="fa fa-lg fa-table"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'Grid')) ?>
+        </div>
     </div>
     <div class="col-md-4">
         <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
@@ -51,10 +45,10 @@
 
         <!-- <div class="form-group">
             <div class="col-md-12">
-                <div class="btn-group">
-                <?= html_tag('button', array('class' => 'btn btn-default'), 'Park') ?>
-                <?= html_tag('button', array('class' => 'btn btn-default'), 'Cancel') ?>
-                <?= html_tag('button', array('class' => 'btn btn-default'), 'Lock') ?>
+                <div class="btn-group btn-group-justified">
+                <?php Html::anchor('#hold', 'Hold', array('class' => 'btn btn-default')) ?>
+                <?php Html::anchor('#cancel', 'Cancel', array('class' => 'btn btn-default')) ?>
+                <?php Html::anchor('#lock', 'Lock', array('class' => 'btn btn-default')) ?>
                 </div>
             </div>
         </div> -->
@@ -68,18 +62,20 @@
                 <!-- trigger submit via F10 -->
                 <!-- Pay Now assumes Cash Sale Customer -->
                 <!-- Show no. of items in button float:left i.e. in place of icon -->
-                <?= Form::submit('submit', 'Pay Now', array('class' => 'btn btn-primary btn-block', 'style' => 'font-size: 125%; font-weight: bold')); ?>
+                <?= Form::submit('submit', 'Pay&ensp;Now', 
+                                array('class' => 'btn btn-primary btn-block', 'style' => 'font-size: 125%; font-weight: 500')); ?>
                 <!-- or -->
                 <!-- Pay Later requires actual Customer (not Cash Sale) -->
                 <!-- trigger submit without payment via F8 -->
-                <?php Html::anchor('pos/payment/later', 'Pay Later', array('class' => 'btn btn-info btn-block', 'style' => 'font-size: 125%; font-weight: bold')); ?>
+                <?php Html::anchor('cashier/payment/later', 'Pay&ensp;Later', 
+                                array('class' => 'btn btn-info btn-block', 'style' => 'font-size: 125%; font-weight: 500')); ?>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Notes', 'notes', array('class'=>'control-label')); ?>
                 <?= Form::textarea('notes', Input::post('notes', isset($pos_invoice) ? $pos_invoice->notes : ''), 
-                                    array('class' => 'col-md-4 form-control', 'rows' => 4)); ?>
+                                    array('class' => 'col-md-4 form-control', 'style' => 'min-height: 60px')); ?>
             </div>
         </div>
     </div>

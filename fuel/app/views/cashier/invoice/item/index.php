@@ -9,6 +9,7 @@
 			<th class="col-md-2">Qty</th>
 			<th class="col-md-2">Price</th>
 			<!-- show if discount allowed for current user or all -->
+			<!-- support % or amount -->
 			<!--<th>Disc %</th>-->
 			<th class="col-md-2 text-right">Amount</th>
 		</tr>
@@ -29,8 +30,8 @@
 <!-- TODO: hide buttons if view mode -->
 <div class="form-group">
     <div class="col-md-6">
-        <button id="del_item" data-url="/sales/invoice/item/delete" class="btn btn-sm btn-danger" style="display: none;">Delete</button>
-        <button id="add_item" data-url="/sales/invoice/item/create" class="btn btn-sm btn-default">Add item</button>
+        <button id="del_item" data-url="/sales/invoice/item/delete" class="btn btn-sm btn-danger" style="display: none;"><i class="fa fa-fw fa-lg fa-trash-o"></i></button>
+        <button id="add_item" data-url="/sales/invoice/item/create" class="btn btn-sm btn-default text-muted"><i class="fa fa-fw fa-lg fa-plus"></i></button>
     </div>
 	<!--
     <div class="col-md-6 text-right">

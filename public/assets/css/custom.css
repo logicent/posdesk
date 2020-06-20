@@ -54,11 +54,12 @@ body {
 
 .panel-heading {
     margin: 0;
+    font-weight: 400;
 }
 
 .panel-default > .panel-heading, .panel-footer {
     background-color: #f3f6fc;
-    border-color: #e4edf6;    
+    border-color: #e4edf6;
 }
 
 .panel-default {
@@ -151,7 +152,7 @@ textarea.form-control {
 
 a {
     color: #36414c;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 a.clickable {
@@ -274,6 +275,7 @@ a:hover, a:focus {
 
 h2, .h2 {
     font-size: 24px;
+    font-weight: 400;
 }
 
 label {
@@ -308,6 +310,7 @@ label {
 }
 
 .text-number {
+    /* font-family: 'Ubuntu Condensed'; */
     font-weight: bold;
     text-align: right;
 }
@@ -459,6 +462,11 @@ input.cb-checked {
 
 .img-wrapper {
     height: 280px;
+}
+
+.navbar-top-links.top-menu a {
+    font-size: 97.5%;
+    text-transform: uppercase;
 }
 
 .navbar-top-links.top-menu {

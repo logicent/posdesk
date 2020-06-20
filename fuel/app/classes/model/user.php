@@ -3,6 +3,8 @@ use Orm\Model_Soft;
 
 class Model_User extends Model_Soft
 {
+	public $new_password;
+	
 	protected static $_properties = array(
 		'id',
 		'username',
