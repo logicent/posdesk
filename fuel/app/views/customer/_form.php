@@ -106,7 +106,7 @@
         <div class="form-group">
             <div class="col-md-6">
                 <?= Form::label('Account manager', 'account_manager', array('class'=>'control-label')); ?>
-                <?= Form::select('account_manager', Input::post('account_manager', isset($customer) ? $customer->account_manager : ''), 
+                <?= Form::select('account_manager', Input::post('account_manager', isset($customer) ? $customer->account_manager : $uid), 
                                 Model_User::listOptions(), 
                                 array('class' => 'col-md-4 form-control', 'id' => 'user_id')); ?>
             </div>

@@ -1,22 +1,27 @@
+<!-- <h2>New <span class='text-muted'>Sale</span></h2> -->
 <?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off")); ?>
 <div class="row page-header">
-    <div class="col-md-7">
-        <!-- <h2>New <span class='text-muted'>Sale</span></h2> -->
+    <div class="col-md-8">
         <?= Form::label('Find or Scan', 'item_search', array('class'=>'control-label')); ?>
         <?= Form::select('item_search', Input::post('item_search', isset($pos_invoice) ? $pos_invoice->item_search : ''), 
                         Model_Cashier_Invoice_Item::listOptions(''), // enabled or is_sales
                         array('class' => 'col-md-4 form-control select-from-list')); ?>
-        <?php // Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
-        <?php /* Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
+    </div>
+    <!-- <div class="col-md-2">
+        <?= Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
+        <?= Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
                         Model_Cashier_Invoice_Item::listOptions(), 
-                        array('class' => 'col-md-4 form-control select-from-list')); */ ?>
-    </div>
-    <div class="col-md-1">
-        <div id="item_cart_view" class="btn-group btn-group-justified">
-            <?= Html::anchor('#show-list', '<i class="fa fa-list"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'List')) ?>
-            <?= Html::anchor('#show-grid', '<i class="fa fa-lg fa-table"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'Grid')) ?>
+                        array('class' => 'col-md-4 form-control select-from-list')); ?>
+    </div> -->
+    <!-- <div class="col-md-2">
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+            <div id="item_cart_view" class="btn-group btn-group-justified" role="group" aria-label="...">
+                <?= Html::anchor('#show-list', '<i class="fa fa-fw fa-list"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'List')) ?>
+                <?= Html::anchor('#show-grid', '<i class="fa fa-fw fa-table"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'Grid')) ?>
+                <?= Html::anchor('#lock', '<i class="fa fa-fw fa-lock"></i>', array('class' => 'text-muted btn btn-default', 'title' => 'Lock')) ?>
+            </div>
         </div>
-    </div>
+    </div> -->
     <div class="col-md-4">
         <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
         <?= Form::select('customer_id', Input::post('customer_id', isset($pos_invoice) ? $pos_invoice->customer_id : ''), 
@@ -46,9 +51,9 @@
         <!-- <div class="form-group">
             <div class="col-md-12">
                 <div class="btn-group btn-group-justified">
-                <?php Html::anchor('#hold', 'Hold', array('class' => 'btn btn-default')) ?>
-                <?php Html::anchor('#cancel', 'Cancel', array('class' => 'btn btn-default')) ?>
-                <?php Html::anchor('#lock', 'Lock', array('class' => 'btn btn-default')) ?>
+                <?= Html::anchor('#hold', '<i class="fa fa-fw fa-pause"></i> Hold', array('class' => 'text-muted btn btn-default')) ?>
+                <?= Html::anchor('#split', '<i class="fa fa-fw fa-unlink"></i> Split', array('class' => 'text-muted btn btn-default')) ?>
+                <?= Html::anchor('#cancel', '<i class="fa fa-fw fa-lg fa-close"></i> Cancel', array('class' => 'text-muted btn btn-default')) ?>
                 </div>
             </div>
         </div> -->

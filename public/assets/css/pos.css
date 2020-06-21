@@ -20,15 +20,15 @@
     margin-bottom: 0;
 }
 
-#item_cart_view > a.btn {
+.btn-group > a.btn {
     padding: 8px;
 }
 
-#item_cart_view > a:first-child {
+.btn-group > a:not(:last-child) {
     border-right: 0;
 }
 
-#item_cart_view > a:hover {
+.btn-group > a:hover {
     background-color: #e4edf6;
     border-color: #ced8e4;
     padding: 8px;

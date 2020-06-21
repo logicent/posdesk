@@ -73,7 +73,7 @@ class Model_Supplier extends Model
 						->from(self::$_table_name)
 						->where([
                             'inactive' => false,
-                            'supplier_type' => $type
+                            // 'supplier_type' => $type
                         ])
 						->execute()
 						->as_array();

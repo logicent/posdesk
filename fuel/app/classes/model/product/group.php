@@ -55,15 +55,15 @@ class Model_Product_Group extends Model
 
     public static function listOptions()
     {
-		$items = DB::select('st.id', 'st.name')
-                    ->from(array('product_group', 'st'))
-                    ->join(array('product_group', 'stp'), 'INNER')->on('stp.id', '=', 'st.parent_id')
+		$items = DB::select('pg.id', 'pg.name')
+                    ->from(array('product_group', 'pg'))
+                    // ->join(array('product_group', 'pg_p'), 'INNER')->on('pg_p.id', '=', 'pg.parent_id')
                     ->where([
-                        'st.enabled' => true,
-                        ['st.parent_id', '!=', 0]
+                        'pg.enabled' => true,
+                        // ['pg.parent_id', '!=', 0]
                     ])
-                    ->order_by('stp.name', 'ASC')
-                    ->order_by('st.name', 'ASC')
+                    // ->order_by('pg_p.name', 'ASC')
+                    ->order_by('pg.name', 'ASC')
                     ->execute()
                     ->as_array();
         

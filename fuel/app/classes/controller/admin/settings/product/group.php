@@ -35,8 +35,8 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 					'code' => Input::post('code'),
 					'enabled' => Input::post('enabled'),
 					'is_default' => Input::post('is_default'),
-					'parent_id' => Input::post('parent_id'),
-                    'default_supplier' => Input::post('default_supplier'),
+					'parent_id' => empty(Input::post('parent_id')) ? null : Input::post('parent_id'),
+                    'default_supplier' => empty(Input::post('default_supplier')) ? null : Input::post('default_supplier'),
                     'fdesk_user' => Input::post('fdesk_user'),
 				));
 
@@ -76,8 +76,8 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 			$product_group->code = Input::post('code');
 			$product_group->enabled = Input::post('enabled');
 			$product_group->is_default = Input::post('is_default');
-            $product_group->parent_id = Input::post('parent_id');
-			$product_group->default_supplier = Input::post('default_supplier');
+            $product_group->parent_id = empty(Input::post('parent_id')) ? null : Input::post('parent_id');
+			$product_group->default_supplier = empty(Input::post('default_supplier')) ? null : Input::post('default_supplier');
             $product_group->fdesk_user = Input::post('fdesk_user');
 
 			if ($product_group->save())

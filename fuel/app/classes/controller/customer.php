@@ -43,7 +43,6 @@ class Controller_Customer extends Controller_Authenticate
                     'account_manager' => Input::post('account_manager'),
                     'bank_account' => Input::post('bank_account'),
                     'billing_currency' => Input::post('billing_currency'),
-                    'default_rate_ref' => Input::post('default_rate_ref'),
                     'tax_ID' => Input::post('tax_ID'),
                     'occupation' => Input::post('occupation'),
                     'email_address' => Input::post('email_address'),
@@ -124,7 +123,6 @@ class Controller_Customer extends Controller_Authenticate
             $customer->account_manager = Input::post('account_manager');
             $customer->bank_account = Input::post('bank_account');
             $customer->billing_currency = Input::post('billing_currency');
-            $customer->default_rate_ref = Input::post('default_rate_ref');
             $customer->tax_ID = Input::post('tax_ID');
             $customer->occupation = Input::post('occupation');
             $customer->email_address = Input::post('email_address');
@@ -192,7 +190,6 @@ class Controller_Customer extends Controller_Authenticate
                 $customer->account_manager = $val->validated('account_manager');
                 $customer->bank_account = $val->validated('bank_account');
                 $customer->billing_currency = $val->validated('billing_currency');
-                $customer->default_rate_ref = $val->validated('default_rate_ref');
                 $customer->tax_ID = $val->validated('tax_ID');
                 $customer->occupation = $val->validated('occupation');
                 $customer->email_address = $val->validated('email_address');

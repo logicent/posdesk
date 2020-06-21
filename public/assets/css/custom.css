@@ -469,9 +469,9 @@ input.cb-checked {
     text-transform: uppercase;
 }
 
-.navbar-top-links.top-menu {
+/* .navbar-top-links.top-menu {
     margin-left: 95px;
-}
+} */
 
 .navbar-top-links:not(.top-menu) {
     margin-right: 10px;

@@ -25,16 +25,16 @@
 <?php foreach ($product_groups as $item): ?>
 		<tr>
 			<td>
-                <?= Html::anchor('product/group/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
+                <?= Html::anchor('admin/settings/product/group/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
             </td>
             <td><?= (bool) $item->enabled ? 
                 '<i class="fa fa-circle-o fa-fw text-success"></i>Enabled' :
                 '<i class="fa fa-circle-o fa-fw text-danger"></i>Disabled' ?> 
-            </td>            
+            </td>
 			<td class="text-muted"><?= $item->parent ? $item->parent->name : ''; ?></td>
 			<td class="text-muted"><?= $item->code; ?></td>
 			<td class="text-center">
-				<?= Html::anchor('product/group/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
+				<?= Html::anchor('admin/settings/product/group/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
                                 array('class' => 'text-muted del-btn', 'onclick' => "return confirm('Are you sure?')")); ?>
 			</td>
 		</tr>
@@ -43,5 +43,5 @@
 </table>
 
 <?php else: ?>
-<p>No Group.</p>
+<p>No Product Group.</p>
 <?php endif; ?>

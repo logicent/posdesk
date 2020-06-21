@@ -13,7 +13,7 @@ class Model_Country extends \Orm\Model
 
 	protected static $_table_name = 'countries';
 
-	public static function listOptions($prompt, $prompt_text = '')
+	public static function listOptions($prompt, $prompt_text = '&nbsp;')
 	{
 		$items = DB::select('iso_3166_3', 'name')->from(self::$_table_name)->execute()->as_array();
         

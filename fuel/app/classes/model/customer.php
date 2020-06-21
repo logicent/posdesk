@@ -28,6 +28,7 @@ class Model_Customer extends Model
 	const IDENTITY_TYPE_DRIVING_LICENSE = 'DL';
 
     public static $ID_type = array(
+		'' => '',
 		self::IDENTITY_TYPE_NATIONAL_ID => 'National ID',
 		self::IDENTITY_TYPE_PASSPORT => 'Passport',
 		self::IDENTITY_TYPE_DRIVING_LICENSE => 'Driving License',
@@ -41,7 +42,6 @@ class Model_Customer extends Model
         'account_manager',
         'bank_account',
         'billing_currency',
-        'default_rate_ref',
         'tax_ID',
         'mobile_phone',
         'email_address',
@@ -88,9 +88,9 @@ class Model_Customer extends Model
 		$val->add_field('customer_type', 'Customer Type', 'required|max_length[140]');
 		$val->add_field('email_address', 'Email Address', 'valid_email|max_length[140]');
 		$val->add_field('mobile_phone', 'Mobile Phone', 'required|max_length[140]');
-		$val->add_field('ID_type', 'ID Type', 'max_length[3]');
-		$val->add_field('ID_no', 'ID Number', 'required|max_length[20]');
-        $val->add_field('ID_country', 'ID Country', 'required|valid_string');
+		// $val->add_field('ID_type', 'ID Type', 'max_length[3]');
+		// $val->add_field('ID_no', 'ID Number', 'required|max_length[20]');
+        // $val->add_field('ID_country', 'ID Country', 'required|valid_string');
         
 		return $val;
 	}

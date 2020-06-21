@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-12">
-                <?= Form::hidden('enabled', Input::post('enabled', isset($product_group) ? $product_group->enabled : '0')); ?>
+                <?= Form::hidden('enabled', Input::post('enabled', isset($product_group) ? $product_group->enabled : '1')); ?>
                 <?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
                 <?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
             </div>
