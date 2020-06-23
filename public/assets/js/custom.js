@@ -52,7 +52,7 @@ $(function() {
     $('.nav li a').each(function () {
         if ($(this).attr('href') == current_link) 
         {
-            console.log('true');
+            // console.log('true');
             $(this).parent('li').parent('ul').addClass('collapse in');
             $(this).addClass('active');
             // console.log($(this).attr('href'));

@@ -14,7 +14,7 @@
 <table class="table table-hover datatable">
 	<thead>
 		<tr>
-			<th>Full name</th>
+			<th>Customer name</th>
 			<th>Status</th>
 			<th>Type</th>
 			<th>Group</th>

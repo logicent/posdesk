@@ -33,3 +33,18 @@
     border-color: #ced8e4;
     padding: 8px;
 }
+
+#items .form-control {
+    border: none;
+    border-radius: 0;
+    height: 40px;
+    /* vertical-align: middle; */
+}
+
+#items th {
+    height: 41px;
+}
+
+#items tbody tr:not(#no_data) td {
+    padding: 0;
+}

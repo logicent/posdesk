@@ -23,7 +23,6 @@ class Controller_Customer extends Controller_Authenticate
 
 		$this->template->title = "Customer";
 		$this->template->content = View::forge('customer/view', $data);
-
 	}
 
 	public function action_create()
@@ -49,7 +48,7 @@ class Controller_Customer extends Controller_Authenticate
                     'mobile_phone' => Input::post('mobile_phone'),
                     'sex' => Input::post('sex'),
                     'title_of_courtesy' => Input::post('title_of_courtesy'),
-                    'birth_date' => Input::post('birth_date'),
+                    'birth_date' => empty(Input::post('birth_date')) ? null : Input::post('birth_date'),
                     'first_billed' => Input::post('first_billed'),
                     'last_billed' => Input::post('last_billed'),
                     'credit_limit' => Input::post('credit_limit'),
@@ -76,7 +75,6 @@ class Controller_Customer extends Controller_Authenticate
                     if ($customer and $customer->save())
                     {
                         Session::set_flash('success', 'Added customer #'.$customer->customer_name.'.');
-
                         Response::redirect('customer');
                     }
                     else
@@ -129,7 +127,7 @@ class Controller_Customer extends Controller_Authenticate
             $customer->mobile_phone = Input::post('mobile_phone');
             $customer->sex = Input::post('sex');
             $customer->title_of_courtesy = Input::post('title_of_courtesy');
-            $customer->birth_date = Input::post('birth_date');
+            $customer->birth_date =  empty(Input::post('birth_date')) ? null : Input::post('birth_date');
             $customer->first_billed = Input::post('first_billed');
             $customer->last_billed = Input::post('last_billed');
             $customer->credit_limit = Input::post('credit_limit');
@@ -156,7 +154,6 @@ class Controller_Customer extends Controller_Authenticate
                 if ($customer->save())
                 {
                     Session::set_flash('success', 'Updated customer #' . $customer->customer_name);
-
                     Response::redirect('customer');
                 }
                 else
@@ -214,13 +211,11 @@ class Controller_Customer extends Controller_Authenticate
 
 				Session::set_flash('error', $val->error());
 			}
-
 			$this->template->set_global('customer', $customer, false);
 		}
 
 		$this->template->title = "Customer";
 		$this->template->content = View::forge('customer/edit');
-
 	}
 
 	public function action_delete($id = null)
@@ -232,7 +227,6 @@ class Controller_Customer extends Controller_Authenticate
             if ($customer = Model_Customer::find($id))
             {
                 $customer->delete();
-
                 Session::set_flash('success', 'Deleted customer #'.$id);
             }
             else
@@ -246,7 +240,6 @@ class Controller_Customer extends Controller_Authenticate
         }
         
 		Response::redirect('customer');
-
 	}
 
     public function action_remove_img($id)
@@ -266,13 +259,11 @@ class Controller_Customer extends Controller_Authenticate
             Session::set_flash('error', $e->getMessage());
     		Response::redirect('customer/edit/' . $customer->id);
         }
-
 		// remove image path
 		$customer->ID_attachment = '';
 		if ($customer->save()) {
 			Session::set_flash('success', 'Saved customer info.');
 		}
 		Response::redirect('customer/edit/' . $customer->id);
-    }
-    
+    }    
 }

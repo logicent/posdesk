@@ -4,13 +4,13 @@
     <div class="col-md-8">
         <?= Form::label('Find or Scan', 'item_search', array('class'=>'control-label')); ?>
         <?= Form::select('item_search', Input::post('item_search', isset($pos_invoice) ? $pos_invoice->item_search : ''), 
-                        Model_Cashier_Invoice_Item::listOptions(''), // enabled or is_sales
-                        array('class' => 'col-md-4 form-control select-from-list')); ?>
+                        Model_Product_Item::listOptions(),
+                        array('class' => 'col-md-4 form-control select-from-list', 'placeholder' => 'Scan or search for item...')); ?>
     </div>
     <!-- <div class="col-md-2">
         <?= Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
         <?= Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
-                        Model_Cashier_Invoice_Item::listOptions(), 
+                        Model_Product_Group::listOptions(), 
                         array('class' => 'col-md-4 form-control select-from-list')); ?>
     </div> -->
     <!-- <div class="col-md-2">
@@ -87,54 +87,3 @@
 </div>
 
 <?= Form::close(); ?>
-
-<script>
-    // Fetch dependent drop down list options
-    $('#form_source').on('change', function() { 
-        $.ajax({
-            type: 'post',
-            url: '/cashier/invoice/get-source-list-options',
-            // dataType: 'json',
-            data: {
-                // console.log($(this).val());
-                'source': $(this).val(),
-            },
-            success: function(listOptions) 
-            {
-                var selectOptions = '<option value="" selected></option>';
-                $.each(JSON.parse(listOptions), function(index, listOption)               
-                {
-                    selectOptions += '<option value="' + index + '">' + listOption + '</option>';
-                });
-                $('#form_source_id').html(selectOptions);
-            },
-            error: function(jqXhr, textStatus, errorThrown) {
-                console.log(errorThrown)
-            }
-        });
-    });
-
-    $('#form_source_id').on('change', function() { 
-        $.ajax({
-            type: 'post',
-            url: '/cashier/invoice/get-source-info',
-            // dataType: 'json',
-            data: {
-                // console.log($(this).val());
-                'source': $('#form_source').val(),
-                'source_id': $(this).val(),
-            },
-            success: function(data) 
-            {
-                // console.log(data);
-                data = JSON.parse(data);
-                $('#form_customer_name').val(data.customer_name);
-                $('#form_billing_address').val(data.email_address);
-            },
-            error: function(jqXhr, textStatus, errorThrown) {
-                console.log(errorThrown)
-            }
-        });
-    });
-
-</script>

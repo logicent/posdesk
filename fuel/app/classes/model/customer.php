@@ -117,7 +117,7 @@ class Model_Customer extends Model
 						->from(self::$_table_name)
 						->where([
                             'inactive' => false,
-                            'customer_type' => $type
+                            // 'customer_type' => $type
                             // ['customer_type', 'in', $type]
                         ])
 						->execute()

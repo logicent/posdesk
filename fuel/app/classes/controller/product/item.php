@@ -35,16 +35,17 @@ class Controller_Product_Item extends Controller_Authenticate
 				$product_item = Model_Product_Item::forge(array(
 					'item_code' => Input::post('item_code'),
 					'item_name' => Input::post('item_name'),
-                    'tax_id' => Input::post('tax_id'),
-                    'group_id' => Input::post('group_id'),
-					'gl_account_id' => Input::post('gl_account_id'),
+                    'tax_rate' => Input::post('tax_rate'),
+                    'group_id' =>  empty(Input::post('group_id')) ? Model_Product_Item::getColumnDefault('group_id') : Input::post('group_id'),
 					'description' => Input::post('description'),
 					'quantity' => Input::post('quantity'),
+					'min_order_qty' => Input::post('min_order_qty'),
+					'reorder_level' => Input::post('reorder_level'),
 					'cost_price' => Input::post('cost_price'),
 					'unit_price' => Input::post('unit_price'),
                     'discount_percent' => Input::post('discount_percent'),
                     'fdesk_user' => Input::post('fdesk_user'),
-                    'billable' => Input::post('billable'),
+                    'is_sales_item' => Input::post('is_sales_item'),
                     'enabled' => Input::post('enabled'),
 				));
 
@@ -79,15 +80,16 @@ class Controller_Product_Item extends Controller_Authenticate
                 'item_code' => $copy_item->item_code,
                 'item_name' => $copy_item->item_name,
                 'group_id' => $copy_item->group_id,
-                'tax_id' => $copy_item->tax_id,
-                'gl_account_id' => $copy_item->gl_account_id,
+                'tax_rate' => $copy_item->tax_rate,
                 'description' => $copy_item->description,
                 'quantity' => $copy_item->quantity,
+                'min_order_qty' => $copy_item->min_order_qty,
+                'reorder_level' => $copy_item->reorder_level,
                 'cost_price' => $copy_item->cost_price,
                 'unit_price' => $copy_item->unit_price,
                 'discount_percent' => $copy_item->discount_percent,
                 'fdesk_user' => $copy_item->fdesk_user,
-                'billable' => $copy_item->billable,
+                'is_sales_item' => $copy_item->is_sales_item,
                 'enabled' => $copy_item->enabled,
             ));
 
@@ -118,15 +120,16 @@ class Controller_Product_Item extends Controller_Authenticate
 			$product_item->item_code = Input::post('item_code');
 			$product_item->item_name = Input::post('item_name');
             $product_item->group_id = Input::post('group_id');
-            $product_item->tax_id = Input::post('tax_id');
-			$product_item->gl_account_id = Input::post('gl_account_id');
+            $product_item->tax_rate = Input::post('tax_rate');
 			$product_item->description = Input::post('description');
 			$product_item->quantity = Input::post('quantity');
+			$product_item->min_order_qty = empty(Input::post('min_order_qty')) ? Model_Product_Item::getColumnDefault('min_order_qty') : Input::post('min_order_qty');
+			$product_item->reorder_level = Input::post('reorder_level');
 			$product_item->cost_price = Input::post('cost_price');
 			$product_item->unit_price = Input::post('unit_price');
 			$product_item->discount_percent = Input::post('discount_percent');
             $product_item->fdesk_user = Input::post('fdesk_user');
-            $product_item->billable = Input::post('billable');
+            $product_item->is_sales_item = Input::post('is_sales_item');
             $product_item->enabled = Input::post('enabled');
 
 			try {
@@ -153,16 +156,17 @@ class Controller_Product_Item extends Controller_Authenticate
 				$product_item->item_code = $val->validated('item_code');
 				$product_item->item_name = $val->validated('item_name');
                 $product_item->group_id = $val->validated('group_id');
-                $product_item->tax_id = $val->validated('tax_id');
-				$product_item->gl_account_id = $val->validated('gl_account_id');
+                $product_item->tax_rate = $val->validated('tax_rate');
 				$product_item->description = $val->validated('description');
 				$product_item->quantity = $val->validated('quantity');
+				$product_item->min_order_qty = $val->validated('min_order_qty');
+				$product_item->reorder_level = $val->validated('reorder_level');
 				$product_item->cost_price = $val->validated('cost_price');
 				$product_item->unit_price = $val->validated('unit_price');
 				$product_item->discount_percent = $val->validated('discount_percent');
                 $product_item->fdesk_user = $val->validated('fdesk_user');
                 $product_item->product_type = $val->validated('product_type');
-                $product_item->billable = $val->validated('billable');
+                $product_item->is_sales_item = $val->validated('is_sales_item');
                 $product_item->enabled = $val->validated('enabled');
                 
 				Session::set_flash('error', $val->error());
@@ -182,9 +186,9 @@ class Controller_Product_Item extends Controller_Authenticate
 		{		
 			if ($product_item = Model_Product_Item::find($id))
 			{
-				$sales_invoice_item = Model_Sales_Invoice_Item::find('first', array('where' => array('item_id' => $id)));
-				if ($sales_invoice_item)
-					Session::set_flash('error', 'Product item already in use by Invoice(s).');
+				$product_item = Model_Product_Item::find('first', array('where' => array('item_id' => $id)));
+				if ($product_item)
+					Session::set_flash('error', 'Product item already linked to transactions');
 				else
 				{
 					$product_item->delete();
