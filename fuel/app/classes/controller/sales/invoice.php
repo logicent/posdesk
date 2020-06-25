@@ -81,12 +81,12 @@ class Controller_Sales_Invoice extends Controller_Authenticate
 						{
 							$sales_invoice_item = Model_Sales_Invoice_Item::forge(array(
 								'item_id' => $item[$i]['item_id'],
-								'qty' => $item[$i]['qty'],
+								'quantity' => $item[$i]['quantity'],
 								'unit_price' => $item[$i]['unit_price'],
 								'amount' => $item[$i]['amount'],
 								'invoice_id' => $sales_invoice->id,
+								'tax_rate' => $item[$i]['tax_rate'],
 								'discount_percent' => $item[$i]['discount_percent'],
-								'gl_account_id' => null, // $item[$i]['gl_account_id'],
 								'description' => $item[$i]['description'],
 							));
 							$sales_invoice_item->save();
@@ -172,23 +172,23 @@ class Controller_Sales_Invoice extends Controller_Authenticate
 						{
 							$sales_invoice_item = Model_Sales_Invoice_Item::forge(array(
 								'item_id' => $item[$i]['item_id'],
-								'qty' => $item[$i]['qty'],
+								'quantity' => $item[$i]['quantity'],
 								'unit_price' => $item[$i]['unit_price'],
 								'amount' => $item[$i]['amount'],
 								'invoice_id' => $sales_invoice->id,
+								'tax_rate' => $item[$i]['tax_rate'],
 								'discount_percent' => $item[$i]['discount_percent'],
-								'gl_account_id' => null, // $item[$i]['gl_account_id'],
 								'description' => $item[$i]['description'],
 							));
 						}
 						else {
 							$sales_invoice_item->item_id = $item[$i]['item_id'];
-							$sales_invoice_item->qty = $item[$i]['qty'];
+							$sales_invoice_item->quantity = $item[$i]['quantity'];
 							$sales_invoice_item->unit_price = $item[$i]['unit_price'];
 							$sales_invoice_item->amount = $item[$i]['amount'];
 							$sales_invoice_item->invoice_id = $sales_invoice->id;
 							$sales_invoice_item->discount_percent = $item[$i]['discount_percent'];
-							$sales_invoice_item->gl_account_id = null; // $item[$i]['gl_account_id'];
+							$sales_invoice_item->tax_rate = $item[$i]['tax_rate'];
 							$sales_invoice_item->description = $item[$i]['description'];
 						}
 						$sales_invoice_item->save();

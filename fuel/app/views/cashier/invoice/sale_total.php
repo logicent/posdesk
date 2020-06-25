@@ -16,7 +16,7 @@
             </td>
         </tr>
         <!-- show discount if enabled for current user or all -->
-        <tr id="sale_discount" style="display: none;">
+        <tr style="display: none;">
             <td><span>Discount</span></td>
             <td class="text-right">
                 <span id="discount_rate" class="small"><?= isset($pos_invoice) ? $pos_invoice->discount_rate : 0 ?>%</span>&ensp;
@@ -36,7 +36,7 @@
                 <?= Form::hidden('tax_total', Input::post('tax_total', isset($pos_invoice) ? $pos_invoice->tax_total : 0)); ?>
             </td>
         </tr>
-        <tr id="sale_delivery_fee" style="display: none;">
+        <tr style="display: none;">
             <td><span>Delivery</span></td>
             <!-- <td><span>Shipping</span></td> -->
             <td class="text-right">

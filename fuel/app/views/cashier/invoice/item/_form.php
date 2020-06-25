@@ -1,38 +1,36 @@
 <tr id="item_<?= $row_id ?>">
 	<td style="padding: 8px" class="text-center select-row">
-		<?= Form::checkbox($row_id, false, array('value' => isset($invoice_item) ? $invoice_item->item_id : '')) ?>
-		<?= Form::hidden("item[$row_id][id]", Input::post('id', isset($invoice_item) ? $invoice_item->id : ''),
-						array('class' => 'item-id')); ?>
+		<?= Form::checkbox($row_id, false, array('value' => $invoice_item->id)) ?>
+		<?= Form::hidden("item[$row_id][id]", Input::post('id', $invoice_item->id), array('class' => 'item-id')); ?>
 	</td>
-	<td class="item">
-		<?= Form::select("item[$row_id][item_id]", Input::post('item_id', isset($invoice_item) ? $invoice_item->item_id : ''),
-						Model_Product_Item::listOptions(isset($invoice_item) ? $invoice_item->item_id : ''), 
-						array('class' => 'input-sm form-control select-from-list')); ?>
-		<?= Form::hidden("item[$row_id][description]", Input::post('description', isset($invoice_item) ? $invoice_item->description : ''),
+	<td class="item" style="vertical-align: middle">
+		<div id="item_name">
+			<?= strtoupper($item->item_code) .'&ensp;&ndash;&ensp;'. strtoupper($item->item_name) ?>&ensp;
+			<span class="text-muted" id="qty_in_stock">(<?= $item->quantity ?>)</span>
+		</div>
+		<?= Form::hidden("item[$row_id][item_id]", Input::post('item_id', $invoice_item->item_id)); ?>						
+		<?= Form::hidden("item[$row_id][description]", Input::post('description', $invoice_item->description),
 						array('class' => 'item-description')); ?>
 	</td>
 	<td class="qty">
-		<?= Form::input("item[$row_id][qty]", Input::post('qty', isset($invoice_item) ? 
-						number_format($invoice_item->qty, 0, '.', '') : ''),
+		<?= Form::input("item[$row_id][quantity]", Input::post('quantity', 
+						number_format($invoice_item->quantity, 0, '.', '')),
 						array('class' => 'input-sm form-control')); ?>
 	</td>
 	<td class='price'>
-		<?= Form::input("item[$row_id][unit_price]", Input::post('unit_price', isset($invoice_item) ? 
-						number_format($invoice_item->unit_price, 0, '.', '') : ''),
+		<?= Form::input("item[$row_id][unit_price]", Input::post('unit_price', 
+						number_format($invoice_item->unit_price, 2, '.', '')),
 						array('class' => 'input-sm form-control text-right', 'id' => 'unit_price')); ?>
-		<?= Form::hidden("item[$row_id][discount_percent]", Input::post('discount_percent', isset($invoice_item) ? 
-						number_format($invoice_item->discount_percent, 0, '.', '') : '0'),
-						array('class' => 'input-sm form-control')); ?>
-		<?= Form::hidden("item[$row_id][tax_rate]", Input::post('tax_rate', isset($invoice_item) ? $invoice_item->tax_rate : ''),
+		<?= Form::hidden("item[$row_id][tax_rate]", Input::post('tax_rate', $invoice_item->tax_rate),
 						array('id' => 'tax_rate')); ?>
 	</td>
-	<!-- <td class='discount'>
-		<?= Form::input("item[$row_id][discount_percent]", Input::post('discount_percent', isset($invoice_item) ? 
-						number_format($invoice_item->discount_percent, 0, '.', '') : '0'),
+	<td class='discount' style="display: none">
+		<?= Form::input("item[$row_id][discount_percent]", Input::post('discount_percent', 
+						number_format($invoice_item->discount_percent, 0, '.', '')),
 						array('class' => 'input-sm form-control')); ?>						
-	</td> -->
+	</td>
 	<td class='item-total text-right' style="vertical-align: middle; padding-right: 10px; font-size: 105%;">
-		<span><?= number_format(isset($invoice_item) ? $invoice_item->amount : '0', 0) ?></span>
-		<?= Form::hidden("item[$row_id][amount]", Input::post('amount', isset($invoice_item) ? $invoice_item->amount : '')); ?>						
+		<span><?= number_format($invoice_item->amount, 2) ?></span>
+		<?= Form::hidden("item[$row_id][amount]", Input::post('amount', $invoice_item->amount)); ?>						
 	</td>
 </tr>

@@ -64,10 +64,6 @@
                                 <i class="fa fa-users fa-fw text-muted"></i>&ensp;Customer</a></li>
                         <li><a class="<?= Uri::segment(1) == 'product' ? 'active' : '' ?>" href="<?= Uri::create('product'); ?>">
                                 <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Product</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
-                                <i class="fa fa-users fa-fw text-muted"></i>&ensp;Supplier</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
-                                <i class="fa fa-line-chart fa-fw text-muted"></i>&ensp;Purchases</a></li>
                         <li><a class="<?= Uri::segment(1) == 'reports' ? 'active' : '' ?>" href="<?= Uri::create('reports'); ?>">
                                 <i class="fa fa-bar-chart fa-fw text-muted"></i>&ensp;Reports</a></li>
                         <?php if ($ugroup->id !=3) : ?>
@@ -78,6 +74,10 @@
                     <?php if (Uri::segment(1) == 'admin') : ?>
                         <li><a class="<?= Uri::segment(1) == 'dashboard' ? 'active' : '' ?>" href="<?= Uri::create('admin/dashboard'); ?>">
                                 <i class="fa fa-trello fa-fw text-muted"></i>&ensp;Dashboard</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
+                                <i class="fa fa-users fa-fw text-muted"></i>&ensp;Supplier</a></li>
+                        <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
+                                <i class="fa fa-line-chart fa-fw text-muted"></i>&ensp;Purchases</a></li>
                         <li><a class="<?= Uri::segment(1) == 'users'  || Uri::segment(2) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
                                 <i class="fa fa-users fa-fw text-muted"></i>&ensp;Users</a></li>
                         <li><a class="<?= Uri::segment(1) == 'settings' || Uri::segment(2) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
@@ -165,7 +165,7 @@
                 </div>  <!-- /.row -->
             </div>  <!-- /#page-wrapper -->
             <footer id="footer" class="text-center small">
-                <a href="http://logicent.co/solutions/hotel-front-office.html" target="_blank">POSDesk</a> &copy; 2014-<?= date('Y'); ?> All Rights Reserved.
+                <a href="http://logicent.co/solutions/point-of-sale.html" target="_blank">POSDesk</a> &copy; 2014-<?= date('Y'); ?> All Rights Reserved.
             </footer>
         </div>  <!-- /#wrapper -->
     </body>

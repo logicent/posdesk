@@ -45,6 +45,6 @@
     height: 41px;
 }
 
-#items tbody tr:not(#no_data) td {
+#items tbody tr:not(#no_items) td {
     padding: 0;
 }

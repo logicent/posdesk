@@ -43,7 +43,8 @@ class Controller_Authenticate extends Controller_Template
         list(, $this->userid) = Auth::get_user_id();
         $this->template->set_global('uid', $this->userid, false);
 
-        $this->uname = Auth::get_screen_name();
+        // $this->uname = Auth::get_screen_name();
+        $this->uname = Auth::get('fullname');
         $this->template->set_global('uname', $this->uname, false);
 
         $this->ugroup = Auth::get_groups(); 
