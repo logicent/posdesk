@@ -1,6 +1,6 @@
 $(window).on('load', function() 
 {
-// add line item and fetch/calculate detail info
+// search for item and add to list with totals update
 $('#item_search').on('change',
     function() {
 		el_item = $(this);
@@ -11,9 +11,6 @@ $('#item_search').on('change',
         el_table_body = $('#items').find('tbody');
         last_row_id = el_table_body.find('tr').not('#no_items').length;
         has_no_items = el_table_body.find('tr#no_items').length == 1;
-        
-        if (has_no_items)
-            $('#no_items').remove();
 
         $.ajax({
             type: 'post',
@@ -24,10 +21,14 @@ $('#item_search').on('change',
             },
             success: function(item) 
             {
+				if (has_no_items)
+					$('#no_items').remove();
+	
                 el_table_body.append(item);
-				// fetch inputs from list after adding new item 
+				// get all inputs from list after adding item 
 				linesInputs = getLinesInputs();
 				docTotalInputs = getDocTotalInputs();
+				// update sales totals in summary panel
                 recalculateDocTotals(linesInputs, docTotalInputs);
 
 				el_checkbox_all = $('#select_all_rows > input');
@@ -166,7 +167,8 @@ $('#item_search').on('change',
 		docTotals[2].text(sum_tax_amount.toFixed(2)); // tax
 		docTotals[3].text(sum_line_total.toFixed(2)); // total
 		
-		// $('#form_disc_total').val(sum_discount_amount.toFixed(2));
+		// $('#form_discount_total').val(sum_discount_amount.toFixed(2));
+		$('#form_subtotal').val(sum_line_total.toFixed(2));
 		$('#form_tax_total').val(sum_tax_amount.toFixed(2));
 		$('#form_amount_due').val(sum_line_total.toFixed(2));
 		unpaidBalance = $('#form_amount_due').val() - $('#form_amount_paid').val();

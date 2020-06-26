@@ -10,19 +10,21 @@
 						array('class' => 'input-sm form-control select-from-list')); ?>
 		<?= Form::hidden("item[$row_id][description]", Input::post('description', isset($invoice_item) ? $invoice_item->description : ''),
 						array('class' => 'item-description')); ?>
-		<?= Form::hidden("item[$row_id][gl_account_id]", Input::post('gl_account_id', isset($invoice_item) ? $invoice_item->gl_account_id : '')); ?>
 	</td>
 	<td class="col-md-2 qty">
-		<?= Form::input("item[$row_id][qty]", Input::post('qty', isset($invoice_item) ? 
-						number_format($invoice_item->qty, 0, '.', '') : ''),
+		<?= Form::input("item[$row_id][quantity]", Input::post('quantity', isset($invoice_item) ? 
+						number_format($invoice_item->quantity, 0, '.', '') : ''),
 						array('class' => 'input-sm form-control')); ?>
 	</td>
 	<td class='col-md-2 price'>
 		<?= Form::input("item[$row_id][unit_price]", Input::post('unit_price', isset($invoice_item) ? 
 						number_format($invoice_item->unit_price, 0, '.', '') : ''),
 						array('class' => 'input-sm form-control text-right')); ?>
-		<?= Form::hidden("item[$row_id][discount_percent]", Input::post('discount_percent', isset($invoice_item) ? 
-						number_format($invoice_item->discount_percent, 0, '.', '') : '0'),
+		<?= Form::hidden("item[$row_id][discount_rate]", Input::post('discount_rate', isset($invoice_item) ? 
+						number_format($invoice_item->discount_rate, 0, '.', '') : '0'),
+						array('class' => 'input-sm form-control')); ?>
+		<?= Form::hidden("item[$row_id][discount_amount]", Input::post('discount_amount', isset($invoice_item) ? 
+						number_format($invoice_item->discount_amount, 0, '.', '') : '0'),
 						array('class' => 'input-sm form-control')); ?>						
 	</td>
 	<td class='col-md-2 item-total text-number'>

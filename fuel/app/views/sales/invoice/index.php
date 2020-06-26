@@ -36,7 +36,7 @@
 	<tbody>
 <?php foreach ($sales_invoices as $item): ?>
 		<tr>
-            <td><?= Html::anchor('sales/invoice/edit/'. $item->id, ucwords($item->customer_name), ['class' => 'clickable']) ?></td>
+            <td><?= Html::anchor('sales/invoice/edit/'. $item->id, ucwords($item->customer->customer_name), ['class' => 'clickable']) ?></td>
 			<td><?= $item->id; ?></td>
 			<td><?= date('d-M-Y', strtotime($item->due_date)); ?></td>
 			<td class="text-right"><?= number_format($item->amount_due, 2); ?></td>

@@ -4,11 +4,112 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 {
 	public function action_index()
 	{
-		// get Invoice profile of current user
-		$data = array(); // Model_Pos_Profile::get_current_user()
+		if (Input::method() == 'POST')
+		{
+			// get the POS Invoice in POST
+			$pos_invoice = Model_Cashier_Invoice::forge(array(
+				'customer_id' => Input::post('customer_id'),
+				'customer_name' => Input::post('customer_name'),
+				'po_number' => Input::post('po_number'),
+				'invoice_no' => Model_Cashier_Invoice::getNextSerialNumber(),
+				'issue_date' => Input::post('issue_date'),
+				'due_date' => Input::post('due_date'),
+				'status' => Input::post('status'),
+				'fdesk_user' => Input::post('fdesk_user'),
+				'branch_id' => Input::post('branch_id'),
+				'branch_name' => Input::post('branch_name'),
+				'source' => Input::post('source'),
+				'source_id' => Input::post('source_id'),
+				'amount_due' => Input::post('amount_due'),
+				'amount_paid' => Input::post('amount_paid'),
+				'subtotal' => Input::post('subtotal'),
+				'disc_total' => Input::post('disc_total'),
+				'tax_total' => Input::post('tax_total'),
+				'amounts_tax_inc' => Input::post('amounts_tax_inc'),
+				'balance_due' => Input::post('balance_due'),
+				'shipping_fee' => empty(Input::post('shipping_fee')) ? null : Input::post('shipping_fee'),
+				'shipping_tax' => empty(Input::post('shipping_tax')) ? null : Input::post('shipping_tax'),
+				'shipping_address' => Input::post('shipping_address'),
+				'paid_status' => Input::post('paid_status'),
+				'notes' => Input::post('notes'),
+			));
+
+			// get the line item(s) in POST
+			$pos_invoice_item = Input::post('item');
+			// re-index array starting with 1 not 0 (resolves row_id mixup in UI)
+			$items = array_combine(range(1, count($pos_invoice_item)), array_values($pos_invoice_item));
+			$items_count = count($pos_invoice_item);
+			for ($i = 1; $i <= $items_count; $i++)
+			{
+				$pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
+					'item_id' => $items[$i]['item_id'],
+					'quantity' => $items[$i]['quantity'],
+					'unit_price' => $items[$i]['unit_price'],
+					'amount' => $items[$i]['amount'],
+					'tax_rate' => $items[$i]['tax_rate'],
+					'discount_rate' => $items[$i]['discount_rate'],
+					'discount_amount' => $items[$i]['discount_amount'],
+					'description' => $items[$i]['description'],
+				));
+			}
+			$this->create_new_sale($pos_invoice, $pos_invoice_item);
+		}
+		else {
+			$pos_invoice = Model_Cashier_Invoice::forge();
+			$pos_invoice_item = []; // empty array for new sale
+		}
+
+		// get POS profile of current user
+		// $data['pos_profile] = Model_Pos_Profile::get_for_current_user()
+		// $this->template->set_global('pos_profile', $pos_profile, false);
+
+		$this->template->set_global('pos_invoice', $pos_invoice, false);
+		$this->template->set_global('pos_invoice_item', $pos_invoice_item, false);
 
 		$this->template->title = "Cashier";
-		$this->template->content = View::forge('cashier/invoice/index', $data);
+		$this->template->content = View::forge('cashier/invoice/index');
+	}
+
+	public function create_new_sale($pos_invoice, $items)
+	{
+		$val = Model_Cashier_Invoice::validate('create');
+
+		if ($val->run())
+		{
+			try
+			{
+				DB::start_transaction();
+				
+				if ($pos_invoice and $pos_invoice->save())
+				{
+					foreach ($items as $i => $item)
+					{
+						$item->invoice_id = $pos_invoice->id;
+						$item->save();
+					}
+
+					DB::commit_transaction();
+					// trigger direct print if supported
+					Session::set_flash('success', 'Added POS Invoice #'.$pos_invoice->id.'.');
+					// show printable receipt if no DP support
+					Response::redirect('sales');
+				}
+				else
+				{
+					Session::set_flash('error', 'Could not save POS Invoice.');
+				}
+			}
+			catch (Fuel\Core\Database_Exception $e)
+			{
+				DB::rollback_transaction();
+				Session::set_flash('error', $e->getMessage());
+				// throw $e;
+			}				
+		}
+		else
+		{
+			Session::set_flash('error', $val->error());
+		}
 	}
 
 }

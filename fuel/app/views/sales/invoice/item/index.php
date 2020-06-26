@@ -60,9 +60,9 @@
     </div>
 	<!--
     <div class="col-md-6 text-right">
-        <?php Form::hidden('amounts_tax_inc', Input::post('amounts_tax_inc', isset($sales_invoice) ? $sales_invoice->amounts_tax_inc : '0')); ?>
-        <?php Form::checkbox('cb_amounts_tax_inc', null, array('class' => 'cb-checked', 'data-input' => 'amounts_tax_inc')); ?>
-        <?php Form::label('Amount is VAT incl.', 'cb_amounts_tax_inc', array('class'=>'control-label')); ?>		
+        <?php Form::hidden('amounts_tax_inclusive', Input::post('amounts_tax_inclusive', isset($sales_invoice) ? $sales_invoice->amounts_tax_inclusive : '0')); ?>
+        <?php Form::checkbox('cb_amounts_tax_inclusive', null, array('class' => 'cb-checked', 'data-input' => 'amounts_tax_inclusive')); ?>
+        <?php Form::label('Amount is VAT incl.', 'cb_amounts_tax_inclusive', array('class'=>'control-label')); ?>		
     </div>-->
 </div>
 

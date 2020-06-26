@@ -5,10 +5,12 @@
 	</td>
 	<td class="item" style="vertical-align: middle">
 		<div id="item_name">
-			<?= strtoupper($item->item_code) .'&ensp;&ndash;&ensp;'. strtoupper($item->item_name) ?>&ensp;
-			<span class="text-muted" id="qty_in_stock">(<?= $item->quantity ?>)</span>
+			<?= strtoupper(isset($item) ? $item->item_code : Model_Product_Item::getValue('item_code', $invoice_item->item_id)) 
+					.'&ensp;&ndash;&ensp;'. strtoupper(isset($item) ? $item->item_name : Model_Product_Item::getValue('item_name', $invoice_item->item_id)) ?>
+					&ensp;
+			<span class="text-muted" id="qty_in_stock">(<?= isset($item) ? $item->quantity : Model_Product_Item::getValue('quantity', $invoice_item->item_id) ?>)</span>
 		</div>
-		<?= Form::hidden("item[$row_id][item_id]", Input::post('item_id', $invoice_item->item_id)); ?>						
+		<?= Form::hidden("item[$row_id][item_id]", Input::post('item_id', $invoice_item->item_id)); ?>
 		<?= Form::hidden("item[$row_id][description]", Input::post('description', $invoice_item->description),
 						array('class' => 'item-description')); ?>
 	</td>
@@ -25,8 +27,11 @@
 						array('id' => 'tax_rate')); ?>
 	</td>
 	<td class='discount' style="display: none">
-		<?= Form::input("item[$row_id][discount_percent]", Input::post('discount_percent', 
-						number_format($invoice_item->discount_percent, 0, '.', '')),
+		<?= Form::input("item[$row_id][discount_rate]", Input::post('discount_rate', 
+						number_format($invoice_item->discount_rate, 0.0, '.', '')),
+						array('class' => 'input-sm form-control')); ?>
+		<?= Form::input("item[$row_id][discount_amount]", Input::post('discount_amount', 
+						number_format($invoice_item->discount_amount, 0, '.', '')),
 						array('class' => 'input-sm form-control')); ?>						
 	</td>
 	<td class='item-total text-right' style="vertical-align: middle; padding-right: 10px; font-size: 105%;">

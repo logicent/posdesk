@@ -3,7 +3,7 @@
 <div class="row page-header">
     <div class="col-md-8">
         <?= Form::label('Find or Scan', 'item_search', array('class'=>'control-label')); ?>
-        <?= Form::select('item_search', Input::post('item_search', isset($pos_invoice) ? $pos_invoice->item_search : ''), 
+        <?= Form::select('item_search', Input::post('item_search', ''), 
                         Model_Product_Item::listOptions(),
                         array(
                             'class' => 'col-md-4 form-control select-from-list', 
@@ -31,9 +31,12 @@
     </div> -->
     <div class="col-md-4">
         <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
-        <?= Form::select('customer_id', Input::post('customer_id', isset($pos_invoice) ? $pos_invoice->customer_id : ''), 
+        <?= Form::select('customer_id', Input::post('customer_id', $pos_invoice->customer_id), 
                         Model_Customer::listOptions(), 
                         array('class' => 'col-md-4 form-control select-from-list')); ?>
+        <!-- <?= Form::label('Shipping Address', 'shipping_address', array('class'=>'control-label')); ?>
+        <?= Form::textarea('shipping_address', Input::post('shipping_address', $pos_invoice->shipping_address), 
+                            array('class' => 'col-md-4 form-control', 'style' => 'min-height: 60px', 'readonly' => true)); ?> -->
     </div>
 </div>
 <div class="row">
@@ -41,19 +44,19 @@
     <div class="col-md-8">
         <div id="bills" class="">
             <?php html_tag('label', array('class' => 'control-label'), ''); ?>
-            <?= render('cashier/invoice/item/index', array('pos_invoice_items' => isset($pos_invoice) ? $pos_invoice->items : array())); ?>
+            <?= render('cashier/invoice/item/index', array('pos_invoice_items' => $pos_invoice_item)); ?>
         </div>
     </div>
     <!-- Master form -->
     <div class="col-md-4">
-        <?= Form::hidden('id', Input::post('id', isset($pos_invoice) ? $pos_invoice->id : Model_Cashier_Invoice::getNextSerialNumber())); ?>
-        <?= Form::hidden('customer_name', Input::post('customer_name', isset($pos_invoice) ? $pos_invoice->customer_name : '')); ?>
-        <?= Form::hidden('status', Input::post('status', isset($pos_invoice) ? $pos_invoice->status : Model_Cashier_Invoice::INVOICE_STATUS_OPEN)); ?>
-        <?= Form::hidden('paid_status', Input::post('paid_status', isset($pos_invoice) ? $pos_invoice->paid_status : '')); ?>
-        <?= Form::hidden('issue_date', Input::post('issue_date', isset($pos_invoice) ? $pos_invoice->issue_date : date('Y-m-d'))); ?>
-        <?= Form::hidden('due_date', Input::post('due_date', isset($pos_invoice) ? $pos_invoice->due_date :  date('Y-m-d'))); ?>
-        <?= Form::hidden('fdesk_user', Input::post('fdesk_user', isset($pos_invoice) ? $pos_invoice->fdesk_user : $uid)); ?>
-        <?php Form::hidden('source_id', Input::post('source_id', isset($pos_invoice) ? $pos_invoice->source_id : '')); ?>            
+        <?= Form::hidden('id', Input::post('id', $pos_invoice->id )); ?>
+        <?= Form::hidden('customer_name', Input::post('customer_name', $pos_invoice->customer_name)); ?>
+        <?= Form::hidden('status', Input::post('status', Model_Cashier_Invoice::INVOICE_STATUS_OPEN)); ?>
+        <?= Form::hidden('paid_status', Input::post('paid_status', $pos_invoice->paid_status)); ?>
+        <?= Form::hidden('issue_date', Input::post('issue_date', date('Y-m-d'))); ?>
+        <?= Form::hidden('due_date', Input::post('due_date',  date('Y-m-d'))); ?>
+        <?= Form::hidden('fdesk_user', Input::post('fdesk_user', $uid)); ?>
+        <?= Form::hidden('branch_id', Input::post('branch_id', $business->id)); ?>
 
         <!-- <div class="form-group">
             <div class="col-md-12">
@@ -67,7 +70,7 @@
             </div>
         </div> -->
 
-        <?= render('cashier/invoice/sale_total', array()); ?>
+        <?= render('cashier/invoice/sale_total'); ?>
 
         <div class="form-group">
             <div class="col-md-12">
@@ -88,7 +91,7 @@
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Notes', 'notes', array('class'=>'control-label')); ?>
-                <?= Form::textarea('notes', Input::post('notes', isset($pos_invoice) ? $pos_invoice->notes : ''), 
+                <?= Form::textarea('notes', Input::post('notes', $pos_invoice->notes), 
                                     array('class' => 'col-md-4 form-control', 'style' => 'min-height: 60px')); ?>
             </div>
         </div>
@@ -96,3 +99,19 @@
 </div>
 
 <?= Form::close(); ?>
+
+<script>
+$('#form_amount_paid').on('change', 
+    function(e) {
+        if ($(this).val() == '')
+            return false;
+
+        amountDue = $('#form_amount_due').val();
+        amountPaid = $(this).val(); // Amount Tendered
+        changeDue = amountPaid - amountDue;
+        $('#sale_change_due').text(changeDue.toFixed(2));
+        $('#form_change_due').val(changeDue.toFixed(2));
+        // balanceDue = amountDue - amountPaid;
+        // $('#form_balance_due').val(balanceDue.toFixed(2));
+    });
+</script>

@@ -11,7 +11,8 @@ class Model_Sales_Invoice_Item extends Model_Soft
 		'quantity',
 		'unit_price',
 		'tax_rate',
-		'discount_percent',
+		'discount_rate',
+		'discount_amount',
 		'amount',
 		'deleted_at'
 	);
@@ -27,10 +28,11 @@ class Model_Sales_Invoice_Item extends Model_Soft
 		$val->add_field('item_id', 'Item ID', 'required|valid_string[numeric]');
 		$val->add_field('invoice_id', 'Invoice no.', 'required|valid_string[numeric]');
 		$val->add_field('description', 'Description', 'max_length[140]');
-		$val->add_field('quantity', 'Qty', 'required');
+		$val->add_field('quantity', 'Quantity', 'required');
 		$val->add_field('unit_price', 'Unit Price', 'required');
 		$val->add_field('tax_rate', 'Tax Rate', 'valid_string[numeric]');
-		$val->add_field('discount_percent', 'Discount Percent', 'valid_string[numeric]');
+		$val->add_field('discount_rate', 'Discount Rate', 'valid_string[numeric]');
+		$val->add_field('discount_amount', 'Discount Amount', 'valid_string[numeric]');
 		$val->add_field('amount', 'Amount', 'required');
 
 		return $val;

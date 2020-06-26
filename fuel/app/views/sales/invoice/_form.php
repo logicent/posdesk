@@ -123,9 +123,9 @@
                     <?= Form::input('subtotal', Input::post('subtotal', isset($sales_invoice) ? 
                                     number_format($sales_invoice->subtotal, 0, '.', '') : 0),
                                     array('class' => 'col-md-4 form-control text-number', 'readonly' => true)); ?>
-                    <?php Form::label('Discount Amount', 'disc_total', array('class'=>'control-label')); ?>
-                    <?= Form::hidden('disc_total', Input::post('disc_total', isset($sales_invoice) ? 
-                                    number_format($sales_invoice->disc_total, 0, '.', '') : 0),
+                    <?php Form::label('Discount Amount', 'discount_total', array('class'=>'control-label')); ?>
+                    <?= Form::hidden('discount_total', Input::post('discount_total', isset($sales_invoice) ? 
+                                    number_format($sales_invoice->discount_total, 0, '.', '') : 0),
                                     array('class' => 'col-md-4 form-control text-number')); ?>
                 </div>
                 <div class="col-md-6">

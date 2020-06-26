@@ -97,6 +97,11 @@ class Model_Product_Item extends Model_Soft
 		return $list_options;
     }
 
+	public static function getValue($attribute, $item_id)
+	{
+		return self::find($item_id)->$attribute;
+	}
+
 	public static function loadFieldDataValue($model, $field_name)
 	{
 		return isset($product_item) ? $product_item->$field_name : self::getColumnDefault($field_name);

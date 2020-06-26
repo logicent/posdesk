@@ -1,10 +1,11 @@
 <?php
+
 use Orm\Model_Soft;
 
 class Model_Sales_Invoice extends Model_Soft
 {
-	const INVOICE_STATUS_OPEN = 'O';
-	const INVOICE_STATUS_CLOSED = 'C';
+	const INVOICE_STATUS_OPEN = 'O'; // Draft i.e. Suspended (Parked)
+	const INVOICE_STATUS_CLOSED = 'C'; // Submitted (Paid or Unpaid)
 	const INVOICE_STATUS_CANCELED = 'X';
 
 	public static $invoice_status = array(
@@ -25,26 +26,37 @@ class Model_Sales_Invoice extends Model_Soft
 		self::INVOICE_PAID_STATUS_PLUS_PAID => 'Advance paid'
 	);
 
-	// public $customer_id;
+	public $is_new_sale = true; // also id = ''
+	public $has_sale_items = false;
+	public $tax_type = '(Incl.)'; // will be possibly (excl.) when later supported
+	public $tax_rate = 'Vat 14'; // will be set from POS profile or default Sales Tax settings
+	public $change_due; // default is 0
 
 	protected static $_properties = array(
-		'id',
-		'amounts_tax_inc',
+		'id', // invoice_num e.g. SI-00001 or SR-00002 or SI-00003-D
+		// 'po_number', // i.e. ref buyers Order
+		'customer_id',
+		'customer_name',
 		'issue_date',
 		'due_date',
 		'status',
 		'branch_id',
 		'branch_name',
-		'customer_name',
+		'source', // e.g. Quotation
+		'source_id', // e.g. Quotation id
 		'amount_due',
-		'subtotal',
-		'disc_total',
-		'tax_total',
 		'amount_paid',
-		'balance_due',
 		'paid_status',
-		'shipping_address',
+		'subtotal',
+		'discount_rate',
+		'discount_total',
+		'amounts_tax_inclusive',
+		'tax_total',
+		'balance_due',
 		'notes',
+		'shipping_fee',
+		'shipping_tax',
+		'shipping_address',
 		'fdesk_user',
 		'created_at',
 		'updated_at',
@@ -71,22 +83,27 @@ class Model_Sales_Invoice extends Model_Soft
 	{
 		$val = Validation::forge($factory);
 		$val->add_field('id', 'Invoice No.', 'max_length[20]');
-		$val->add_field('amounts_tax_inc', 'Amounts Tax Incl.', 'valid_string[numeric]');
+		$val->add_field('amounts_tax_inclusive', 'Amounts Tax Inclusive', 'valid_string[numeric]');
 		$val->add_field('issue_date', 'Issue Date', 'required|valid_date');
 		$val->add_field('due_date', 'Due Date', 'valid_date');
 		$val->add_field('status', 'Status', 'required|valid_string[alpha]');
-		$val->add_field('branch_name', 'Branch Name', 'required');
+		$val->add_field('branch_name', 'Branch Name', 'valid_string[]');
 		$val->add_field('branch_id', 'Branch', 'required');
+		$val->add_field('source_id', 'Source ID', 'valid_string[numeric]');
+		$val->add_field('source', 'Source', 'valid_string[]|max_length[140]');		
 		$val->add_field('customer_id', 'Customer', 'required');
-		$val->add_field('customer_name', 'Customer Name', 'max_length[140]');
-		$val->add_field('amount_due', 'Amount Due', 'valid_string[]');
-		$val->add_field('amount_paid', 'Amount Paid', 'valid_string[]');
+		$val->add_field('customer_name', 'Customer Name', 'valid_string[]|max_length[140]');
+		$val->add_field('amount_due', 'Amount Due', 'required|valid_string[]');
+		$val->add_field('amount_paid', 'Amount Paid', 'required|valid_string[]');
 		$val->add_field('balance_due', 'Balance Due', 'required|valid_string[]');
 		$val->add_field('subtotal', 'Subtotal', 'required|valid_string[]');
-		$val->add_field('disc_total', 'Discount', 'required|valid_string[]');
+		$val->add_field('discount_rate', 'Discount Rate', 'valid_string[]');
+		$val->add_field('discount_total', 'Discount Total', 'valid_string[]');
 		$val->add_field('tax_total', 'Tax', 'valid_string[]');
-		$val->add_field('shipping_address', 'Shipping Address', 'max_length[255]');
-		$val->add_field('notes', 'Notes', 'max_length[255]');
+		$val->add_field('shipping_fee', 'Shipping Fee', 'valid_string[]');
+		$val->add_field('shipping_tax', 'Shipping Tax', 'valid_string[]');
+		$val->add_field('shipping_address', 'Shipping Address', 'max_length[140]');
+		$val->add_field('notes', 'Notes', 'max_length[140]');
 		$val->add_field('fdesk_user', 'User', 'required|valid_string[numeric]');
 
 		return $val;
@@ -95,6 +112,13 @@ class Model_Sales_Invoice extends Model_Soft
 	protected static $_table_name = 'sales_invoice';
 
 	protected static $_belongs_to = array(
+		'customer' => array(
+			'key_from' => 'customer_id',
+			'model_to' => 'Model_Customer',
+			'key_to' => 'id',
+			'cascade_save' => false,
+			'cascade_delete' => false,
+        ),
 	);
 
 	protected static $_has_many = array(
@@ -131,7 +155,7 @@ class Model_Sales_Invoice extends Model_Soft
 
 	public static function applyDiscountAmount(&$sales_invoice)
 	{
-		$sales_invoice->amount_due -= $sales_invoice->disc_total;
+		$sales_invoice->amount_due -= $sales_invoice->discount_total;
 		$sales_invoice->balance_due = $sales_invoice->amount_due - $sales_invoice->amount_paid;
 
 		if ($sales_invoice->balance_due == 0)
@@ -140,14 +164,23 @@ class Model_Sales_Invoice extends Model_Soft
 
 	public static function getNextSerialNumber()
 	{
-		if (self::find('last'))
-			return self::find('last')->invoice_num + 1; // reference
-		else return 1001; // initial record
+		$last_entry = self::find('last');
+		if ($last_entry)
+			return $last_entry->invoice_no + 1; // increment by one
+		else 
+			return 00001; // initial POS Invoice document serial in settings
     }
     
     public static function getBranchName($invoice)
     {
-        return '';
+        return 'Not set';
+	}
+
+	public static function getSourceListOptions($source)
+	{
+		if (empty($source))
+			return array();
+		return;		
 	}
 
 }
