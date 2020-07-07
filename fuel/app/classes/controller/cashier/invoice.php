@@ -2,12 +2,16 @@
 
 class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 {
+	public $pos_invoice;
+	public $pos_invoice_item;
+	public $save_passed = false;
+
 	public function action_index()
 	{
 		if (Input::method() == 'POST')
 		{
 			// get the POS Invoice in POST
-			$pos_invoice = Model_Cashier_Invoice::forge(array(
+			$this->pos_invoice = Model_Cashier_Invoice::forge(array(
 				'sale_type' => Input::post('sale_type'),
 				'customer_id' => Input::post('customer_id'),
 				'customer_name' => Input::post('customer_name'),
@@ -41,11 +45,11 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 			if ($pos_invoice_item)
 			{
 				// re-index array starting with 1 not 0 (resolves row_id mixup in UI)
-				$items = array_combine(range(1, count($pos_invoice_item)), array_values($pos_invoice_item));
 				$items_count = count($pos_invoice_item);
+				$items = array_combine(range(1, $items_count), array_values($pos_invoice_item));
 				for ($i = 1; $i <= $items_count; $i++)
 				{
-					$pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
+					$this->pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
 						'item_id' => $items[$i]['item_id'],
 						'quantity' => $items[$i]['quantity'],
 						'unit_price' => $items[$i]['unit_price'],
@@ -56,35 +60,32 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 						'description' => $items[$i]['description'],
 					));
 				}
-				$this->create_new_sale($pos_invoice, $pos_invoice_item);
+				// save the posted Cashier Invoice
+				$this->submit_sale();
+				// prepare New Sale entry defaults
+				if ($this->save_passed)
+					$this->new_sale();
 			}
 			else {
 				Session::set_flash('error', 'Must have Sales Items.');
 			}
 		}
 		else {
-			$pos_invoice = Model_Cashier_Invoice::forge();
-			// load the default column values in DB
-			foreach ($pos_invoice->properties() as $property => $value)
-			{
-				$col_def = DB::list_columns('sales_invoice', "$property");
-				$pos_invoice->$property = $col_def["$property"]['default'];
-			}
-			$pos_invoice_item = []; // use empty array for new sale
+			$this->new_sale();
 		}
 
 		// get POS profile of current user
 		// $data['pos_profile] = Model_Pos_Profile::get_for_current_user()
 		// $this->template->set_global('pos_profile', $pos_profile, false);
 
-		$this->template->set_global('pos_invoice', $pos_invoice, false);
-		$this->template->set_global('pos_invoice_item', $pos_invoice_item, false);
+		$this->template->set_global('pos_invoice', $this->pos_invoice, false);
+		$this->template->set_global('pos_invoice_item', $this->pos_invoice_item, false);
 
 		$this->template->title = "Cashier";
 		$this->template->content = View::forge('cashier/invoice/index');
 	}
 
-	public function create_new_sale($pos_invoice, $items)
+	public function submit_sale()
 	{
 		$val = Model_Cashier_Invoice::validate('create');
 
@@ -93,19 +94,18 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 			try
 			{
 				DB::start_transaction();
-				
-				if ($pos_invoice and $pos_invoice->save())
+				if ($this->pos_invoice and $this->pos_invoice->save())
 				{
-					foreach ($items as $i => $item)
+					foreach ($this->pos_invoice_item as $i => $item)
 					{
-						$item->invoice_id = $pos_invoice->id;
+						$item->invoice_id = $this->pos_invoice->id;
 						$item->save();
 					}
-
 					DB::commit_transaction();
 					// trigger direct print if supported
-					Session::set_flash('success', 'Added POS Invoice #'.$pos_invoice->id.'.');
+					Session::set_flash('success', 'Added POS Invoice #'.$this->pos_invoice->id.'.');
 					// show printable receipt if no DP support
+					return $this->save_passed = true;
 				}
 				else
 				{
@@ -123,6 +123,18 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		{
 			Session::set_flash('error', $val->error());
 		}
+	}
+
+	public function new_sale()
+	{
+		$this->pos_invoice = Model_Cashier_Invoice::forge();
+		// load the default column values in DB
+		foreach ($this->pos_invoice->properties() as $property => $value)
+		{
+			$col_def = DB::list_columns('sales_invoice', "$property");
+			$this->pos_invoice->$property = $col_def["$property"]['default'];
+		}
+		$this->pos_invoice_item = []; // use empty array for new sale
 	}
 
 	public function action_search()
