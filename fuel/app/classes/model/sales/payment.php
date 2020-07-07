@@ -2,6 +2,24 @@
 
 use Orm\Model_Soft;
 
+// Paid Amount (Validation and Processing)
+// - must be a number input only
+// - must equal or be greater than amount due in Cash Sale mode (How to validate tendered amount limit)
+// - must equal or be greater than zero but not exceeding the amount due in Credit Sale mode
+// - must make a payment entry for each payment method and amount while saving the total amount_paid in Invoice
+// - must capture the payment reference for non-Cash payment methods
+// - TODO: integrate some payment options like mobile money and bank cards
+// Status
+// - Cash Sale should set as Closed (can be Cancelled later by User with permission)
+// - Credit Sale should be set as Open (until fully paid)
+// Paid Status
+// - Cash Sale should be set as Fully Paid as validated above
+// - Credit Sale should be set as Not Paid or Partially Paid as the case may be
+// Credit Sale
+// - must not exceed credit_limit of Customer (requires DB query to check all outstanding Credit Sale by Customer)
+// - or just read that once when fetching the Customer and validate accordingly
+// - must set the due_date in POS Profile or Sales Settings
+
 class Model_Sales_Payment extends Model_Soft
 {
 	// payment_type

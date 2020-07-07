@@ -36,13 +36,20 @@
 	<tbody>
 <?php foreach ($sales_invoices as $item): ?>
 		<tr>
-            <td><?= Html::anchor('sales/invoice/edit/'. $item->id, ucwords($item->customer->customer_name), ['class' => 'clickable']) ?></td>
+            <td>
+			<?php 
+				if ($item->status != Model_Sales_Invoice::INVOICE_STATUS_OPEN) :
+					$route = 'view/';
+				else :
+					$route = 'edit/';
+				endif;
+				echo Html::anchor('sales/invoice/' . $route. $item->id, ucwords($item->customer->customer_name), ['class' => 'clickable']) ?>
+			</td>
 			<td><?= $item->id; ?></td>
 			<td><?= date('d-M-Y', strtotime($item->due_date)); ?></td>
 			<td class="text-right"><?= number_format($item->amount_due, 2); ?></td>
 			<td class="text-right"><span class="<?= $item->balance_due > 0 ? 'text-red' : '' ?>"><?= number_format($item->balance_due, 2); ?></span></td>
 			<td class="text-center">
-				<?= Html::anchor('sales/invoice/view/'.$item->id, '<i class="fa fa-file-o fa-fw"></i>'); ?>
 				<?php if ($ugroup->id == 5) : ?>
 				<?= Html::anchor('sales/invoice/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>', array('class' => 'del-btn', 'onclick' => "return confirm('Are you sure?')")); ?>
 				<?php endif ?>

@@ -309,6 +309,10 @@ label {
     color: #8D99A6 !important;
 }
 
+/* .text-required {
+    font-weight: bold;
+} */
+
 .text-number {
     /* font-family: 'Ubuntu Condensed'; */
     font-weight: bold;

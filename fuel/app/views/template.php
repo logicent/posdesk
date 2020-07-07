@@ -28,6 +28,7 @@
                 '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
                 '//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js',
                 '//www.fuelcdn.com/fuelux/3.17.0/js/fuelux.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js',
                 'vendor/jquery.slugify.js',
                 'vendor/bootstrap-datepicker.js',
                 'plugins/metisMenu/jquery.metisMenu.js',
@@ -66,18 +67,26 @@
                                 <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Product</a></li>
                         <li><a class="<?= Uri::segment(1) == 'reports' ? 'active' : '' ?>" href="<?= Uri::create('reports'); ?>">
                                 <i class="fa fa-bar-chart fa-fw text-muted"></i>&ensp;Reports</a></li>
-                        <?php if ($ugroup->id !=3) : ?>
+                        <!-- More menu items -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="text-muted fa fa-fw fa-ellipsis-v"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
+                                    <i class="fa fa-truck fa-fw text-muted"></i>&ensp;Supplier</a></li>
+                                <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
+                                    <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Purchases</a></li>
+                            </ul>   <!-- /.dropdown-more -->
+                        </li>   <!-- /.dropdown -->
+                    <?php if ($ugroup->id !=3) : ?>
                         <li><a class="<?= Uri::segment(1) == 'admin' ? 'active' : '' ?>" href="<?= Uri::create('admin'); ?>">
-                                <i class="fa fa-cog fa-fw text-muted"></i>&ensp;Admin</a></li>
-                        <?php endif ?>
-                    <?php endif ?>
-                    <?php if (Uri::segment(1) == 'admin') : ?>
+                            <i class="fa fa-cog fa-fw text-muted"></i>&ensp;Admin</a></li>
+                    <?php endif;
+                    endif;
+                    if (Uri::segment(1) == 'admin') : ?>
                         <li><a class="<?= Uri::segment(1) == 'dashboard' ? 'active' : '' ?>" href="<?= Uri::create('admin/dashboard'); ?>">
                                 <i class="fa fa-trello fa-fw text-muted"></i>&ensp;Dashboard</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
-                                <i class="fa fa-users fa-fw text-muted"></i>&ensp;Supplier</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
-                                <i class="fa fa-line-chart fa-fw text-muted"></i>&ensp;Purchases</a></li>
                         <li><a class="<?= Uri::segment(1) == 'users'  || Uri::segment(2) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
                                 <i class="fa fa-users fa-fw text-muted"></i>&ensp;Users</a></li>
                         <li><a class="<?= Uri::segment(1) == 'settings' || Uri::segment(2) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
@@ -88,12 +97,14 @@
                 <div class="col-md-3">
                     <ul class="nav navbar-top-links navbar-right">
                         <li><a class="<?= Uri::segment(1) == 'help' ? 'active' : '' ?>" href="<?= Uri::create('help'); ?>"><i class="fa fa-question-circle fa-fw text-muted"></i></a></li>
+                        <!-- <li><a class="<?= Uri::segment(1) == 'lock-user' ? 'active' : '' ?>" href="<?= Uri::create('lock-user'); ?>"><i class="fa fa-lock fa-fw text-muted"></i></a></li> -->
                         <li class="dropdown">
+                            <!-- show image placeholder for user avatar -->
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                <span class="small"><?= $uname; ?></span>
-                                <i class="fa fa-user fa-fw text-muted"></i>  <i class="fa fa-caret-down"></i>
+                                <span class="small"><?= $uname; ?></span>&nbsp;
+                                <i class="text-muted fa fa-angle-down"></i>
                             </a>
-                            <ul class="dropdown-menu dropdown-user">
+                            <ul class="dropdown-menu">
                                 <!--<li><a href="<?php Uri::create('admin/users/change-password/'.$uid) ?>"> Change Password</a></li>-->
                                 <li><a href="<?= Uri::create('admin/users/view/'.$uid) ?>"> My Account</a></li>
                                 <li class="divider"></li>

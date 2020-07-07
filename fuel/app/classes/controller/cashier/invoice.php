@@ -8,6 +8,7 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		{
 			// get the POS Invoice in POST
 			$pos_invoice = Model_Cashier_Invoice::forge(array(
+				'sale_type' => Input::post('sale_type'),
 				'customer_id' => Input::post('customer_id'),
 				'customer_name' => Input::post('customer_name'),
 				'po_number' => Input::post('po_number'),
@@ -23,12 +24,13 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 				'amount_due' => Input::post('amount_due'),
 				'amount_paid' => Input::post('amount_paid'),
 				'subtotal' => Input::post('subtotal'),
-				'disc_total' => Input::post('disc_total'),
+				'discount_rate' => Input::post('discount_rate'),
+				'discount_total' => Input::post('discount_total'),
 				'tax_total' => Input::post('tax_total'),
 				'amounts_tax_inc' => Input::post('amounts_tax_inc'),
 				'balance_due' => Input::post('balance_due'),
-				'shipping_fee' => empty(Input::post('shipping_fee')) ? null : Input::post('shipping_fee'),
-				'shipping_tax' => empty(Input::post('shipping_tax')) ? null : Input::post('shipping_tax'),
+				'shipping_fee' => Input::post('shipping_fee'),
+				'shipping_tax' => Input::post('shipping_tax'),
 				'shipping_address' => Input::post('shipping_address'),
 				'paid_status' => Input::post('paid_status'),
 				'notes' => Input::post('notes'),
@@ -36,27 +38,39 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 
 			// get the line item(s) in POST
 			$pos_invoice_item = Input::post('item');
-			// re-index array starting with 1 not 0 (resolves row_id mixup in UI)
-			$items = array_combine(range(1, count($pos_invoice_item)), array_values($pos_invoice_item));
-			$items_count = count($pos_invoice_item);
-			for ($i = 1; $i <= $items_count; $i++)
+			if ($pos_invoice_item)
 			{
-				$pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
-					'item_id' => $items[$i]['item_id'],
-					'quantity' => $items[$i]['quantity'],
-					'unit_price' => $items[$i]['unit_price'],
-					'amount' => $items[$i]['amount'],
-					'tax_rate' => $items[$i]['tax_rate'],
-					'discount_rate' => $items[$i]['discount_rate'],
-					'discount_amount' => $items[$i]['discount_amount'],
-					'description' => $items[$i]['description'],
-				));
+				// re-index array starting with 1 not 0 (resolves row_id mixup in UI)
+				$items = array_combine(range(1, count($pos_invoice_item)), array_values($pos_invoice_item));
+				$items_count = count($pos_invoice_item);
+				for ($i = 1; $i <= $items_count; $i++)
+				{
+					$pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
+						'item_id' => $items[$i]['item_id'],
+						'quantity' => $items[$i]['quantity'],
+						'unit_price' => $items[$i]['unit_price'],
+						'amount' => $items[$i]['amount'],
+						'tax_rate' => $items[$i]['tax_rate'],
+						'discount_rate' => $items[$i]['discount_rate'],
+						'discount_amount' => $items[$i]['discount_amount'],
+						'description' => $items[$i]['description'],
+					));
+				}
+				$this->create_new_sale($pos_invoice, $pos_invoice_item);
 			}
-			$this->create_new_sale($pos_invoice, $pos_invoice_item);
+			else {
+				Session::set_flash('error', 'Must have Sales Items.');
+			}
 		}
 		else {
 			$pos_invoice = Model_Cashier_Invoice::forge();
-			$pos_invoice_item = []; // empty array for new sale
+			// load the default column values in DB
+			foreach ($pos_invoice->properties() as $property => $value)
+			{
+				$col_def = DB::list_columns('sales_invoice', "$property");
+				$pos_invoice->$property = $col_def["$property"]['default'];
+			}
+			$pos_invoice_item = []; // use empty array for new sale
 		}
 
 		// get POS profile of current user
@@ -92,7 +106,6 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 					// trigger direct print if supported
 					Session::set_flash('success', 'Added POS Invoice #'.$pos_invoice->id.'.');
 					// show printable receipt if no DP support
-					Response::redirect('sales');
 				}
 				else
 				{
@@ -112,4 +125,28 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		}
 	}
 
+	public function action_search()
+    {
+		$data = [];
+        if (Input::is_ajax())
+        {
+            $item = Model_Product_Item::query()
+										// ->where(array(
+										// 	'group_id' => Input::post('group_id'),
+										// ))
+										->or_where(array(
+											'item_code', 'LIKE', Input::post('q'),
+										))
+										->or_where(array(
+											// 'id' => Input::post('item_id'),
+											'item_name', 'LIKE', Input::post('q'),
+										))
+										->get();
+										// ->to_array();
+			Kint::dump($item);
+			exit;
+			$data['items'] = $item;
+		}
+		return json_encode($data);
+	}
 }

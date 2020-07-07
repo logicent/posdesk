@@ -1,6 +1,7 @@
 <tr id="item_<?= $row_id ?>">
-	<td style="padding: 8px" class="text-center select-row">
-		<?= Form::checkbox($row_id, false, array('value' => $invoice_item->id)) ?>
+	<td style="padding: 8px">
+		<?= Html::anchor(null, '<i class="text-muted fa fa-fw fa-trash-o"></i>', 
+						array('class' => '', 'class' => 'del-item')) ?>
 		<?= Form::hidden("item[$row_id][id]", Input::post('id', $invoice_item->id), array('class' => 'item-id')); ?>
 	</td>
 	<td class="item" style="vertical-align: middle">

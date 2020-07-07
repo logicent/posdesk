@@ -67,7 +67,7 @@ class Model_Product_Group extends Model
                     ->execute()
                     ->as_array();
         
-		$list_options = array('' => '');
+		$list_options = array('' => 'All Item Group');
 
 		foreach($items as $item) {
 			$list_options[$item['id']] = $item['name'];

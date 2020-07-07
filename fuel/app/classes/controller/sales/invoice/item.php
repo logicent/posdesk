@@ -11,14 +11,11 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 	public function action_search()
     {
 		$data = [];
-		
         if (Input::is_ajax())
         {
             $item = Model_Product_Item::query()
-												->where(
-													array('id' => Input::post('item_id'))
-												)
-												->get_one();
+										->where(array('id' => Input::post('item_id')))
+										->get_one();
 			$data['invoice_item'] = Model_Sales_Invoice_Item::forge(
 				array(
 					'item_id' => $item->id,
@@ -30,6 +27,7 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 					'discount_percent' => $item->discount_percent,
 					'description' => $item->item_name,
 				));
+			
 			$data['item'] = $item;
 			$data['row_id'] = Input::post('next_row_id');
             return View::forge('cashier/invoice/item/_form', $data);

@@ -4,8 +4,11 @@ use Orm\Model_Soft;
 
 class Model_Sales_Invoice extends Model_Soft
 {
-	const INVOICE_STATUS_OPEN = 'O'; // Draft i.e. Suspended (Parked)
-	const INVOICE_STATUS_CLOSED = 'C'; // Submitted (Paid or Unpaid)
+	const SALE_TYPE_CASH_SALE = 'Cash Sale';
+	const SALE_TYPE_CREDIT_SALE = 'Credit Sale';
+
+	const INVOICE_STATUS_OPEN = 'O'; // Draft i.e. Suspended (Parked) or not Fully Paid i.e. Credit Sale
+	const INVOICE_STATUS_CLOSED = 'C'; // Submitted (Paid)
 	const INVOICE_STATUS_CANCELED = 'X';
 
 	public static $invoice_status = array(
@@ -26,15 +29,17 @@ class Model_Sales_Invoice extends Model_Soft
 		self::INVOICE_PAID_STATUS_PLUS_PAID => 'Advance paid'
 	);
 
-	public $is_new_sale = true; // also id = ''
-	public $has_sale_items = false;
-	public $tax_type = '(Incl.)'; // will be possibly (excl.) when later supported
-	public $tax_rate = 'Vat 14'; // will be set from POS profile or default Sales Tax settings
-	public $change_due; // default is 0
+	public $tax_type = '(Incl.)'; // can be (excl.) when that is supported later
+	public $tax_rate = 'Vat 14'; // should be set from POS profile or default Sales Tax settings
+	public $change_due; // default is 0 should be linked to Sales Payment in Cash Sale mode only
 
 	protected static $_properties = array(
 		'id', // invoice_num e.g. SI-00001 or SR-00002 or SI-00003-D
-		// 'po_number', // i.e. ref buyers Order
+		'invoice_no',
+		'po_number', // i.e. ref buyers Purchase Order
+		'sale_type', // 'Cash Sale' (default) or 'Credit Sale' or 'Sales Return' set in POS Profile or Sale Settings
+		// Sales Return should delink payment(s) from Invoice but save as Customer's unallocated payment
+		// 'is_return', // default 0. Require user with permission to return/cancel
 		'customer_id',
 		'customer_name',
 		'issue_date',
@@ -53,6 +58,7 @@ class Model_Sales_Invoice extends Model_Soft
 		'amounts_tax_inclusive',
 		'tax_total',
 		'balance_due',
+		'sales_person',
 		'notes',
 		'shipping_fee',
 		'shipping_tax',
@@ -84,8 +90,9 @@ class Model_Sales_Invoice extends Model_Soft
 		$val = Validation::forge($factory);
 		$val->add_field('id', 'Invoice No.', 'max_length[20]');
 		$val->add_field('amounts_tax_inclusive', 'Amounts Tax Inclusive', 'valid_string[numeric]');
-		$val->add_field('issue_date', 'Issue Date', 'required|valid_date');
-		$val->add_field('due_date', 'Due Date', 'valid_date');
+		// $val->add_field('sale_type', 'Sale Type', 'valid_sale_type');
+		$val->add_field('issue_date', 'Issue Date', 'required|valid_date'); // should TODAY date never future except if later posting is allowed
+		$val->add_field('due_date', 'Due Date', 'valid_date'); // should equal or exceed issue_date but within accounting period (1-3 months)
 		$val->add_field('status', 'Status', 'required|valid_string[alpha]');
 		$val->add_field('branch_name', 'Branch Name', 'valid_string[]');
 		$val->add_field('branch_id', 'Branch', 'required');
@@ -110,6 +117,21 @@ class Model_Sales_Invoice extends Model_Soft
 	}
 
 	protected static $_table_name = 'sales_invoice';
+
+	protected static $_defaults = array(
+		'status' => self::INVOICE_STATUS_OPEN,
+		'paid_status' => self::INVOICE_PAID_STATUS_NOT_PAID,
+		'amount_due' => 0,
+		'amount_paid' => 0,
+		'subtotal' => 0,
+		// 'discount_rate' => 0,
+		// 'discount_total' => 0,
+		'tax_total' => 0,
+		'amounts_tax_inclusive' => 1,
+		'balance_due' => 0,
+		'shipping_fee' => 0,
+		'shipping_tax' => 0,
+	);
 
 	protected static $_belongs_to = array(
 		'customer' => array(

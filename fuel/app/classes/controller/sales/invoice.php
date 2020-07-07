@@ -43,6 +43,7 @@ class Controller_Sales_Invoice extends Controller_Authenticate
 			{
 				$sales_invoice = Model_Sales_Invoice::forge(array(
 					'id' => Input::post('id'),
+					'sale_type' => Input::post('sale_type'),
 					'invoice_no' => Input::post('invoice_no'),
 					'po_number' => Input::post('po_number'),
 					'customer_id' => Input::post('customer_id'),
@@ -141,6 +142,8 @@ class Controller_Sales_Invoice extends Controller_Authenticate
 		if ($val->run())
 		{
 			$sales_invoice->po_number = Input::post('po_number');
+			$sales_invoice->invoice_no = Input::post('invoice_no');
+			$sales_invoice->sale_type = Input::post('sale_type');
 			$sales_invoice->amounts_tax_inclusive = Input::post('amounts_tax_inclusive');
 			$sales_invoice->issue_date = Input::post('issue_date');
 			$sales_invoice->due_date = Input::post('due_date');
@@ -227,6 +230,7 @@ class Controller_Sales_Invoice extends Controller_Authenticate
 			if (Input::method() == 'POST')
 			{
 				$sales_invoice->id = $val->validated('id');
+				$sales_invoice->sale_type = $val->validated('sale_type');
 				$sales_invoice->invoice_no = $val->validated('invoice_no');
 				$sales_invoice->po_number = $val->validated('po_number');
 				$sales_invoice->issue_date = $val->validated('issue_date');

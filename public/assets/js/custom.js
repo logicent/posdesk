@@ -60,8 +60,10 @@ $(function() {
     });
     // Select2
     $('.select-from-list').select2({
-        theme: "bootstrap"
+        theme: "bootstrap",
+        // placeholder: 'Select from list ...'
     });
+
     $('.cb-checked').click(
         function() {
             if ($(this).is(':checked')) // true
@@ -119,5 +121,16 @@ $(function() {
         } else {
             preview.src = '';
         }
+    });
+    // FIX: dropdown-menu stays open after menu item click
+    $('ul.dropdown-menu > li > a').on('click', function(){
+        $('div.open').removeClass('open');
+    });
+    // FIX: dropdown-menu stays open after HTTP response
+    // TODO: Try making an AJAX request/response to load
+    $('ul.dropdown-menu > li > a').on('click', function() {
+        $('ul.collapse.in').removeClass('collapse in');
+        $('li.open').removeClass('open');
+        // return false;
     });
 });

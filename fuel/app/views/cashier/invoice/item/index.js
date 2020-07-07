@@ -25,18 +25,11 @@ $('#item_search').on('change',
 					$('#no_items').remove();
 	
                 el_table_body.append(item);
-				// get all inputs from list after adding item 
+				// get all inputs from list after add
 				linesInputs = getLinesInputs();
 				docTotalInputs = getDocTotalInputs();
-				// update sales totals in summary panel
+				// update sale_total amounts
                 recalculateDocTotals(linesInputs, docTotalInputs);
-
-				el_checkbox_all = $('#select_all_rows > input');
-                rowCount = $('#item_detail ' + ' tbody > tr').length;
-                if (rowCount > 0)
-                    el_checkbox_all.css('display', '');
-                else
-					el_checkbox_all.css('display', 'none');
 				// clear the selected item in search dropdown
 				el_item.val(null).trigger('change');
             },
@@ -56,8 +49,8 @@ $('#item_search').on('change',
 			linesInputs = getLinesInputs();
 			docTotalInputs = getDocTotalInputs();
 
-			lineInputs[4].val((lineInputs[0].val() * lineInputs[1].val()).toFixed(2));
-			lineInputs[5].text(lineInputs[4].val());
+			lineInputs[4].val(lineInputs[0].val() * lineInputs[1].val());
+			lineInputs[5].text(numeral(lineInputs[4].val()).format('0,0.00'));
 			recalculateDocTotals(linesInputs, docTotalInputs);
 		});
 
@@ -162,10 +155,10 @@ $('#item_search').on('change',
 				}
 			});
 
-		docTotals[0].text(sum_line_total.toFixed(2)); // subtotal
-		// docTotals[1].text(sum_discount_total.toFixed(2)); // discount
-		docTotals[2].text(sum_tax_amount.toFixed(2)); // tax
-		docTotals[3].text(sum_line_total.toFixed(2)); // total
+		docTotals[0].text(numeral(sum_line_total).format('0,0.00')); // subtotal
+		// docTotals[1].text(numeral(sum_discount_total).format('0,0.00')); // discount
+		docTotals[2].text(numeral(sum_tax_amount).format('0,0.00')); // tax
+		docTotals[3].text(numeral(sum_line_total).format('0,0.00')); // total
 		
 		// $('#form_discount_total').val(sum_discount_amount.toFixed(2));
 		$('#form_subtotal').val(sum_line_total.toFixed(2));
@@ -175,103 +168,95 @@ $('#item_search').on('change',
 		$('#form_balance_due').val(unpaidBalance.toFixed(2));
 	}
 
-	$('#select_all_rows').on('click',
+	$('#item_detail').on('click', '.del-item', 
 		function(e) {
-			select_all_rows = $(this).is(':checked');
-
-			$('#item_detail .select-row > input').each(
-				function(e) {
-					if (select_all_rows)
-						$(this).prop('checked', true);
-					else
-						$(this).prop('checked', false);
-				});
-
-			if (select_all_rows)
-				$('#del_item').css('display', '');
-			else
-				$('#del_item').css('display', 'none');
-		});
-
-	$('tbody#item_detail').on('click', '.select-row > input',
-		function(e) {
-			selected_rows = $('.select-row > input:checked');
-			selected_row = $(this).is(':checked');
+			// e.preventDefault();
 			
-			if (selected_row)
-				$('#del_item').css('display', '');
-			else {
-				$('#select_all_rows').prop('checked', false);
-				if (selected_rows.length == 0)
-					$('#del_item').css('display', 'none');
-			}
-		});
-
-	$('#del_item').on('click',
-		function(e) {
-			e.preventDefault();
-			$(this).css('display', 'none');
-			deleteUrl = $(this).data('url');
 			el_table_body = $('#items').find('tbody')
-			rows = el_table_body.find('tr').length;
-			
-			$('td.select-row > input:checked').each(
-				function(e) {
-					// if (rows >= 1) {
-					// 	$(this).prop('checked', false);
-					// 	return false;
-					// }
-					el_table_row = $(this).closest('tr');
-					el_id = el_table_row.find('td.select-row > .item-id');
-					
-					// skip AJAX call if item not exists in DB or single row in table
-					if (el_id.val() != '')
-					{
-						$.ajax({
-							url: deleteUrl,
-							type: 'post',
-							data: {
-								'id': el_id.val(),
-							},
-							success: function(response) {							
-								// alert(response);
-							},
-							error: function(jqXhr, textStatus, errorThrown) {
-								console.log(errorThrown);
-							}
-						});
-					}
-					// assumes delete is successful if exists in DB
-					el_table_row.remove();
-				});
+			el_table_row = $(this).closest('tr');
+			el_table_row.remove();
 
-			// update totals fields
+			// Only if tracking committed_qty in stock
+			// deleteUrl = $(this).data('url');
+			// el_id = el_table_row.find('td > .item-id');
+			// if (el_id.val() != '')
+			// {
+			// 	$.ajax({
+			// 		url: deleteUrl,
+			// 		type: 'post',
+			// 		data: {
+			// 			'id': el_id.val(),
+			// 		},
+			// 		success: function(response) {							
+			// 			// alert(response);
+			// 		},
+			// 		error: function(jqXhr, textStatus, errorThrown) {
+			// 			console.log(errorThrown);
+			// 		}
+			// 	});
+			// }
+
+			// update sale_total amounts
 			lineInputs = getLineInputs(el_table_body);
 			linesInputs = getLinesInputs();
 			docTotalInputs = getDocTotalInputs();
-			lineInputs[4].val((lineInputs[0].val() * lineInputs[1].val()).toFixed(2));
-			lineInputs[5].text(lineInputs[4].val());
+			lineInputs[4].val(lineInputs[0].val() * lineInputs[1].val());
+			lineInputs[5].text(numeral(lineInputs[4].val()).format('0,0.00'));
 			recalculateDocTotals(linesInputs, docTotalInputs);
-
-			el_checkbox_all = $('th > input#select_all_rows');
-			el_checkbox_all.prop('checked', false);
-
-			// rowCount = $('tbody#item_detail > tr').length;
-			// if (rowCount > 0)
-			// 	el_checkbox_all.css('display', '');
-			// else
-			// 	el_checkbox_all.css('display', 'none');
-			// displaySelectAllCheckboxIf()
 
 			// stops execution
 			return false;
 		});
 
-	function displaySelectAllCheckboxIf() {
-		countItemRows = $('tbody#item_detail > tr').length;
-		if (countItemRows > 0)
-			el_checkbox_all.css('display', '');
-		else
-			el_checkbox_all.css('display', 'none');
-	}
+	$('#cash_sale').on('click', 
+		function(e) {
+			$('.credit-sale').css('display', 'none');
+			$('.sales-return').css('display', 'none');
+			$('#credit_sale').closest('li').removeClass('disabled');
+			$('#sales_return').closest('li').removeClass('disabled');
+			$('.cash-sale').css('display', 'table-row');
+			$(this).closest('li').addClass('disabled');
+
+			return false;
+		});
+
+	$('#credit_sale').on('click', 
+		function(e) {
+			$('.sales-return').css('display', 'none');
+			$('.cash-sale').css('display', 'none');
+			$('#cash_sale').closest('li').removeClass('disabled');
+			$('#sales_return').closest('li').removeClass('disabled');
+			$('.credit-sale').css('display', 'table-row');
+			$(this).closest('li').addClass('disabled');
+
+			return false;
+		});
+
+	$('#sales_return').on('click', 
+		function(e) {
+			$('.cash-sale').css('display', 'none');
+			$('.credit-sale').css('display', 'none');
+			$('.sales-return').css('display', 'table-row');
+			$('#cash_sale').closest('li').removeClass('disabled');
+			$('#credit_sale').closest('li').removeClass('disabled');
+			$(this).closest('li').addClass('disabled');
+
+			return false;
+		});
+
+	$('#hold').on('click', 
+		function(e) {
+			// Check if draft POS Invoices for current user + TODAY date exist in DB
+			// if has_no_items then load draft POS Invoices if found
+			// else save this Sale as draft status with items loaded
+			return false;
+		});
+
+	$('#cancel').on('click', 
+		function(e) {
+			// Check if POS Profile for current user requires approval to cancel
+			// if has_no_items then do nothing
+			// else Cancel and release committed quantities if applicable
+			return false;
+		});		
 });

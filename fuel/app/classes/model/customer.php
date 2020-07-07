@@ -111,19 +111,17 @@ class Model_Customer extends Model
         );
     }
     
-    public static function listOptions($type = null)
+    public static function listOptions()
 	{
 		$items = DB::select('id','customer_name')
 						->from(self::$_table_name)
 						->where([
                             'inactive' => false,
-                            // 'customer_type' => $type
-                            // ['customer_type', 'in', $type]
                         ])
 						->execute()
 						->as_array();
         
-		$list_options = array('' => '&nbsp;');
+		$list_options = array('' => 'Walk-in Customer');
 
 		foreach($items as $item) {
 			$list_options[$item['id']] = $item['customer_name'];
