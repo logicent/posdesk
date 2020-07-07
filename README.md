@@ -55,7 +55,7 @@ TODO: create task to load default reports
 
 Go to sidebar navigation menu to:
 
-- add business info
+- add business/company info
 
 - add product groups, items and branches
 
