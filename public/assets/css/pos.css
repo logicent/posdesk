@@ -16,18 +16,22 @@
     border-right: 0;
 }
 
-.btn-default:active, .open>.dropdown-toggle.btn-default, .btn-group > a:focus, .btn-group > a:hover {
+.btn-default:active, 
+.btn-default:focus, 
+.btn-default:hover, 
+.open>.dropdown-toggle.btn-default, 
+.btn-group > a:focus, 
+.btn-group > a:hover {
     background-color: #e4edf6;
     border-color: #ced8e4;
     padding: 8px;
 }
 
-#items .form-control {
+#items .form-control, #payments .form-control {
     border: none;
     border-radius: 0;
     height: 40px;
     font-size: 16px;
-    /* vertical-align: middle; */
 }
 
 #items th {
@@ -37,7 +41,7 @@
     /* font-weight: 500; */
 }
 
-#items tbody tr:not(#no_items) td {
+#items tbody tr:not(#no_items) td, #payments tbody tr td {
     padding: 0;
 }
 
@@ -48,4 +52,9 @@
 /* Override custom.css:220 */
 .tab-content > .tab-pane.active > table {
     border-top: 1px solid #d1d8dd;
+}
+
+.inline-table table {
+    background-color: transparent;
+    border: none;
 }

@@ -130,79 +130,6 @@ class Model_Sales_Order extends Model_Soft
 		return $list_options;
 	}
 
-	public static function updateBillSettlement($booking)
-	{
-		$bill = $booking->bill;
-		$bill->amount_due = $booking->total_payment - $bill->disc_total; // preserve applied discount
-		$bill->balance_due = $bill->amount_due - $bill->amount_paid;
-
-		switch ($bill->balance_due)
-		{
-			case 0:
-				if ($bill->guest->status == Model_Facility_Booking::GUEST_STATUS_CHECKED_OUT)
-					$bill->status = self::ORDER_STATUS_CLOSED;
-				$bill->paid_status = self::ORDER_PAID_STATUS_FULL_PAID;
-				break;
-
-			case $bill->balance_due < 0:
-				$bill->balance_due += abs($bill->balance_due);
-				$bill->advance_paid = abs($bill->balance_due);
-				$bill->paid_status = self::ORDER_PAID_STATUS_PLUS_PAID;
-				break;
-
-			case $bill->balance_due < $bill->amount_due:
-				$bill->paid_status = self::ORDER_PAID_STATUS_PART_PAID;
-				break;
-
-			default: // $bill->balance_due == $bill->amount_due
-				$bill->paid_status = self::ORDER_PAID_STATUS_NOT_PAID;
-		}
-		// update order
-		if($bill->save())
-			self::updateBillDetail($booking);
-	}
-
-	public static function updateBillDetail($booking)
-	{
-		$bill_item = Model_Sales_Order_Item::find('first', array('where' => array('order_id' => $booking->bill->id)));
-		$bill_item->qty = $booking->duration;
-		$bill_item->amount = $booking->duration * $booking->rate_amount;
-		$bill_item->save();
-	}
-
-	public static function updateBillStatus($booking)
-	{
-		$order = $booking->bill;
-
-		switch ($booking->status)
-		{
-			case Model_Facility_Booking::GUEST_STATUS_CHECKED_OUT:
-				$order->status = self::ORDER_STATUS_CLOSED;
-				break;
-			default:
-		}
-		// update order
-		$order->save();
-	}
-
-	public static function updateBillDates($booking)
-	{
-		$order = $booking->bill;
-		$order->issue_date = $booking->checkin;
-		$order->due_date = $booking->checkout;
-		// update order
-		$order->save();
-	}
-
-	public static function applyDiscountAmount(&$sales_order)
-	{
-		$sales_order->amount_due -= $sales_order->disc_total;
-		$sales_order->balance_due = $sales_order->amount_due - $sales_order->amount_paid;
-
-		if ($sales_order->balance_due == 0)
-			$sales_order->paid_status = self::ORDER_PAID_STATUS_FULL_PAID;
-	}
-
 	public static function getNextSerialNumber()
 	{
 		if (self::find('last'))
@@ -210,28 +137,4 @@ class Model_Sales_Order extends Model_Soft
 		else return 1001; // initial record
     }
     
-    // public static function getUnitName($order)
-    // {
-    //     if ($order->source == self::ORDER_SOURCE_BOOKING)
-    //         $order->unit_name = $order->booking->unit->name;
-        
-    //     if ($order->source == self::ORDER_SOURCE_LEASE)
-    //         $order->unit_name = $order->lease->unit->name;
-        
-    //     $order->save(); // update the order
-
-    //     return $order->unit_name;
-	// }
-	
-	// public static function getSourceName($business)
-	// {
-	// 	$source= array();
-	// 	if ($business->service_accommodation || $business->service_hire)
-	// 		$source[self::ORDER_SOURCE_BOOKING] = self::ORDER_SOURCE_BOOKING;
-		
-	// 	if ($business->service_rental || $business->service_sale)
-	// 		$source[self::ORDER_SOURCE_LEASE] = self::ORDER_SOURCE_LEASE;
-		
-	// 	return $source;
-	// }
 }

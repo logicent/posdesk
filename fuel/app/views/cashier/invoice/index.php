@@ -75,9 +75,15 @@
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
-                <?= Form::select('customer_id', Input::post('customer_id', $pos_invoice->customer_id), 
-                                Model_Customer::listOptions(), 
-                                array('class' => 'col-md-4 form-control select-from-list')); ?>
+                <!-- <div class="input-group"> -->
+                    <?= Form::select('customer_id', Input::post('customer_id', $pos_invoice->customer_id), 
+                                    Model_Customer::listOptions(), 
+                                    array('class' => 'col-md-4 form-control select-from-list')); ?>
+                    <!-- <span class="input-group-btn">
+                        <?= Html::anchor(null, '<i class="fa fa-fw fa-user-o"></i>', 
+                                        array('id' => 'add_customer', 'class' => 'text-muted btn btn-default')) ?>
+                    </span> -->
+                <!-- </div><!-- /.input-group -->
             </div>
         </div>
         <div class="form-group">

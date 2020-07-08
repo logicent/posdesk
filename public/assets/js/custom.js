@@ -122,6 +122,17 @@ $(function() {
             preview.src = '';
         }
     });
+
+    $('#payment_options').on('hidden.bs.collapse', function () {
+        $('#collapse_icon > i').removeClass('fa fa-angle-up');
+        $('#collapse_icon > i').addClass('fa fa-angle-down');
+    });
+
+    $('#payment_options').on('shown.bs.collapse', function () {
+        $('#collapse_icon > i').removeClass('fa fa-angle-down');
+        $('#collapse_icon > i').addClass('fa fa-angle-up');
+    });
+
     // FIX: dropdown-menu stays open after menu item click
     $('ul.dropdown-menu > li > a').on('click', function(){
         $('div.open').removeClass('open');

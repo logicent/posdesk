@@ -38,7 +38,7 @@ class Model_Accounts_Payment_Method extends Model
 		return $val;
 	}
 
-    public static function listOptions()
+    public static function listOptions($show_prompt = true)
 	{
 		$items = DB::select('code','name')
 						->from(self::$_table_name)
@@ -46,10 +46,20 @@ class Model_Accounts_Payment_Method extends Model
 						->execute()
 						->as_array();
 
-		$list_options = array('' => '');
+		if ($show_prompt)
+			$list_options = array('' => '');
+		else
+			$list_options = array();
+		
 		foreach($items as $item) {
 			$list_options[$item['code']] = $item['name'];
         }
 		return $list_options;
 	}
+
+	public static function getValue($attribute, $id)
+	{
+		return self::find($id)->$attribute;
+	}
+
 }

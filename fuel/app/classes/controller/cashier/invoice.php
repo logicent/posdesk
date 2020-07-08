@@ -4,6 +4,10 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 {
 	public $pos_invoice;
 	public $pos_invoice_item;
+	public $pos_invoice_payment;
+	// public $pos_invoice_taxes;
+	public $payment_methods;
+	public $payment_taxes;
 	public $save_passed = false;
 
 	public function action_index()
@@ -49,7 +53,7 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 				$items = array_combine(range(1, $items_count), array_values($pos_invoice_item));
 				for ($i = 1; $i <= $items_count; $i++)
 				{
-					$this->pos_invoice_item[$i] = Model_Sales_Invoice_Item::forge(array(
+					$this->pos_invoice_item[$i] = Model_Cashier_Invoice_Item::forge(array(
 						'item_id' => $items[$i]['item_id'],
 						'quantity' => $items[$i]['quantity'],
 						'unit_price' => $items[$i]['unit_price'],
@@ -60,26 +64,56 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 						'description' => $items[$i]['description'],
 					));
 				}
-				// save the posted Cashier Invoice
-				$this->submit_sale();
-				// prepare New Sale entry defaults
-				if ($this->save_passed)
-					$this->new_sale();
 			}
-			else {
-				Session::set_flash('error', 'Must have Sales Items.');
+			// prevent POST client side if no items added to Cashier Invoice
+			// else {
+			// 	Session::set_flash('error', 'Must have Sales Items.');
+			// }
+
+			// get the sales payment(s) in POST
+			$pos_invoice_payment = Input::post('payment');
+			if ($pos_invoice_payment)
+			{
+				// re-index array starting with 1 not 0 (resolves row_id mixup in UI)
+				$items_count = count($pos_invoice_payment);
+				$payments = array_combine(range(1, $items_count), array_values($pos_invoice_payment));
+				for ($i = 1; $i <= $items_count; $i++)
+				{
+					$this->pos_invoice_payment[$i] = Model_Cashier_Payment::forge(array(
+						// 'invoice_id' => $payments[$i]['invoice_id'],
+						'receipt_number' => $payments[$i]['receipt_number'],
+						'reference' => $payments[$i]['reference'],
+						'payment_method' => $payments[$i]['payment_method'],
+						'date_paid' => $payments[$i]['date_paid'],
+						'amount_due' => $payments[$i]['amount_due'],
+						'amount_paid' => $payments[$i]['amount_paid'],
+						'status' => $payments[$i]['status'],
+						'description' => $payments[$i]['description'],
+					));
+				}
 			}
-		}
-		else {
-			$this->new_sale();
+			// save the posted Cashier Invoice
+			$this->submit_sale();
+			// prepare New Sale entry defaults
+			// if ($this->save_passed)
+			// 	$this->new_sale();
 		}
 
-		// get POS profile of current user
-		// $data['pos_profile] = Model_Pos_Profile::get_for_current_user()
-		// $this->template->set_global('pos_profile', $pos_profile, false);
+		$this->payment_methods = Model_Accounts_Payment_Method::listOptions(false);
+		$this->template->set_global('payment_methods', $this->payment_methods, false);
+		// $this->taxes_charges = Model_Accounts_Tax::listOptions(false);
+		// $this->template->set_global('sales_taxes', $this->taxes_charges, false);
+	
+		$this->new_sale();
 
 		$this->template->set_global('pos_invoice', $this->pos_invoice, false);
 		$this->template->set_global('pos_invoice_item', $this->pos_invoice_item, false);
+		$this->template->set_global('pos_invoice_payment', $this->pos_invoice_payment, false);
+		// $this->template->set_global('pos_invoice_taxes', $this->pos_invoice_taxes, false);
+
+		// get POS profile of current user
+		// $data['pos_profile] = Model_Cashier_Profile::get_for_current_user()
+		// $this->template->set_global('pos_profile', $pos_profile, false);
 
 		$this->template->title = "Cashier";
 		$this->template->content = View::forge('cashier/invoice/index');
@@ -134,7 +168,15 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 			$col_def = DB::list_columns('sales_invoice', "$property");
 			$this->pos_invoice->$property = $col_def["$property"]['default'];
 		}
-		$this->pos_invoice_item = []; // use empty array for new sale
+		
+		$this->pos_invoice_item = [];
+
+		foreach ($this->payment_methods as $payment_method)
+			$this->pos_invoice_payment[] = Model_Cashier_Payment::forge(
+				array(
+					'payment_method' => $payment_method
+				)
+			);
 	}
 
 	public function action_search()

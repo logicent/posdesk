@@ -63,12 +63,20 @@
                 <?= Form::hidden('amount_due', Input::post('amount_due', $pos_invoice->amount_due)); ?>
             </td>
         </tr>
-        <tr>
-            <td><span>PAID</span></td>
+        <tr data-toggle="collapse" data-target="#payment_options" class="accordion-toggle">
+            <td><span>PAID</span>&ensp;<span id="collapse_icon"><i class="fa fa-angle-down"></i></span></td>
             <td width="50%" class="text-right">
                 <span id="sale_amount_paid"><?= number_format($pos_invoice->amount_paid, 2) ?></span>
                 <?= Form::hidden('amount_paid', Input::post('amount_paid', $pos_invoice->amount_paid), 
                                 array('class' => 'input-sm form-control text-right')); ?>
+            </td>
+        </tr>
+        <!-- Loop through the payment methods in POS Profile -->
+        <tr class="accordion-body collapse" id="payment_options">
+            <td colspan="2" style="border-top: none; padding: 0">
+                <div class="inline-table">
+                    <?= render('cashier/invoice/payment/index', array('pos_invoice_payments' => $pos_invoice_payment)); ?>
+                </div>
             </td>
         </tr>
         <!-- show if payment method is Cash -->
