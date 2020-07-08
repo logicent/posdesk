@@ -94,7 +94,10 @@
                             <li><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
                         </ul>
                     </div>
-                    <?= Html::anchor(null, 'Hold / Cont.', array('class' => 'text-muted btn btn-default', 'id' => 'hold')) ?>
+                    <?= Html::anchor(null, 'Hold / Cont.',
+                            // Model_Cashier_Invoice::count_sales_on_hold() or count_draft_sales()
+                            //  . '&ensp;' . html_tag('span', array('class' => 'text-primary'), '(1)'), 
+                            array('class' => 'text-muted btn btn-default', 'id' => 'hold')) ?>
                     <?= Html::anchor(null, 'Cancel', array('class' => 'text-muted btn btn-default', 'id' => 'cancel')) ?>
                 </div>
             </div>

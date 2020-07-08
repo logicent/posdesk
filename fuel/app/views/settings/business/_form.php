@@ -4,7 +4,7 @@
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::hidden('is_default', Input::post('is_default', isset($business) ? $business->is_default : '1')); ?>
-                <?= Form::hidden('enabled', Input::post('enabled', isset($business) ? $business->enabled : '1')); ?>
+                <?= Form::hidden('inactive', Input::post('inactive', isset($business) ? $business->inactive : '0')); ?>
                 <?= Form::label('Business name', 'business_name', array('class'=>'control-label')); ?>
                 <?= Form::input('business_name', Input::post('business_name', isset($business) ? $business->business_name : ''),
                                 array('class' => 'col-md-4 form-control', 'autofocus' => true)); ?>

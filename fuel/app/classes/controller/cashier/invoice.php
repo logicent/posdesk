@@ -147,16 +147,13 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 										// 	'group_id' => Input::post('group_id'),
 										// ))
 										->or_where(array(
-											'item_code', 'LIKE', Input::post('q'),
+											array('item_code', 'LIKE', Input::post('q'),)
 										))
 										->or_where(array(
-											// 'id' => Input::post('item_id'),
-											'item_name', 'LIKE', Input::post('q'),
+											array('item_name', 'LIKE', Input::post('q'),)
 										))
 										->get();
 										// ->to_array();
-			Kint::dump($item);
-			exit;
 			$data['items'] = $item;
 		}
 		return json_encode($data);

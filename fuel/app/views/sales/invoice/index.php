@@ -1,21 +1,20 @@
 <div class="row">
 	<div class="col-md-6">
         <h2>Listing <span class='text-muted'>Sales</span>&ensp;
-        <span class="btn-group list-filters">
-            <?= Html::anchor('sales/invoice', 
-                            'All', array('class' => "btn btn-sm btn-default", 'data-status' => '')); ?>
-            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_OPEN, 'Open', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_OPEN)); ?>
-            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CLOSED, 'Closed', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CLOSED)); ?>
-            <?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CANCELED, 'Canceled', 
-                            array('class' => 'btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CANCELED)); ?>
-		</span>
-    </h2>
+			<span class="btn-group list-filters">
+				<?= Html::anchor('sales/invoice', 
+								'All', array('class' => "text-muted btn btn-sm btn-default", 'data-status' => '')); ?>
+				<?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_OPEN, 'Open', 
+								array('class' => 'text-muted btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_OPEN)); ?>
+				<?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CLOSED, 'Closed', 
+								array('class' => 'text-muted btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CLOSED)); ?>
+				<?= Html::anchor('sales/invoice/?status=' . Model_Cashier_Invoice::INVOICE_STATUS_CANCELED, 'Canceled', 
+								array('class' => 'text-muted btn btn-sm btn-default', 'data-status' => Model_Cashier_Invoice::INVOICE_STATUS_CANCELED)); ?>
+			</span>		
+		</h2>
 	</div>
-
 	<div class="col-md-6 text-right">
-        <br>
+        <br>		
 		<?= Html::anchor('sales/invoice/create', 'New', array('class' => 'btn btn-primary')); ?>
 	</div>
 </div>

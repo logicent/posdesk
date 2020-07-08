@@ -14,7 +14,7 @@ class Model_Business extends Model
 		'trading_name',
 		'address',
 		'is_default',
-		'enabled',
+		'inactive',
 		'tax_identifier',
 		'business_type',
 		'currency_symbol',
@@ -41,7 +41,26 @@ class Model_Business extends Model
 	}
 
     protected static $_table_name = 'business';
-    
+
+	public static function listOptions()
+	{
+		$items = DB::select('id','trading_name')
+						->from(self::$_table_name)
+						->where([
+                            'inactive' => false,
+                        ])
+						->execute()
+						->as_array();
+        
+		$list_options = array('' => '&nbsp;');
+
+		foreach($items as $item) {
+			$list_options[$item['id']] = $item['trading_name'];
+        }
+        
+		return $list_options;
+	}
+
     public static function listOptionsType()
 	{
 		return array(

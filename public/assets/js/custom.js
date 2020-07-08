@@ -61,7 +61,7 @@ $(function() {
     // Select2
     $('.select-from-list').select2({
         theme: "bootstrap",
-        // placeholder: 'Select from list ...'
+        placeholder: $(this).data('placeholder')
     });
 
     $('.cb-checked').click(

@@ -87,6 +87,15 @@ class Model_Setting extends \Orm\Model
                     'icon' => 'file-o',
                     'description' => 'Set starting/next serial numbers for transaction documents',
                     'column' => self::SETTINGS_COLUMN_RIGHT,
+                    'visible' => false, // always TRUE
+                ),
+                array( // Cashier Profile
+                    'id'     => 'cashier_profile',
+                    'label'  => 'Cashier profile',
+                    'route'  => 'admin/settings/cashier/profile',
+                    'icon' => 'book',
+                    'description' => 'Set default options and assign users to POS profiles',
+                    'column' => self::SETTINGS_COLUMN_RIGHT,
                     'visible' => true, // always TRUE
                 ),
             ),

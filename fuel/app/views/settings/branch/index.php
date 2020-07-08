@@ -24,9 +24,9 @@
     <?php foreach ($branches as $item): ?>	
         <tr>
             <td><?= Html::anchor('admin/settings/branch/edit/'.$item->id, $item->trading_name, ['class' => 'clickable']) ?></td>
-            <td><?= (bool) $item->enabled ? 
-                '<i class="fa fa-circle-o fa-fw text-success"></i>Enabled' : 
-                '<i class="fa fa-circle-o fa-fw text-danger"></i>Disabled' ?>
+            <td><?= (bool) $item->inactive ? 
+                '<i class="fa fa-circle-o fa-fw text-danger"></i>Inactive' : 
+                '<i class="fa fa-circle-o fa-fw text-success"></i>Active' ?>
             </td>
             <td class="text-muted"><?= $item->phone_number ?></td>
             <td class="text-muted"><?= $item->email_address ?></td>

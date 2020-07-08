@@ -121,7 +121,7 @@ class Model_Customer extends Model
 						->execute()
 						->as_array();
         
-		$list_options = array('' => 'Walk-in Customer');
+		$list_options = array('' => '&nbsp;');
 
 		foreach($items as $item) {
 			$list_options[$item['id']] = $item['customer_name'];

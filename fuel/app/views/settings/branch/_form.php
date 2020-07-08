@@ -27,9 +27,9 @@
 		<div class="form-group">
 			<div class="col-md-3">
 				<?= Form::hidden('is_default', Input::post('is_default', isset($branch) ? $branch->is_default : '0')); ?>
-				<?= Form::hidden('enabled', Input::post('enabled', isset($branch) ? $branch->enabled : '1')); ?>
-				<?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
-				<?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
+				<?= Form::hidden('inactive', Input::post('inactive', isset($branch) ? $branch->inactive : '0')); ?>
+				<?= Form::checkbox('cb_inactive', null, array('class' => 'cb-checked', 'data-input' => 'inactive')); ?>
+				<?= Form::label('Inactive', 'cb_inactive', array('class'=>'control-label')); ?>
 			</div>
 		</div>        
     </div>
