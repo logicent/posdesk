@@ -10,6 +10,9 @@ build
 .idea
 nbproject/
 
+public/assets/js/plugins/*/.gitattributes
+public/assets/js/plugins/*/.gitignore
+
 /public/uploads
 
 # hidden files created by Windows
