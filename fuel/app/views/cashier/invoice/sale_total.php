@@ -22,8 +22,8 @@
                 <?= Form::hidden('subtotal', Input::post('subtotal', $pos_invoice->subtotal)); ?>
             </td>
         </tr>
-        <!-- show discount if enabled for current user or all -->
-        <tr style="display: none;">
+        <?php if ((bool) $pos_profile->show_discount) : ?>
+        <tr>
             <td><span>Discount</span></td>
             <td class="text-right">
                 <span id="discount_rate" class="small"><?= $pos_invoice->discount_rate ?>%</span>&ensp;
@@ -32,6 +32,7 @@
                                 array('class' => 'col-md-4 form-control input-sm text-right')); ?>                
             </td>
         </tr>
+        <?php endif ?>
         <tr>
             <td><span>Tax</span>&nbsp;
                 <span id="tax_type" class="small"><?= $pos_invoice->tax_type ?></span>
@@ -45,7 +46,8 @@
                 <?= Form::hidden('tax_total', Input::post('tax_total', $pos_invoice->tax_total)); ?>
             </td>
         </tr>
-        <tr style="display: none;">
+        <?php if ((bool) $pos_profile->show_shipping) : ?>
+        <tr>
             <td><span>Shipping</span></td>
             <td class="text-right">
                 <span id="shipping_fee"><?= number_format($pos_invoice->shipping_fee, 2) ?></span>
@@ -56,6 +58,7 @@
                                 array('class' => 'col-md-4 form-control input-sm text-right')); ?>
             </td>
         </tr>
+        <?php endif ?>
         <tr style="font-size: 150%; font-weight: 500; height: 82px">
             <td style="vertical-align: middle"><span class="text-muted">TOTAL</span></td>
             <td style="vertical-align: middle" class="text-right">

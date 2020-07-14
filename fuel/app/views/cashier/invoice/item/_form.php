@@ -23,18 +23,32 @@
 	<td class='price'>
 		<?= Form::input("item[$row_id][unit_price]", Input::post('unit_price', 
 						number_format($invoice_item->unit_price, 2, '.', '')),
-						array('class' => 'input-sm form-control text-right', 'id' => 'unit_price')); ?>
+						array(
+							'class' => 'input-sm form-control text-right', 
+							'id' => 'unit_price',
+							'readonly' => (bool) $pos_profile->allow_user_price_edit
+						)); ?>
 		<?= Form::hidden("item[$row_id][tax_rate]", Input::post('tax_rate', $invoice_item->tax_rate),
 						array('id' => 'tax_rate')); ?>
 	</td>
-	<td class='discount' style="display: none">
+	<?php if ((bool) $pos_profile->show_discount) : ?>
+	<td class='discount'>
 		<?= Form::input("item[$row_id][discount_rate]", Input::post('discount_rate', 
 						number_format($invoice_item->discount_rate, 0.0, '.', '')),
-						array('class' => 'input-sm form-control')); ?>
-		<?= Form::input("item[$row_id][discount_amount]", Input::post('discount_amount', 
+						array(
+							'class' => 'input-sm form-control text-right',
+							'readonly' => (bool) $pos_profile->allow_user_discount_edit === false
+						)); ?>
+		<?= Form::hidden("item[$row_id][discount_amount]", Input::post('discount_amount', 
+						number_format($invoice_item->discount_amount, 0, '.', ''))); ?>
+		<!-- <?= Form::input("item[$row_id][discount_amount]", Input::post('discount_amount', 
 						number_format($invoice_item->discount_amount, 0, '.', '')),
-						array('class' => 'input-sm form-control')); ?>						
+						array(
+							'class' => 'input-sm form-control',
+							'readonly' => (bool) $pos_profile->allow_user_discount_edit
+						)); ?> -->
 	</td>
+	<?php endif ?>
 	<td class='item-total text-right' style="vertical-align: middle; padding-right: 10px; font-size: 105%;">
 		<span><?= number_format($invoice_item->amount, 2) ?></span>
 		<?= Form::hidden("item[$row_id][amount]", Input::post('amount', $invoice_item->amount)); ?>						

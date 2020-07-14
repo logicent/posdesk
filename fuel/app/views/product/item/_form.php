@@ -1,7 +1,33 @@
+<?php 
+    $img_ph = "images/camera.gif";
+    $img_src = '';
+    if (isset($product_item)) :
+        if ($product_item->image_path) :
+            $img_src = $product_item->image_path;
+        else :
+            $img_src = "https://avatars.dicebear.com/v2/initials/{$product_item->item_name}.svg";
+        endif;
+    else :
+        $img_src = $img_ph;
+    endif ?>
+
 <?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off")); ?>
 
 <div class="row">
     <div class="col-md-6">
+        <div class="form-group">
+            <div class="col-md-12">
+                <?= Form::hidden('enabled', Input::post('enabled', isset($product_item) ? $product_item->enabled : '1')); ?>
+                <?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
+                &nbsp;
+                <?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Item name', 'item_name', array('class'=>'control-label')); ?>
@@ -24,21 +50,15 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <?= Form::hidden('is_sales_item', Input::post('is_sales_item', isset($product_item) ? $product_item->is_sales_item : '1')); ?>
                 <?= Form::checkbox('cb_is_sales_item', null, array('class' => 'cb-checked', 'data-input' => 'is_sales_item')); ?>
+                &nbsp;
                 <?= Form::label('Is sales item', 'cb_is_sales_item', array('class'=>'control-label')); ?>
             </div>
         </div>
-        <div class="form-group">
-            <div class="col-md-3">
-                <?= Form::hidden('enabled', Input::post('enabled', isset($product_item) ? $product_item->enabled : '1')); ?>
-                <?= Form::checkbox('cb_enabled', null, array('class' => 'cb-checked', 'data-input' => 'enabled')); ?>
-                <?= Form::label('Enabled', 'cb_enabled', array('class'=>'control-label')); ?>
-            </div>
-        </div>        
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Item group', 'group_id', array('class'=>'control-label')); ?>
@@ -87,6 +107,45 @@
                                 array('class' => 'col-md-4 form-control')); ?>
             </div>            
         </div>
+    </div>
+	<div class="col-md-offset-1 col-md-3">
+        <div class="form-group">
+            <div class="col-md-12">
+                <?= Form::label('Image preview', 'upload_img', array('class'=>'control-label')); ?>
+                <div class="well text-center">
+                    <?= Form::file('uploaded_file', array('class' => '', 'style' => 'display: none;')); ?>
+                    <div class="img-wrapper" style="height: 198px;">
+                        <?= Html::img($img_src, 
+                                array(
+                                    'class'=>'upload-img', 
+                                    'style' => 'max-width: 160px; height: 160px;'
+                                )
+                            ); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="form-group">
+            <div class="col-md-12">
+                <?= Form::label('Image path', 'image_path', array('class'=>'control-label')); ?>
+                <div class="input-group">
+                    <?= Form::input('image_path', Input::post('image_path', isset($product_item) ? $product_item->image_path : ''),
+                                    array('id' => 'file_path', 'class' => 'col-md-4 form-control', 'readonly' => true)); ?>
+                    <span class="input-group-addon">
+                        <?= Html::anchor(Uri::create(false), '<i class="fa fa-plus-square-o"></i>', 
+                                        array('id' => 'add_img', 'class' => 'text-info')) ?>
+                    </span>
+                <?php 
+                    if (isset($product_item)) : ?>
+                    <span class="input-group-addon">
+                        <?= Html::anchor(Uri::create('product/item/remove_img/' . $product_item->id), '<i class="fa fa-trash-o"></i>',
+                                        array('id' => 'del_img', 'class' => ' text-primary', 'data-ph' => $img_ph)) ?>
+                    </span>
+                <?php 
+                    endif ?>
+                </div>
+            </div>        
+        </div>        
     </div>
 </div>
 

@@ -261,6 +261,14 @@ a.active {
     border-color: #ced8e4;
 }
 
+.btn.btn-default.btn-xs {
+    padding: 1px 4px;
+}
+
+.btn.btn-default.btn-xs:hover {
+    color: #3f4d5a;
+}
+
 .btn-link {
     color: #1f2933;
 }
@@ -467,15 +475,44 @@ input.cb-checked {
 .img-wrapper {
     height: 280px;
 }
+.nav > li > a:hover {
+    background-color: #e4edf6;
+    color: #36414c;
+}
+
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {
+    background-color: #e4edf6;
+    /* border-color: #dd4814; */
+}
 
 .navbar-top-links.top-menu a {
     font-size: 97.5%;
     text-transform: uppercase;
 }
 
-/* .navbar-top-links.top-menu {
-    margin-left: 95px;
-} */
+.navbar-top-links .dropdown-menu {
+    margin-top: 1px;
+    border-radius: 0;
+    border-color: #f7fafc;
+    background-color: #f3f6fc;
+}
+
+.navbar-top-links .dropdown-menu {
+    padding: 0;
+}
+
+.navbar-top-links .dropdown-menu > li {
+    margin: 0;
+}
+
+.navbar-top-links .dropdown-menu > li > a {
+    padding: 15px;
+}
+
+.navbar-top-links .dropdown-menu > li > a:hover {
+    background-color: #e4edf6;
+    color: #36414c;
+}
 
 .navbar-top-links:not(.top-menu) {
     margin-right: 10px;

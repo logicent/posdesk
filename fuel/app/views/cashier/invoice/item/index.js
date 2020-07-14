@@ -9,6 +9,8 @@ $('#item_search').on('change',
 			return false;
 
         el_table_body = $('#items').find('tbody');
+        // el_list_table = $('#list').find('tbody');
+        // el_grid_thumbs = $('#grid').find('.row');
         last_row_id = el_table_body.find('tr').not('#no_items').length;
         has_no_items = el_table_body.find('tr#no_items').length == 1;
 

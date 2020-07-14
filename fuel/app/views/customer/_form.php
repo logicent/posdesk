@@ -139,7 +139,7 @@
 	</div><!--/.col-md-6-->
 
     <!-- Right Side -->
-	<div class="col-md-4">
+	<div class="col-md-offset-1 col-md-3">
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('ID preview', 'upload_img', array('class'=>'control-label')); ?>
@@ -156,7 +156,6 @@
                 </div>
             </div>
         </div>
-
 		<div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('ID path', 'ID_attachment', array('class'=>'control-label')); ?>

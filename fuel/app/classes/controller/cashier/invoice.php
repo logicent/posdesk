@@ -2,6 +2,7 @@
 
 class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 {
+	public $pos_profile;
 	public $pos_invoice;
 	public $pos_invoice_item;
 	public $pos_invoice_payment;
@@ -12,6 +13,10 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 
 	public function action_index()
 	{
+		// get POS profile of current user
+		// $pos_profile = Model_Cashier_Profile::get_for_current_user();
+		$this->pos_profile = Model_Cashier_Profile::find('first');
+
 		if (Input::method() == 'POST')
 		{
 			// get the POS Invoice in POST
@@ -65,10 +70,6 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 					));
 				}
 			}
-			// prevent POST client side if no items added to Cashier Invoice
-			// else {
-			// 	Session::set_flash('error', 'Must have Sales Items.');
-			// }
 
 			// get the sales payment(s) in POST
 			$pos_invoice_payment = Input::post('payment');
@@ -94,9 +95,6 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 			}
 			// save the posted Cashier Invoice
 			$this->submit_sale();
-			// prepare New Sale entry defaults
-			// if ($this->save_passed)
-			// 	$this->new_sale();
 		}
 
 		$this->payment_methods = Model_Accounts_Payment_Method::listOptions(false);
@@ -111,9 +109,7 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		$this->template->set_global('pos_invoice_payment', $this->pos_invoice_payment, false);
 		// $this->template->set_global('pos_invoice_taxes', $this->pos_invoice_taxes, false);
 
-		// get POS profile of current user
-		// $data['pos_profile] = Model_Cashier_Profile::get_for_current_user()
-		// $this->template->set_global('pos_profile', $pos_profile, false);
+		$this->template->set_global('pos_profile', $this->pos_profile, false);
 
 		$this->template->title = "Cashier";
 		$this->template->content = View::forge('cashier/invoice/index');
@@ -168,7 +164,9 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 			$col_def = DB::list_columns('sales_invoice', "$property");
 			$this->pos_invoice->$property = $col_def["$property"]['default'];
 		}
-		
+
+		$this->pos_invoice->customer_id = $this->pos_profile->customer_id;
+
 		$this->pos_invoice_item = [];
 
 		foreach ($this->payment_methods as $payment_method)

@@ -11,6 +11,8 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 	public function action_search()
     {
 		$data = [];
+		$data['pos_profile'] = Model_Cashier_Profile::find('first');
+
         if (Input::is_ajax())
         {
             $item = Model_Product_Item::query()

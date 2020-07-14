@@ -15,7 +15,7 @@
             </div>
             <div class="col-md-4">
                 <?= Form::label('Item Group', 'item_group', array('class'=>'control-label')); ?>
-                <?= Form::select('item_group', Input::post('item_group', isset($pos_profile) ? $pos_profile->item_group : ''), 
+                <?= Form::select('item_group', Input::post('item_group', $pos_profile->item_group), 
                                 Model_Product_Group::listOptions(), 
                                 array(
                                     'class' => 'col-md-4 form-control select-from-list text-required',
@@ -49,24 +49,7 @@
         <div class="form-group">
             <div class="col-md-12">
                 <div id="cart_tabs" class="tab-content">
-                    <div id="list" class="tab-pane fade">      
-                        <?= render('cashier/invoice/item/index', array('pos_invoice_items' => $pos_invoice_item)); ?>
-                    </div>
-                    <div id="grid" class="tab-pane fade">
-                        <div class="row">
-                            <div class="col-xs-6 col-md-3">
-                                <div class="thumbnail">
-                                    <!-- <img data-src="holder.js/100%x180" alt="100%x180" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTcxIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE3MSAxODAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MTgwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTczMjRlMGY4MzcgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxMHB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNzMyNGUwZjgzNyI+PHJlY3Qgd2lkdGg9IjE3MSIgaGVpZ2h0PSIxODAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSI1OS4yNTc4MTI1IiB5PSI5NC41Ij4xNzF4MTgwPC90ZXh0PjwvZz48L2c+PC9zdmc+" data-holder-rendered="true" style="height: 180px; width: 100%; display: block;"> -->
-                                    <img src="/images/image-ph.jpg" alt="..." class="">
-                                    <div class="caption">
-                                        <h5>No item</h5>
-                                        <p class="small text-muted"></p>
-                                        <!-- <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?= render('cashier/invoice/item/index') ?>
                 </div>
             </div>
         </div>
@@ -95,7 +78,11 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="disabled"><?= Html::anchor(null, 'Cash Sale', array('id' => 'cash_sale')) ?></li>
+                        <?php
+                        if ( (bool) $pos_profile->hide_credit_sale === false ) : ?>
                             <li><?= Html::anchor(null, 'Credit Sale', array('id' => 'credit_sale')) ?></li>
+                        <?php 
+                        endif ?>
                             <li role="separator" class="divider"></li>
                             <li><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
                         </ul>
@@ -150,6 +137,8 @@
                                 )); ?>
             </div>
         </div>
+    <?php
+        if ( (bool) $pos_profile->show_sales_person ) : ?>
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Sales Person', 'sales_person', array('class'=>'control-label')); ?>
@@ -161,6 +150,8 @@
                                 )); ?>
             </div>
         </div>
+    <?php 
+        endif ?>
         <div class="form-group" style="display: none">
             <div class="col-md-12">
                 <?= Form::label('Shipping Address', 'shipping_address', array('class'=>'control-label')); ?>

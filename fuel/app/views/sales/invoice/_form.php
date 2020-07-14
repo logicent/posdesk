@@ -1,3 +1,9 @@
+<!-- Invoice Amounts -->
+<!-- Amount Due      Black (Sales) -->
+<!-- Amount Paid     Green (Receipts) -->
+<!-- Advance Paid    Blue (Liability) -->
+<!-- Balance Due     Red (Debts owed) -->
+
 <?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off")); ?>
 
 	<div class="form-group">

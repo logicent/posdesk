@@ -7,18 +7,29 @@ class Model_Cashier_Profile extends Model
 		'id',
 		'enabled',
 		'document_type',
-		'customer_id',
-		'sales_person',
+		'hide_credit_sale',
+		// 'ignore_customer_credit_limit',
+		// 'hide_sales_return',
+		'require_sales_return_reason',
+		// 'hide_hold_sale',
+		// 'require_approval_to_cancel_sale',
+		'default_sale_type',
+		'customer_id', // is default NOT restriction
+		// 'restrict_sale_to_customer', // if customer_id is NOT default
 		'show_sales_person',
 		'require_sales_person',
 		'branch',
 		'location',
 		'update_stock',
 		'allow_user_item_delete',
+		// 'require_item_delete_approval',
 		'allow_user_price_edit',
+		'show_discount',
 		'allow_user_discount_edit',
+		'show_shipping',
+		'require_shipping', // false
 		'show_qty_in_stock',
-		'item_group',
+		'item_group', // is restriction
 		'customer_group',
 		'price_list',
 		'currency',
@@ -41,6 +52,23 @@ class Model_Cashier_Profile extends Model
 
 	protected static $_table_name = 'cashier_profile';
 
+	// protected static $_has_many = array(
+	// 	'users' => array(
+	// 		'key_from' => 'id',
+	// 		'model_to' => 'Model_Cashier_Profile_User',
+	// 		'key_to' => 'cashier_profile_id',
+	// 		'cascade_save' => false,
+	// 		'cascade_delete' => false,
+	// 	),
+	// 	'payment_methods' => array(
+	// 		'key_from' => 'id',
+	// 		'model_to' => 'Model_Cashier_Profile_Payment_Method',
+	// 		'key_to' => 'cashier_profile_id',
+	// 		'cascade_save' => false,
+	// 		'cascade_delete' => false,
+	// 	),
+	// );
+
 	protected static $_has_one = array(
 		'customer' => array(
 			'key_from' => 'customer_id',
@@ -62,8 +90,9 @@ class Model_Cashier_Profile extends Model
 			'key_to' => 'id',
 			'cascade_save' => false,
 			'cascade_delete' => false,
-		),		
+		),
 	);
+
 	public static function validate($factory)
 	{
 		$val = Validation::forge($factory);
