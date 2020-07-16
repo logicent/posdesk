@@ -35,7 +35,8 @@ class Controller_Login extends Controller_Template
 					{
 						$current_user = Model_User::find_by_username(Auth::get_screen_name());
 					}
-					Session::set_flash('success', e('Welcome, '.$current_user->username));
+					// Session::set_flash('success', e('Welcome, '.$current_user->username));
+					Session::set_flash('success', e('Welcome, ' . Auth::get('fullname')));
 					Response::redirect_back('cashier');
 				}
 				else

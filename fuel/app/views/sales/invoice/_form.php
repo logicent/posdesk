@@ -92,13 +92,13 @@
 				</thead>
 				<tbody>
         <?php 
-            if (isset($sales_invoice) && !empty($sales_invoice->receipts)) :
-                foreach ($sales_invoice->receipts as $item): ?>
-                    <tr class="<?= $item->amount > 0 ? : 'strikeout text-muted' ?>">
-                        <td><?= Html::anchor('accounts/payment/receipt/edit/'.$item->id, $item->reference); ?></td>
-                        <td><?= $item->date; ?></td>
+            if (isset($sales_invoice) && !empty($sales_invoice->payments)) :
+                foreach ($sales_invoice->payments as $item): ?>
+                    <tr class="<?= $item->amount_paid > 0 ? : 'strikeout text-muted' ?>">
+                        <td><?= Html::anchor('accounts/payment/receipt/edit/'.$item->id, $item->receipt_number); ?></td>
+                        <td><?= $item->date_paid; ?></td>
                         <td><?= $item->description; ?></td>
-                        <td class="text-right"><?= number_format($item->amount, 2); ?></td>
+                        <td class="text-right"><?= number_format($item->amount_paid, 2); ?></td>
                     </tr>
         <?php 
                 endforeach;

@@ -27,21 +27,21 @@
     padding: 8px;
 }
 
-#items .form-control, #payments .form-control {
+#cart_tabs #items .form-control, #cart_tabs #payments .form-control {
     border: none;
     border-radius: 0;
     height: 40px;
     font-size: 16px;
 }
 
-#items th {
+#cart_tabs #items th {
     height: 41px;
     vertical-align: middle;
     /* font-size: 90%; */
     /* font-weight: 500; */
 }
 
-#items tbody tr:not(#no_items) td, #payments tbody tr td {
+#cart_tabs #items tbody tr:not(#no_items) td, #cart_tabs #payments tbody tr td {
     padding: 0;
 }
 
@@ -50,7 +50,7 @@
     border-color: #ced8e4;
 }
 /* Override custom.css:220 */
-.tab-content > .tab-pane.active > table {
+#cart_tabs > .tab-pane.active > table {
     border-top: 1px solid #d1d8dd;
 }
 

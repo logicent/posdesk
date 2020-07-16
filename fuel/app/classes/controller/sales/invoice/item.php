@@ -11,7 +11,6 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 	public function action_search()
     {
 		$data = [];
-		$data['pos_profile'] = Model_Cashier_Profile::find('first');
 
         if (Input::is_ajax())
         {
@@ -32,6 +31,8 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 			
 			$data['item'] = $item;
 			$data['row_id'] = Input::post('next_row_id');
+			// TODO: Model_Cashier_Profile::get_current_user()
+			$data['pos_profile'] = Model_Cashier_Profile::find('first');
             return View::forge('cashier/invoice/item/_form', $data);
         }
 	}
@@ -60,6 +61,30 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 		}
 		
 		return json_encode($item);
+	}
+
+	public function action_list_options()
+    {
+		$item = '';
+		$list_options = '';
+
+        if (Input::is_ajax())
+			$item = Model_Product_Item::listSaleItems(Input::post('group_id'));
+		
+		if (!empty($item))
+			foreach ($item as $id => $list_item)
+				$list_options .= "<option value='{$id}'>{$list_item}</option>";
+		
+		return $list_options;
+	}
+
+	public function action_no_item()
+	{
+        if (Input::is_ajax())
+        {
+			$data['pos_profile'] = Model_Cashier_Profile::find('first');
+            return View::forge('cashier/invoice/item/_no_item', $data);
+		}
 	}
 
 	public function action_delete()

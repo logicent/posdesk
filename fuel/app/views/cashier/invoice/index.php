@@ -7,7 +7,7 @@
             <div class="col-md-8">
                 <?= Form::label('Item', 'item_search', array('class'=>'control-label')); ?>
                 <?= Form::select('item_search', Input::post('item_search', ''), 
-                                Model_Product_Item::listOptions(),
+                                Model_Product_Item::listSaleItems($pos_profile->item_group),
                                 array(
                                     'class' => 'col-md-4 form-control search-for-item', 
                                     'id' => 'item_search',
@@ -58,15 +58,15 @@
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Customer', 'customer_id', array('class'=>'control-label')); ?>
-                <!-- <div class="input-group"> -->
+                <div class="input-group">
                     <?= Form::select('customer_id', Input::post('customer_id', $pos_invoice->customer_id), 
                                     Model_Customer::listOptions(), 
                                     array('class' => 'col-md-4 form-control select-from-list')); ?>
-                    <!-- <span class="input-group-btn">
+                    <span class="input-group-btn">
                         <?= Html::anchor(null, '<i class="fa fa-fw fa-user-o"></i>', 
-                                        array('id' => 'add_customer', 'class' => 'text-muted btn btn-default')) ?>
-                    </span> -->
-                <!-- </div><!-- /.input-group -->
+                                        array('id' => 'add_customer', 'class' => 'text-muted btn btn-default', 'style' => 'padding: 8px 10px')) ?>
+                    </span>
+                </div><!-- /.input-group -->
             </div>
         </div>
         <div class="form-group">
@@ -90,8 +90,8 @@
                     <?= Html::anchor(null, 'Hold / Cont.',
                             // Model_Cashier_Invoice::count_sales_on_hold() or count_draft_sales()
                             //  . '&ensp;' . html_tag('span', array('class' => 'text-primary'), '(1)'), 
-                            array('class' => 'text-muted btn btn-default', 'id' => 'hold')) ?>
-                    <?= Html::anchor(null, 'Cancel', array('class' => 'text-muted btn btn-default', 'id' => 'cancel')) ?>
+                            array('class' => 'text-muted btn btn-default', 'id' => 'hold_sale')) ?>
+                    <?= Html::anchor(null, 'Cancel', array('class' => 'text-muted btn btn-default', 'id' => 'cancel_sale')) ?>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
 
                 <?= render('cashier/invoice/sale_total'); ?>
             </div>
-        </div>        
+        </div>
         <div class="form-group">
             <div class="col-md-12">
                 <!-- trigger suspend via F9 -->
@@ -151,14 +151,17 @@
             </div>
         </div>
     <?php 
-        endif ?>
-        <div class="form-group" style="display: none">
+        endif;
+        if ( (bool) $pos_profile->show_shipping ) : ?>        
+        <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Shipping Address', 'shipping_address', array('class'=>'control-label')); ?>
                 <?= Form::textarea('shipping_address', Input::post('shipping_address', $pos_invoice->shipping_address), 
                                     array('class' => 'col-md-4 form-control', 'style' => 'min-height: 60px', 'readonly' => true)); ?>
             </div>
         </div>
+    <?php 
+        endif ?>
         <div class="form-group">
             <div class="col-md-12">
                 <?= Form::label('Notes', 'notes', array('class'=>'control-label')); ?>

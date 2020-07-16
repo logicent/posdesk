@@ -23,6 +23,10 @@ use Orm\Model_Soft;
 class Model_Sales_Payment extends Model_Soft
 {
 	// payment_type
+	const PAYMENT_TYPE_ADVANCE = 'Advance'; // against Sales Order
+	const PAYMENT_TYPE_ON_DEMAND = 'On-demand'; // against Invoice amount due (whole amount)
+	const PAYMENT_TYPE_OUTSTANDING = 'Outstanding'; // against Invoice amount due (partial or whole amount)
+
 	// card_type
 	protected static $_properties = array(
 		'id',

@@ -20,11 +20,10 @@
 														'row_id' => $row_id
 													));
         endforeach;
-    else : ?>
-        <tr id="no_items" style="font-size: 115%;">
-			<td style="height: 41px" class="text-muted text-center" colspan="<?= (bool) $pos_profile->show_discount ? '6' : '5' ?>">No items</td>
-		</tr>
-<?php
+	else :
+		echo render('cashier/invoice/item/_no_item', array(
+			'pos_profile' => $pos_profile
+		));
     endif ?>
 	</tbody>
 </table>

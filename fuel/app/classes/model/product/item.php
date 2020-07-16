@@ -51,10 +51,10 @@ class Model_Product_Item extends Model_Soft
 		$val->add_field('item_name', 'Item Name', 'required|max_length[140]');
 		$val->add_field('item_code', 'Item Code', 'required|max_length[20]');
 		$val->add_field('group_id', 'Item Group', 'valid_string[numeric]');
-		$val->add_field('tax_rate', 'Tax Rate', 'valid_string[]');
+		$val->add_field('tax_rate', 'Tax Rate', 'required|valid_string[]');
 		$val->add_field('description', 'Description', 'max_length[140]');
 		$val->add_field('quantity', 'Quantity', 'valid_string[numeric]');
-		$val->add_field('reorder_level', 'Reorder Level', 'valid_string[numeric]');
+		$val->add_field('reorder_level', 'Reorder Level', 'required|valid_string[numeric]');
 		$val->add_field('min_order_qty', 'Min Sales Qty', 'valid_string[numeric]');
 		$val->add_field('cost_price', 'Cost Price', 'valid_string[]');
 		$val->add_field('unit_price', 'Unit Price', 'valid_string[]');
@@ -97,6 +97,32 @@ class Model_Product_Item extends Model_Soft
 		return $list_options;
     }
 
+	public static function listSaleItems($item_group = null)
+    {
+		$query = DB::select('id', 'item_code', 'item_name', 'quantity')
+                    ->from(self::$_table_name)
+                    ->where([
+                        'enabled' => true,
+                        'is_sales_item' => true
+					]);
+		if (!empty($item_group))
+			$query->and_where(['group_id' => $item_group]);
+		$items = $query->order_by('item_name', 'ASC')
+					->execute()
+					->as_array();
+        
+		$list_options = array('' => '&nbsp;');
+		$separator = '&ensp;&ndash;&ensp;';
+
+		foreach($items as $item) {
+			$list_options[$item['id']] = $item['item_code'] 
+										. $separator . $item['item_name']
+										. $separator .'('. $item['quantity'] . ')';
+        }
+        
+		return $list_options;
+	}
+	
 	public static function getValue($attribute, $item_id)
 	{
 		return self::find($item_id)->$attribute;

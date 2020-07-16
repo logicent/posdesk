@@ -48,6 +48,11 @@
 							'readonly' => (bool) $pos_profile->allow_user_discount_edit
 						)); ?> -->
 	</td>
+	<?php else : ?>
+		<?= Form::hidden("item[$row_id][discount_rate]", Input::post('discount_rate', 
+						number_format($invoice_item->discount_rate, 0.0, '.', ''))); ?>
+		<?= Form::hidden("item[$row_id][discount_amount]", Input::post('discount_amount', 
+						number_format($invoice_item->discount_amount, 0, '.', ''))); ?>
 	<?php endif ?>
 	<td class='item-total text-right' style="vertical-align: middle; padding-right: 10px; font-size: 105%;">
 		<span><?= number_format($invoice_item->amount, 2) ?></span>

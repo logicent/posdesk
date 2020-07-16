@@ -1,4 +1,4 @@
-<?= Form::hidden('sale_type', Input::post('sale_type', $pos_invoice->sale_type )); ?>
+<?= Form::hidden('sale_type', Input::post('sale_type', $pos_invoice->sale_type)); ?>
 
 <!-- <table id="sale_summary" class="table table-bordered table-hover" style="font-size: 125%"> -->
 <table id="sale_summary" class="table table-hover" style="font-size: 125%">

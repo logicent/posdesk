@@ -6,6 +6,7 @@ class Model_Sales_Invoice extends Model_Soft
 {
 	const SALE_TYPE_CASH_SALE = 'Cash Sale';
 	const SALE_TYPE_CREDIT_SALE = 'Credit Sale';
+	const SALE_TYPE_SALES_RETURN = 'Sales Return';
 
 	const INVOICE_STATUS_OPEN = 'O'; // Draft i.e. Suspended (Parked) or not Fully Paid i.e. Credit Sale
 	const INVOICE_STATUS_CLOSED = 'C'; // Submitted (Paid)
@@ -154,7 +155,7 @@ class Model_Sales_Invoice extends Model_Soft
 		'payments' => array(
 			'key_from' => 'id',
 			'model_to' => 'Model_Sales_Payment',
-			'key_to' => 'invoice_id',
+			'key_to' => 'source_id',
 			'cascade_save' => true,
 			'cascade_delete' => true,
 		),

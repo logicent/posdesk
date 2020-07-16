@@ -18,6 +18,7 @@ $('#item_search').on('change',
             type: 'post',
             url: '/sales/invoice/item/search',
             data: {
+				'group_id': $('#form_item_group').val(),
                 'item_id': item_id,
                 'next_row_id': last_row_id + 1,
             },
@@ -25,8 +26,10 @@ $('#item_search').on('change',
             {
 				if (has_no_items)
 					$('#no_items').remove();
-	
-                el_table_body.append(item);
+				
+				$('.payment-entry').attr('readonly', false);
+
+				el_table_body.append(item);
 				// get all inputs from list after add
 				linesInputs = getLinesInputs();
 				docTotalInputs = getDocTotalInputs();
@@ -34,11 +37,36 @@ $('#item_search').on('change',
                 recalculateDocTotals(linesInputs, docTotalInputs);
 				// clear the selected item in search dropdown
 				el_item.val(null).trigger('change');
+				el_table_body.find('td.qty > input:last-child').focus();
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 console.log(errorThrown)
             }
         });
+	});
+
+	$('#item_group').on('change',
+    function() {
+		el_group = $(this);
+		group_id = el_group.val();
+		
+		$.ajax({
+			type: 'post',
+			url: '/sales/invoice/item/list_options',
+			data: {
+				'group_id': group_id,
+			},
+			success: function(items)
+			{
+				el_item_search = $('#item_search');
+				// replace list options
+				el_item_search.html(items);
+				el_item_search.focus();
+			},
+			error: function(jqXhr, textStatus, errorThrown) {
+				console.log(errorThrown)
+			}
+		});
 	});
 
 	// fetch edited line item detail to update totals if qty/price/discount changes
@@ -172,13 +200,34 @@ $('#item_search').on('change',
 
 	$('#item_detail').on('click', '.del-item', 
 		function(e) {
-			// e.preventDefault();
-			
 			el_table_body = $('#items').find('tbody')
 			el_table_row = $(this).closest('tr');
 			el_table_row.remove();
+			rowCount = el_table_body.find('tr').length;
+			if (rowCount == 0) { //  then append #no_items and set .payment-entry as readonly
+				$.ajax({
+					type: 'post',
+					url: '/sales/invoice/item/no_item',
+					data: {
+					},
+					success: function(no_item) 
+					{
+						el_table_body.append(no_item);
+						$('.payment-entry').each(function() {
+							$(this).val('');
+							$(this).attr('readonly', true);
+							$('#sales_change_due').text('');
+							$('#change_due').val('');
+						});
+						$('#item_search').focus();
+					},
+					error: function(jqXhr, textStatus, errorThrown) {
+						console.log(errorThrown)
+					}
+				});
+			}
 
-			// Only if tracking committed_qty in stock
+			// TODO: Only if tracking committed_qty in stock location
 			// deleteUrl = $(this).data('url');
 			// el_id = el_table_row.find('td > .item-id');
 			// if (el_id.val() != '')
@@ -205,6 +254,8 @@ $('#item_search').on('change',
 			lineInputs[4].val(lineInputs[0].val() * lineInputs[1].val());
 			lineInputs[5].text(numeral(lineInputs[4].val()).format('0,0.00'));
 			recalculateDocTotals(linesInputs, docTotalInputs);
+
+			$('#item_search').focus();
 
 			// stops execution
 			return false;
@@ -245,20 +296,4 @@ $('#item_search').on('change',
 
 			return false;
 		});
-
-	$('#hold').on('click', 
-		function(e) {
-			// Check if draft POS Invoices for current user + TODAY date exist in DB
-			// if has_no_items then load draft POS Invoices if found
-			// else save this Sale as draft status with items loaded
-			return false;
-		});
-
-	$('#cancel').on('click', 
-		function(e) {
-			// Check if POS Profile for current user requires approval to cancel
-			// if has_no_items then do nothing
-			// else Cancel and release committed quantities if applicable
-			return false;
-		});		
 });

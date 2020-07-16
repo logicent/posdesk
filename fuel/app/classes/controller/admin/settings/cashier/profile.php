@@ -131,7 +131,7 @@ class Controller_Admin_Settings_Cashier_Profile extends Controller_Authenticate
 
 			if ($cashier_profile->save())
 			{
-				Session::set_flash('success', 'Updated cashier_profile #' . $id);
+				Session::set_flash('success', 'Updated cashier profile #' . $id);
 
 				Response::redirect('admin/settings/cashier/profile');
 			}
