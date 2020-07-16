@@ -23,14 +23,17 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		{
 			$this->prepare_cashier_invoice();
 	
-			// save the posted Cashier Invoice
+			// save Cashier Invoice
 			if ($this->itemsValid && $this->paymentsValid)
 				$this->submit_sale();
 			else
-				Session::set_flash('error', 'Sale is missing Item(s) or Payment(s)');
+				Session::set_flash('error', 'Sale has invalid Item(s) or Payment(s)');
 		}
 		
-		if (Input::method() == 'GET' || $this->saleSucceeded)
+		if ($this->saleSucceeded)
+			Response::redirect('cashier');
+
+		if (Input::method() == 'GET')
 		{
 			$this->payment_methods = Model_Accounts_Payment_Method::listOptions(false);
 			$this->template->set_global('payment_methods', $this->payment_methods, false);
@@ -43,9 +46,7 @@ class Controller_Cashier_Invoice extends Controller_Sales_Invoice
 		$this->template->set_global('pos_invoice', $this->pos_invoice, false);
 		$this->template->set_global('pos_invoice_item', $this->pos_invoice_item, false);
 		$this->template->set_global('pos_invoice_payment', $this->pos_invoice_payment, false);
-		
 		// $this->template->set_global('pos_invoice_taxes', $this->pos_invoice_taxes, false);
-		
 		$this->template->set_global('pos_profile', $this->pos_profile, false);
 
 		$this->template->title = "Cashier";
