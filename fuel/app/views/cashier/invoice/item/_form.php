@@ -5,15 +5,15 @@
 		<?= Form::hidden("item[$row_id][id]", Input::post('id', $invoice_item->id), array('class' => 'item-id')); ?>
 	</td>
 	<td class="item" style="vertical-align: middle">
-		<div id="item_name">
+		<div class="item-name">
+			<?= Form::hidden("item[$row_id][description]", Input::post('description', $invoice_item->description),
+							array('class' => 'item-description')); ?>		
 			<?= strtoupper(isset($item) ? $item->item_code : Model_Product_Item::getValue('item_code', $invoice_item->item_id)) 
 					.'&ensp;&ndash;&ensp;'. strtoupper(isset($item) ? $item->item_name : Model_Product_Item::getValue('item_name', $invoice_item->item_id)) ?>
 					&ensp;
-			<span class="text-muted" id="qty_in_stock">(<?= isset($item) ? $item->quantity : Model_Product_Item::getValue('quantity', $invoice_item->item_id) ?>)</span>
+			<span class="text-muted" class="qty-in-stock">(<?= isset($item) ? $item->quantity : Model_Product_Item::getValue('quantity', $invoice_item->item_id) ?>)</span>
 		</div>
 		<?= Form::hidden("item[$row_id][item_id]", Input::post('item_id', $invoice_item->item_id)); ?>
-		<?= Form::hidden("item[$row_id][description]", Input::post('description', $invoice_item->description),
-						array('class' => 'item-description')); ?>
 	</td>
 	<td class="qty">
 		<?= Form::input("item[$row_id][quantity]", Input::post('quantity', 

@@ -49,7 +49,13 @@ class Controller_Product_Item extends Controller_Authenticate
                     'enabled' => Input::post('enabled'),
 				));
 
+				// upload and save the file
+				$file = Filehelper::upload();
+
 				try {
+					if (!empty($file['saved_as']))
+						$product_item->image_path = 'uploads'.DS.$file['name'];
+					
 					if ($product_item and $product_item->save())
 					{
 						Session::set_flash('success', 'Added product item #'.$product_item->item_code.'.');
@@ -119,7 +125,7 @@ class Controller_Product_Item extends Controller_Authenticate
 		{
 			$product_item->item_code = Input::post('item_code');
 			$product_item->item_name = Input::post('item_name');
-            $product_item->group_id = Input::post('group_id');
+            $product_item->group_id = empty(Input::post('group_id')) ? null : Input::post('group_id');
             $product_item->tax_rate = Input::post('tax_rate');
 			$product_item->description = Input::post('description');
 			$product_item->quantity = Input::post('quantity');
@@ -131,6 +137,11 @@ class Controller_Product_Item extends Controller_Authenticate
             $product_item->fdesk_user = Input::post('fdesk_user');
             $product_item->is_sales_item = Input::post('is_sales_item');
             $product_item->enabled = Input::post('enabled');
+
+			// upload and save the file
+			$file = Filehelper::upload();
+			if (!empty($file['saved_as']))
+				$product_item->image_path = 'uploads'.DS.$file['name'];
 
 			try {
 				if ($product_item->save())

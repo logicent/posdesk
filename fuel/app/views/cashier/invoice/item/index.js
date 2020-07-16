@@ -37,7 +37,7 @@ $('#item_search').on('change',
                 recalculateDocTotals(linesInputs, docTotalInputs);
 				// clear the selected item in search dropdown
 				el_item.val(null).trigger('change');
-				el_table_body.find('td.qty > input:last-child').focus();
+				el_table_body.find('td.qty > input:last').focus();
             },
             error: function(jqXhr, textStatus, errorThrown) {
                 console.log(errorThrown)
@@ -296,4 +296,30 @@ $('#item_search').on('change',
 
 			return false;
 		});
+	// display item images 
+	$('#item_grid').on('click', function() {
+		items = $('#item_detail').find('td.item > input');
+		
+		item_ids = '';
+		items.each(function(i, el){
+			item_ids += $(this).val();
+			if ((i + 1) < items.length)
+				item_ids += ',';
+		});
+		
+		$.ajax({
+			url: 'sales/invoice/item/get_images',
+			type: 'post',
+			data: {
+				'item_ids': item_ids,
+			},
+			success: function(images) {
+				// add the images to div
+				$('#grid').html(images);
+			},
+			error: function(jqXhr, textStatus, errorThrown) {
+				console.log(errorThrown);
+			}
+		});
+	});
 });

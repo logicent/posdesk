@@ -78,6 +78,19 @@ class Controller_Sales_Invoice_Item extends Controller_Authenticate
 		return $list_options;
 	}
 
+	public function action_get_images()
+    {
+		$data = $items = [];
+        if (Input::is_ajax())
+			$items = Model_Product_Item::find('all', array(
+				'where' => array(
+					array('id', 'in', explode(',', (Input::post('item_ids'))))
+				)));
+		
+		$data['items'] = $items;
+		return View::forge('cashier/invoice/item/_thumb', $data);
+	}
+
 	public function action_no_item()
 	{
         if (Input::is_ajax())

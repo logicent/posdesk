@@ -11,7 +11,7 @@
         $img_src = $img_ph;
     endif ?>
 
-<?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off")); ?>
+<?= Form::open(array("class"=>"form-horizontal", "autocomplete" => "off", "enctype"=>"multipart/form-data")); ?>
 
 <div class="row">
     <div class="col-md-6">
