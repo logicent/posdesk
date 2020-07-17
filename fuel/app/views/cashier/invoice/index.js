@@ -19,7 +19,7 @@ $(window).on('load', function()
         // item_rows = el_items.find('tr').not('#no_items').length;
         has_no_items = el_items.find('tr#no_items').length == 1;
         if (has_no_items) {
-            alert('Sorry, at least 1 Item must be added to Sale');
+            bootbox.alert('Sorry, at least 1 Item must be added to Sale');
             $('#item_search').focus();
             return false;
         }
@@ -27,7 +27,7 @@ $(window).on('load', function()
         // check if Sale payments exist or balance is > 0
         if ($('#form_balance_due').val() > 0) 
         {
-            alert('Sorry, full Payment must be added to Sale');
+            bootbox.alert('Sorry, full Payment must be added to Sale');
 
             if ($('tr.accordion-body.collapse').hasClass('in') === false)
                 $('tr.accordion-toggle').trigger('click');
@@ -45,7 +45,7 @@ $(window).on('load', function()
         el_items = $('#items').find('tbody');
         has_no_items = el_items.find('tr#no_items').length == 1;
         if (has_no_items) {
-            alert('Sorry, at least 1 Item must be added to Sale');
+            bootbox.alert('Sorry, at least 1 Item must be added to Sale');
             return false;
         }
         
@@ -57,7 +57,7 @@ $(window).on('load', function()
         el_items = $('#items').find('tbody');
         has_no_items = el_items.find('tr#no_items').length == 1;
         if (has_no_items) {
-            alert('Sorry, at least 1 Item must be added to Return');
+            bootbox.alert('Sorry, at least 1 Item must be added to Return');
             return false;
         }
     });

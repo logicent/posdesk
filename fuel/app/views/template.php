@@ -8,12 +8,11 @@
         <?= Asset::css(
             array(
                 '//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css',
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
+                '//stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css',
                 '//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css',
                 '//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css',
                 '//cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css',
                 '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css',
-                // '//www.fuelcdn.com/fuelux/3.17.0/css/fuelux.min.css',
                 'vendor/united.bootstrap.min.css',
                 'vendor/datepicker.css',
                 'vendor/fullcalendar.min.css',
@@ -24,11 +23,12 @@
         <!-- JavaScript libraries/plugins -->
         <?= Asset::js(
             array(
-                '//cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js',
-                '//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js',
-                '//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js',
+                // '//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js',
+                '//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js',
                 '//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js',
-                // '//www.fuelcdn.com/fuelux/3.17.0/js/fuelux.min.js',
+                // '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js',
+                '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js',
                 '//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js',
                 'vendor/jquery.slugify.js',
                 'vendor/bootstrap-datepicker.js',

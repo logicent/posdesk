@@ -554,3 +554,10 @@ input.cb-checked {
 #items > tbody > tr > td > .select2-container--bootstrap .select2-selection--single, .select2-container--bootstrap .select2-selection--multiple {
     height: 30px;
 }
+/* Correct display issue for bootbox modals */
+.modal {
+    z-index: 1050;
+    width: 100%;
+    background: none;
+    max-width: none;
+}
