@@ -36,6 +36,7 @@ $(window).on('load', function()
 		el_balance_due = el_tbody.find('#form_balance_due');
 		el_paid_display = el_tbody.find('#sale_amount_paid');
 		el_change_display = el_tbody.find('#sale_change_due');
+		el_balance_display = el_tbody.find('#sale_balance_due');
 
 		return [
 			el_amount_due,
@@ -43,15 +44,14 @@ $(window).on('load', function()
 			el_change_due,
 			el_balance_due,
 			el_paid_display,
-			el_change_display
+			el_change_display,
+			el_balance_display
 		];
 	}
 
     // Re-calculate the Sale summary totals
 	function recalculateSaleTotals(paidInputs, saleTotals) 
 	{
-		console.log(paidInputs);
-
 		sum_paid_total = 0;
 		rowCount = -1; // offset to start at 0
 		paidInputs[0].each(
@@ -67,12 +67,15 @@ $(window).on('load', function()
 		saleTotals[1].val(sum_paid_total.toFixed(2));
 		// amount paid display
 		saleTotals[4].text(saleTotals[1].val());
+
 		// change_due = amount_paid - amount_due
 		saleTotals[2].val(saleTotals[1].val() - saleTotals[0].val());
 		// change display
 		saleTotals[5].text(saleTotals[2].val());
+
 		// balance_due = amount_due - amount_paid
 		saleTotals[3].val(saleTotals[0].val() - saleTotals[1].val());
-		
+		// balance display
+		saleTotals[6].text(saleTotals[3].val());
 	}
 });

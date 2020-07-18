@@ -268,6 +268,8 @@ $('#item_search').on('change',
 			$('#credit_sale').closest('li').removeClass('disabled');
 			$('#sales_return').closest('li').removeClass('disabled');
 			$('.cash-sale').css('display', 'table-row');
+			// use AJAX to pass change and fetch new value
+			$('#form_sale_type').val('Cash Sale');
 			$(this).closest('li').addClass('disabled');
 
 			return false;
@@ -280,6 +282,8 @@ $('#item_search').on('change',
 			$('#cash_sale').closest('li').removeClass('disabled');
 			$('#sales_return').closest('li').removeClass('disabled');
 			$('.credit-sale').css('display', 'table-row');
+			// use AJAX to pass change and fetch new value
+			$('#form_sale_type').val('Credit Sale');
 			$(this).closest('li').addClass('disabled');
 
 			return false;
@@ -292,6 +296,8 @@ $('#item_search').on('change',
 			$('.sales-return').css('display', 'table-row');
 			$('#cash_sale').closest('li').removeClass('disabled');
 			$('#credit_sale').closest('li').removeClass('disabled');
+			// use AJAX to pass change and fetch new value
+			$('#form_sale_type').val('Sales Return');
 			$(this).closest('li').addClass('disabled');
 
 			return false;

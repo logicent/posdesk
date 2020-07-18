@@ -24,7 +24,6 @@
         <?= Asset::js(
             array(
                 '//cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js',
-                // '//cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js',
                 '//stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js',
                 '//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js',
                 // '//cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js',

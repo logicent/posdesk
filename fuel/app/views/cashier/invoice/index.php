@@ -77,14 +77,14 @@
                         Sale Type&ensp;<span class="fa fa-angle-down"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="disabled"><?= Html::anchor(null, 'Cash Sale', array('id' => 'cash_sale')) ?></li>
+                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CASH_SALE ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Cash Sale', array('id' => 'cash_sale')) ?></li>
                         <?php
                         if ( (bool) $pos_profile->hide_credit_sale === false ) : ?>
-                            <li><?= Html::anchor(null, 'Credit Sale', array('id' => 'credit_sale')) ?></li>
+                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CREDIT_SALE ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Credit Sale', array('id' => 'credit_sale')) ?></li>
                         <?php 
                         endif ?>
                             <li role="separator" class="divider"></li>
-                            <li><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
+                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_SALES_RETURN ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
                         </ul>
                     </div>
                     <?= Html::anchor(null, 'Hold / Cont.',
@@ -113,28 +113,31 @@
         <div class="form-group">
             <div class="col-md-12">
                 <!-- trigger suspend via F9 -->
-                <?= Form::submit('submit_sale_return', 'Return / Credit', 
-                                array(
-                                    'class' => 'sales-return btn btn-success btn-block', 
-                                    'style' => 'font-size: 125%; font-weight: 500; display: none'
-                                )); ?>
+            <?php $display = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_SALES_RETURN ? '' : 'display: none' ?>
+            <?= Form::submit('submit_sale_return', 'Return / Credit', 
+                            array(
+                                'class' => 'sales-return btn btn-success btn-block', 
+                                'style' => "font-size: 125%; font-weight: 500; $display",
+                                'data-require-reason' => $pos_profile->require_sales_return_reason
+                            )) ?>
                 <!-- trigger submit via F10 -->
                 <!-- Pay Now assumes Cash Sale Customer -->
                 <!-- Show no. of items in button float:left i.e. in place of icon -->
+                <?php $display = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CASH_SALE ? '' : 'display: none' ?>
                 <?= Form::submit('submit_cash_sale', 'Pay&ensp;Now', 
                                 array(
                                     'class' => 'cash-sale btn btn-primary btn-block', 
-                                    'style' => 'font-size: 125%; font-weight: 500'
-                                )); ?>
+                                    'style' => "font-size: 125%; font-weight: 500; $display",
+                                )) ?>
                 <!-- or -->
                 <!-- Pay Later requires actual Customer (not Cash Sale) -->
                 <!-- trigger submit without payment via F8 -->
+                <?php $display = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CREDIT_SALE ? '' : 'display: none' ?>
                 <?= Form::submit('submit_credit_sale', 'Pay&ensp;Later', 
                                 array(
                                     'class' => 'credit-sale btn btn-info btn-block', 
-                                    'style' => 'font-size: 125%; font-weight: 500; display: none',
-                                    'data-url' => 'cashier/payment/later'
-                                )); ?>
+                                    'style' => "font-size: 125%; font-weight: 500; $display",
+                                )) ?>
             </div>
         </div>
     <?php
@@ -166,7 +169,10 @@
             <div class="col-md-12">
                 <?= Form::label('Notes', 'notes', array('class'=>'control-label')); ?>
                 <?= Form::textarea('notes', Input::post('notes', $pos_invoice->notes), 
-                                    array('class' => 'col-md-4 form-control', 'style' => 'min-height: 60px')); ?>
+                                    array(
+                                        'class' => 'col-md-4 form-control', 
+                                        'style' => 'min-height: 60px',
+                                    )); ?>
             </div>
         </div>
     </div>

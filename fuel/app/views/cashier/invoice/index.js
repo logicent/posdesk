@@ -52,12 +52,19 @@ $(window).on('load', function()
         // continue Submit Credit Sale
     }); 
 
-    $('#form_submit_sales_return').on('click', function () {
+    $('#form_submit_sale_return').on('click', function () {
         // check if Sale item(s) exist
         el_items = $('#items').find('tbody');
         has_no_items = el_items.find('tr#no_items').length == 1;
         if (has_no_items) {
             bootbox.alert('Sorry, at least 1 Item must be added to Return');
+            return false;
+        }
+        // check if reason for return is required
+        if ($(this).data('require-reason') == '1' && $('#form_notes').val() == '')
+        {
+            bootbox.alert('Reason for Sales Return is required in Notes');
+            $('#form_notes').focus();
             return false;
         }
     });
