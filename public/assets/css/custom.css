@@ -169,10 +169,6 @@ ul > hr {
     margin-bottom: 0;
 }
 
-ul#side-menu > li {
-    font-size: 16px;
-}
-
 .alert-popup {
     font-weight: 500;
     font-size: 12px;
@@ -344,18 +340,18 @@ label {
     border-bottom: none;
 }
 
-#side-menu li > a {
-    color: #fbfcfe !important;
+#side-menu {
+    margin-top: 10px;
 }
 
-#side-menu li > a:hover, #side-menu li > a:focus {
-    color: #ced8e4 !important;
-    background-color: #29333d;
+#side-menu div {
+    margin: 30px 0;
 }
 
-#side-menu a.active:not(.business-logo) {
-    color: inherit;
-    background-color: #1f2933;
+#side-menu div > a:hover > span, 
+#side-menu div > a:focus > span, 
+#side-menu div > a.active > span {
+    color: #36414c !important;
 }
 
 .fa-sm {
@@ -561,3 +557,4 @@ input.cb-checked {
     background: none;
     max-width: none;
 }
+

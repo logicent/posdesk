@@ -77,14 +77,19 @@
                         Sale Type&ensp;<span class="fa fa-angle-down"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CASH_SALE ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Cash Sale', array('id' => 'cash_sale')) ?></li>
                         <?php
-                        if ( (bool) $pos_profile->hide_credit_sale === false ) : ?>
-                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CREDIT_SALE ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Credit Sale', array('id' => 'credit_sale')) ?></li>
+                            $class = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CASH_SALE ? 'class="disabled"' : '' ?>
+                            <li <?= $class ?>><?= Html::anchor(null, 'Cash Sale', array('id' => 'cash_sale')) ?></li>
+                        <?php
+                        if ( (bool) $pos_profile->hide_credit_sale === false ) :
+                            $class = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_CREDIT_SALE ? 'class="disabled"' : '' ?>
+                            <li <?= $class ?>><?= Html::anchor(null, 'Credit Sale', array('id' => 'credit_sale')) ?></li>
                         <?php 
                         endif ?>
                             <li role="separator" class="divider"></li>
-                            <li class="<?= $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_SALES_RETURN ? 'disabled' : '' ?>"><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
+                        <?php 
+                            $class = $pos_profile->default_sale_type == Model_Cashier_Invoice::SALE_TYPE_SALES_RETURN ? 'class="disabled"' : '' ?>
+                            <li <?= $class ?>><?= Html::anchor(null, 'Sales Return', array('id' => 'sales_return')) ?></li>
                         </ul>
                     </div>
                     <?= Html::anchor(null, 'Hold / Cont.',

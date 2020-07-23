@@ -31,7 +31,7 @@
 				<?= Form::checkbox('cb_inactive', null, array('class' => 'cb-checked', 'data-input' => 'inactive')); ?>
 				<?= Form::label('Inactive', 'cb_inactive', array('class'=>'control-label')); ?>
 			</div>
-		</div>        
+		</div>
     </div>
 
     <div class="col-md-6">
@@ -82,7 +82,7 @@
 <hr>
 <div class="form-group">
     <div class="col-md-6">
-    <?= Form::submit('submit', 'Save', array('class' => 'btn btn-primary')); ?>
+    <?= Form::submit('submit', isset($branch) ? 'Update' : 'Create', array('class' => 'btn btn-primary')); ?>
     </div>
 </div>
 <?= Form::close(); ?>

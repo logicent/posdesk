@@ -50,15 +50,14 @@ class Controller_Authenticate extends Controller_Template
         $this->ugroup = Auth::get_groups(); 
         $this->template->set_global('ugroup', $this->ugroup[0][1], false);
 
+        // TODO: find the branch of logged in user instead
         $this->business = Model_Business::find('first');
         //is_null($business) and Response::redirect('business/create'); // should go to installer/setup
         $this->template->set_global('business', $this->business, false);
 
         $menus = Model_Menu::menu_list_items($this->ugroup[0][1], $this->business);
         $this->template->set_global('menu_list', $menus, false);
-
     }
-
 }
 
 /* End of file login.php */

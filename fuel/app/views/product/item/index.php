@@ -5,7 +5,7 @@
 
 	<div class="col-md-6">
 		<br>
-		<?= Html::anchor('product/item/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+	<?= Html::anchor('product/item/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>

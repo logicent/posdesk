@@ -1,14 +1,14 @@
-<h2>Viewing <span class='muted'>#<?php echo $product_group->id; ?></span></h2>
+<h2>Viewing <span class='muted'>#<?= $product_group->id; ?></span></h2>
 
 <p>
 	<strong>Name:</strong>
-	<?php echo $product_group->name; ?></p>
+<?= $product_group->name; ?></p>
 <p>
 	<strong>Code:</strong>
-	<?php echo $product_group->code; ?></p>
+<?= $product_group->code; ?></p>
 <p>
 	<strong>Enabled:</strong>
-	<?php echo $product_group->enabled; ?></p>
+<?= $product_group->enabled; ?></p>
 
-<?php echo Html::anchor('product/group/edit/'.$product_group->id, 'Edit'); ?> |
-<?php echo Html::anchor('product/group/', 'Back'); ?>
+<?= Html::anchor('product/group/edit/'.$product_group->id, 'Edit'); ?> |
+<?= Html::anchor('product/group/', 'Back'); ?>

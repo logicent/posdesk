@@ -60,3 +60,8 @@
 </div>
 
 <?= Form::close(); ?>
+
+<?php 
+if (isset($product_group)) :
+    echo render('product/item/index', array('product_items' => $product_group->items)); 
+endif ?>

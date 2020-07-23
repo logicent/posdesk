@@ -5,48 +5,48 @@ class Controller_Purchase_Order extends Controller_Authenticate
 	public function action_index($show_del = false)
 	{
 		if ($show_del)
-			$data['purchases_orders'] = Model_Purchases_Order::deleted('all');
+			$data['purchases_orders'] = Model_Purchase_Order::deleted('all');
 		else
 		{
 			$status = Input::get('status');
 			if (!$status)
-				$status = Model_Purchases_Order::ORDER_STATUS_OPEN;
+				$status = Model_Purchase_Order::ORDER_STATUS_OPEN;
 
-            $data['purchases_orders'] = Model_Purchases_Order::find('all', 
+            $data['purchases_orders'] = Model_Purchase_Order::find('all', 
                                         array('where' => array(
                                             array('status', '=', $status)
                                         ), 
-                                        'order_by' => array('order_num' => 'desc'), 
+                                        'order_by' => array('supplier_name' => 'desc'), 
                                         'limit' => 1000));
 		}
 		$data['status'] = $status;
         
 		$this->template->title = "Orders";
-		$this->template->content = View::forge('purchases/order/index', $data);
+		$this->template->content = View::forge('purchase/order/index', $data);
 	}
 
 	public function action_view($id = null)
 	{
 		is_null($id) and Response::redirect('purchases');
 
-		if ( ! $data['purchases_order'] = Model_Purchases_Order::find($id))
+		if ( ! $data['purchases_order'] = Model_Purchase_Order::find($id))
 		{
 			Session::set_flash('error', 'Could not find order #'.$id);
 			Response::redirect('purchases');
 		}
 		$this->template->title = "Order";
-		$this->template->content = View::forge('purchases/order/view', $data);
+		$this->template->content = View::forge('purchase/order/view', $data);
 	}
 
 	public function action_create($id = null)
 	{
 		if (Input::method() == 'POST')
 		{
-			$val = Model_Purchases_Order::validate('create');
+			$val = Model_Purchase_Order::validate('create');
 
 			if ($val->run())
 			{
-				$purchases_order = Model_Purchases_Order::forge(array(
+				$purchases_order = Model_Purchase_Order::forge(array(
 					'order_num' => Input::post('order_num'),
 					'po_number' => Input::post('po_number'),
 					'amounts_tax_inc' => Input::post('amounts_tax_inc'),
@@ -78,7 +78,7 @@ class Controller_Purchase_Order extends Controller_Authenticate
 						// save the line item(s)
 						for ($i=1; $i < count(Input::post('item_id')); $i++)
 						{
-							$purchases_order_item = Model_Purchases_Order_Item::forge(array(
+							$purchases_order_item = Model_Purchase_Order_Item::forge(array(
 								'item_id' => Input::post("item_id")[$i],
 								'qty' => Input::post("qty")[$i],
 								'unit_price' => Input::post("unit_price")[$i],
@@ -118,7 +118,7 @@ class Controller_Purchase_Order extends Controller_Authenticate
 		// $this->template->set_global('order', $booking, false);
 
 		// prepare order item as global variable
-		$purchases_order_item = Model_Purchases_Order_Item::forge();
+		$purchases_order_item = Model_Purchase_Order_Item::forge();
 		$this->template->set_global('purchases_order_item', $purchases_order_item, false);
 
 		// get default billable and enabled item
@@ -131,20 +131,20 @@ class Controller_Purchase_Order extends Controller_Authenticate
 		$this->template->set_global('service_item', json_encode($services), false);
 
 		$this->template->title = "Orders";
-		$this->template->content = View::forge('purchases/order/create');
+		$this->template->content = View::forge('purchase/order/create');
 	}
 
 	public function action_edit($id = null)
 	{
 		is_null($id) and Response::redirect('purchases');
 
-		if ( ! $purchases_order = Model_Purchases_Order::find($id))
+		if ( ! $purchases_order = Model_Purchase_Order::find($id))
 		{
 			Session::set_flash('error', 'Could not find order #'.$id);
 			Response::redirect('purchases');
 		}
 		
-		$val = Model_Purchases_Order::validate('edit');
+		$val = Model_Purchase_Order::validate('edit');
 		
 		if ($val->run())
 		{
@@ -171,7 +171,7 @@ class Controller_Purchase_Order extends Controller_Authenticate
 			$purchases_order->fdesk_user = Input::post('fdesk_user');
 
 			// update Order Amounts if discounted
-			Model_Purchases_Order::applyDiscountAmount($purchases_order);
+			Model_Purchase_Order::applyDiscountAmount($purchases_order);
 		
 			try {
 				DB::start_transaction();
@@ -181,9 +181,9 @@ class Controller_Purchase_Order extends Controller_Authenticate
 					// save the line item(s)
 					for ($i=1; $i < count(Input::post('item_id')); $i++)
 					{
-						if ( ! $purchases_order_item = Model_Purchases_Order_item::find($id) )
+						if ( ! $purchases_order_item = Model_Purchase_Order_item::find($id) )
 						{
-							$purchases_order_item = Model_Purchases_Order_Item::forge(array(
+							$purchases_order_item = Model_Purchase_Order_Item::forge(array(
 								'item_id' => Input::post("item_id")[$i],
 								'qty' => Input::post("qty")[$i],
 								'unit_price' => Input::post("unit_price")[$i],
@@ -258,14 +258,14 @@ class Controller_Purchase_Order extends Controller_Authenticate
 		}
 		
 		$this->template->title = "Orders";
-		$this->template->content = View::forge('purchases/order/edit');
+		$this->template->content = View::forge('purchase/order/edit');
 	}
 
 	public function action_delete($id = null)
 	{
 		is_null($id) and Response::redirect('purchases');
 
-		if ($purchases_order = Model_Purchases_Order::find($id))
+		if ($purchases_order = Model_Purchase_Order::find($id))
 		{
 	        $result = $purchases_order->delete();
 			

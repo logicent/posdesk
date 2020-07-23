@@ -5,7 +5,7 @@
 
 	<div class="col-md-6">
 		<br>
-		<?= Html::anchor('admin/settings/product/group/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
+		<?= Html::anchor('product/group/create', 'New', array('class' => 'pull-right btn btn-primary')); ?>
 	</div>
 </div>
 <hr>
@@ -25,7 +25,7 @@
 <?php foreach ($product_groups as $item): ?>
 		<tr>
 			<td>
-                <?= Html::anchor('admin/settings/product/group/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
+                <?= Html::anchor('product/group/edit/'.$item->id, $item->name, ['class' => 'clickable']); ?>
             </td>
             <td><?= (bool) $item->enabled ? 
                 '<i class="fa fa-circle-o fa-fw text-success"></i>Enabled' :
@@ -34,7 +34,7 @@
 			<td class="text-muted"><?= $item->parent ? $item->parent->name : ''; ?></td>
 			<td class="text-muted"><?= $item->code; ?></td>
 			<td class="text-center">
-				<?= Html::anchor('admin/settings/product/group/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
+				<?= Html::anchor('product/group/delete/'.$item->id, '<i class="fa fa-trash-o fa-fw"></i>',
                                 array('class' => 'text-muted del-btn', 'onclick' => "return confirm('Are you sure?')")); ?>
 			</td>
 		</tr>

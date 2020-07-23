@@ -56,17 +56,19 @@
                 </div>
                 <div class="col-md-8">
                     <ul class="nav navbar-top-links top-menu">
-                        <li><a class="<?= Uri::segment(1) == 'cashier'  || Uri::segment(1) == '' ? 'active' : '' ?>" href="<?= Uri::create('cashier'); ?>">
-                                <i class="fa fa-shopping-cart fa-fw text-muted"></i>&ensp;Cashier</a></li>
-                    <?php if (Uri::segment(1) != 'admin') : ?>
-                        <li><a class="<?= Uri::segment(1) == 'sales' ? 'active' : '' ?>" href="<?= Uri::create('sales'); ?>">
-                                <i class="fa fa-line-chart fa-fw text-muted"></i>&ensp;Sales</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'customer' ? 'active' : '' ?>" href="<?= Uri::create('customer'); ?>">
-                                <i class="fa fa-users fa-fw text-muted"></i>&ensp;Customer</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'product' ? 'active' : '' ?>" href="<?= Uri::create('product'); ?>">
-                                <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Product</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'reports' ? 'active' : '' ?>" href="<?= Uri::create('reports'); ?>">
-                                <i class="fa fa-bar-chart fa-fw text-muted"></i>&ensp;Reports</a></li>
+                    <?php
+                        foreach ($menu_list as $menu_group) : 
+                            if (empty($menu_group) || !$menu_group['visible']) :
+                                continue;
+                            endif ?>
+                        <li>
+                            <a class="<?= Uri::segment(1) == $menu_group['id'] || Uri::segment(1) == '' ? 'active' : '' ?>" 
+                                href="<?= Uri::create($menu_group['id']); ?>">
+                                <i class="fa <?= $menu_group['icon'] ?> fa-fw text-muted"></i>&ensp;<?= $menu_group['label'] ?>
+                            </a>
+                        </li>
+                <?php
+                        endforeach ?>
                         <!-- More menu items -->
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -74,24 +76,33 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="<?= Uri::segment(1) == 'supplier' ? 'active' : '' ?>" href="<?= Uri::create('supplier'); ?>">
-                                    <i class="fa fa-truck fa-fw text-muted"></i>&ensp;Supplier</a></li>
+                                    <i class="fa fa-truck fa-fw text-muted"></i>&ensp;Supplier
+                                    </a></li>
                                 <li><a class="<?= Uri::segment(1) == 'purchase' ? 'active' : '' ?>" href="<?= Uri::create('purchases'); ?>">
-                                    <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Purchases</a></li>
+                                    <i class="fa fa-cubes fa-fw text-muted"></i>&ensp;Purchases
+                                    </a></li>
                             </ul>   <!-- /.dropdown-more -->
                         </li>   <!-- /.dropdown -->
-                    <?php if ($ugroup->id !=3) : ?>
-                        <li><a class="<?= Uri::segment(1) == 'admin' ? 'active' : '' ?>" href="<?= Uri::create('admin'); ?>">
-                            <i class="fa fa-cog fa-fw text-muted"></i>&ensp;Admin</a></li>
-                    <?php endif;
-                    endif;
-                    if (Uri::segment(1) == 'admin') : ?>
-                        <li><a class="<?= Uri::segment(1) == 'dashboard' ? 'active' : '' ?>" href="<?= Uri::create('admin/dashboard'); ?>">
-                                <i class="fa fa-trello fa-fw text-muted"></i>&ensp;Dashboard</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'users'  || Uri::segment(2) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
-                                <i class="fa fa-users fa-fw text-muted"></i>&ensp;Users</a></li>
-                        <li><a class="<?= Uri::segment(1) == 'settings' || Uri::segment(2) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
-                                <i class="fa fa-cog fa-fw text-muted"></i>&ensp;Settings</a></li>
-                    <?php endif ?>
+                    <?php 
+                        if ($ugroup->id !=3) : ?>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" class="<?= Uri::segment(1) == 'admin' ? 'active' : '' ?>" 
+                                href="<?= Uri::create('admin'); ?>"><i class="fa fa-cog fa-fw text-muted"></i>&ensp;Admin
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="<?= Uri::segment(1) == 'dashboard' ? 'active' : '' ?>" href="<?= Uri::create('admin/dashboard'); ?>">
+                                    <i class="fa fa-trello fa-fw text-muted"></i>&ensp;Dashboard
+                                    </a></li>
+                                <li><a class="<?= Uri::segment(1) == 'users'  || Uri::segment(2) == 'users' ? 'active' : '' ?>" href="<?= Uri::create('admin/users'); ?>">
+                                    <i class="fa fa-users fa-fw text-muted"></i>&ensp;Users
+                                    </a></li>
+                                <li><a class="<?= Uri::segment(1) == 'settings' || Uri::segment(2) == 'settings' ? 'active' : '' ?>" href="<?= Uri::create('admin/settings'); ?>">
+                                    <i class="fa fa-cog fa-fw text-muted"></i>&ensp;Settings
+                                    </a></li>                                
+                            </ul>
+                        </li>
+                    <?php 
+                        endif ?>
                     </ul><!-- /.navbar-top-links -->
                 </div>
                 <div class="col-md-3">
@@ -165,7 +176,27 @@
     <?php 
         endif; ?>
                 <div id="content" class="row">
-                    <div class="col-md-offset-1 col-md-10 content-pane">
+                    <div id="side-menu" class="col-md-1">
+                    <?php
+                        foreach ($menu_list as $menu_group) :
+                            if ($menu_group['id'] != Uri::segment(1) && $menu_group['visible']) :
+                                continue;
+                            endif;
+                            foreach ($menu_group['submenu'] as $menu_item) : ?>
+                                <div class="text-center">
+                                    <a class="btn btn-default <?= Uri::segment(2) == $menu_item['id'] ? 'active' : '' ?>" 
+                                        href="<?= Uri::create($menu_item['route']) ?>">
+                                        <span class="text-muted">
+                                            <i class="fa fa-fw fa-2x <?= $menu_item['icon'] ?>"></i>
+                                        </span>
+                                    </a>
+                                </div>
+                        <?php
+                            endforeach;
+                        endforeach ?>
+                    </div>
+                    <div class="col-md-10 content-pane">
+                    <!-- <div class="col-md-offset-1 col-md-10 content-pane"> -->
                         <!-- <h1 class="page-header"><?= $title; ?></h1> -->
                         <div class="panel"><!-- panel-default -->
                             <div class="panel-body">

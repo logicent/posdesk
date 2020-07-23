@@ -119,17 +119,6 @@ class Model_Setting extends \Orm\Model
                     'visible' => true, // always TRUE
                 ),
             ),
-            'product' => array(
-                array(
-                    'id'     => 'product_group',
-                    'label'  => 'Product group',
-                    'route'  => 'admin/settings/product/group',
-                    'icon' => 'cubes',
-                    'description' => 'Create and manage product categories with defaults',
-                    'column' => self::SETTINGS_COLUMN_RIGHT,
-                    'visible' => true, // always TRUE
-                ),
-            ),
             'email' => array(
                 array(
                     'id'     => 'email_settings',

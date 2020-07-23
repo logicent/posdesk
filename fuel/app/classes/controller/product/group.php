@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
+class Controller_Product_Group extends Controller_Authenticate
 {
 	public function action_index()
 	{
@@ -11,12 +11,12 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 
 	public function action_view($id = null)
 	{
-		is_null($id) and Response::redirect('admin/settings/product/group');
+		is_null($id) and Response::redirect('product/group');
 
 		if ( ! $data['product_group'] = Model_Product_Group::find($id))
 		{
 			Session::set_flash('error', 'Could not find product group #'.$id);
-			Response::redirect('admin/settings/product/group');
+			Response::redirect('product/group');
 		}
 		$this->template->title = "Product Group";
 		$this->template->content = View::forge('product/group/view', $data);
@@ -43,7 +43,7 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 				if ($product_group and $product_group->save())
 				{
 					Session::set_flash('success', 'Added product group #'.$product_group->code.'.');
-					Response::redirect('admin/settings/product/group');
+					Response::redirect('product/group');
 				}
 				else
 				{
@@ -61,12 +61,12 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 
 	public function action_edit($id = null)
 	{
-		is_null($id) and Response::redirect('admin/settings/product/group');
+		is_null($id) and Response::redirect('product/group');
 
 		if ( ! $product_group = Model_Product_Group::find($id))
 		{
 			Session::set_flash('error', 'Could not find product group #'.$id);
-			Response::redirect('admin/settings/product/group');
+			Response::redirect('product/group');
 		}
 
 		$val = Model_Product_Group::validate('edit');
@@ -83,7 +83,7 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 			if ($product_group->save())
 			{
 				Session::set_flash('success', 'Updated product group #' . $product_group->code);
-				Response::redirect('admin/settings/product/group');
+				Response::redirect('product/group');
 			}
 			else
 			{
@@ -112,7 +112,7 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 
 	public function action_delete($id = null)
 	{
-		is_null($id) and Response::redirect('admin/settings/product/group');
+		is_null($id) and Response::redirect('product/group');
 
         if (Input::method() == 'POST')
 		{		
@@ -130,6 +130,6 @@ class Controller_Admin_Settings_Product_Group extends Controller_Authenticate
 		{
 			Session::set_flash('error', 'Delete is not allowed');
 		}
-		Response::redirect('admin/settings/product/group');
+		Response::redirect('product/group');
 	}
 }

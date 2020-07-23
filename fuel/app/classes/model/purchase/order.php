@@ -33,9 +33,8 @@ class Model_Purchase_Order extends Model_Soft
 		'issue_date',
 		'due_date',
 		'status',
-		// 'source',
-		// 'source_id',
-		'customer_name',
+		'supplier_id',
+		'supplier_name',
 		'amount_due',
 		'disc_total',
 		'tax_total',
@@ -74,18 +73,16 @@ class Model_Purchase_Order extends Model_Soft
 		$val->add_field('issue_date', 'Issue Date', 'required|valid_date');
 		$val->add_field('due_date', 'Due Date', 'valid_date');
 		$val->add_field('status', 'Status', 'required|valid_string[alpha]');
-		// $val->add_field('source', 'Source', 'required');
-		// $val->add_field('source_id', 'Source Order Ref', 'required');
-		$val->add_field('customer_name', 'Customer Name', 'required|max_length[140]');
+		$val->add_field('supplier_id', 'Supplier', 'required|max_length[140]');
+		$val->add_field('supplier_name', 'Supplier Name', 'max_length[140]');
 		$val->add_field('amount_due', 'Amount Due', 'valid_string[]');
 		$val->add_field('amount_paid', 'Amount Paid', 'valid_string[]');
 		$val->add_field('balance_due', 'Balance Due', 'required|valid_string[]');
 		$val->add_field('advance_paid', 'Advance Paid', 'valid_string[]');
 		$val->add_field('disc_total', 'Discount', 'required|valid_string[]');
 		$val->add_field('tax_total', 'Tax', 'valid_string[]');
-		$val->add_field('shipping_address', 'Billing Address', 'max_length[255]');
+		$val->add_field('shipping_address', 'Shipping Address', 'max_length[255]');
 		$val->add_field('notes', 'Notes', 'max_length[255]');
-		$val->add_field('fdesk_user', 'Frontdesk User', 'required|valid_string[numeric]');
 
 		return $val;
 	}
@@ -121,11 +118,11 @@ class Model_Purchase_Order extends Model_Soft
 
 	public static function listOptions()
 	{
-		$items = DB::select('id','order_num')->from(self::$_table_name)->execute()->as_array();
+		$items = DB::select('id','supplier_name')->from(self::$_table_name)->execute()->as_array();
 
 		$list_options = array();
 		foreach($items as $item)
-			$list_options[$item['id']] = $item['order_num'];
+			$list_options[$item['id']] = $item['supplier_name'];
 
 		return $list_options;
 	}
