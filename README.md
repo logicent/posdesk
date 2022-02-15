@@ -1,3 +1,5 @@
+**_Note: This project has been archived in favor of [logicent/ajabupos](https://github.com/logicent/ajabupos)_**
+
 # POSDesk
 
 * Version: 1.x
